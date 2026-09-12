@@ -1,0 +1,11 @@
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+
+# Never commit secrets
+.env
+.env.*
+*.pem
+*.key
+wrangler.toml.local
