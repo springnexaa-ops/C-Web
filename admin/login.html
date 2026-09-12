@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — Springnexa</title>
+<link rel="stylesheet" href="/styles.css">
+<style>
+  body.admin-login{ display:flex; align-items:center; justify-content:center; min-height:100vh; }
+  .login-card{ width:340px; background:var(--panel); border:1px solid var(--line); padding:32px; border-radius:6px; }
+  .login-card h1{ font-size:22px; margin-bottom:6px; }
+  .login-card p{ font-size:13.5px; margin-bottom:22px; }
+  .login-error{ color:#B23A3A; font-size:13px; margin-top:10px; display:none; }
+</style>
+</head>
+<body class="admin-login">
+  <div class="login-card">
+    <h1>Admin sign in</h1>
+    <p>Springnexa content &amp; hosting console</p>
+    <form id="login-form">
+      <div class="field" style="margin-bottom:14px;">
+        <label for="username">Username</label>
+        <input id="username" type="text" autocomplete="username" required>
+      </div>
+      <div class="field" style="margin-bottom:6px;">
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password" required>
+      </div>
+      <div class="login-error" id="login-error"></div>
+      <button class="btn btn-primary" type="submit" style="width:100%; margin-top:16px;">Sign in</button>
+    </form>
+  </div>
+
+<script>
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const errEl = document.getElementById('login-error');
+  errEl.style.display = 'none';
+
+  const res = await fetch('/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  });
+
+  if (res.ok) {
+    window.location.href = '/admin/dashboard.html';
+  } else {
+    const data = await res.json().catch(() => ({}));
+    errEl.textContent = data.error || 'Sign in failed.';
+    errEl.style.display = 'block';
+  }
+});
+</script>
+</body>
+</html>

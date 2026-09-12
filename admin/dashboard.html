@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — Springnexa</title>
+<link rel="stylesheet" href="/styles.css">
+<style>
+  .dash-shell{ max-width:820px; margin:0 auto; padding:40px 24px 80px; }
+  .dash-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; }
+  .dash-item{ border:1px solid var(--line); border-radius:6px; padding:18px 20px; margin-bottom:14px; background:var(--panel); }
+  .dash-item label{ display:block; font-size:12px; font-weight:600; color:var(--ink-soft); margin-bottom:6px; }
+  .dash-item textarea{ width:100%; min-height:70px; border:1px solid var(--line); border-radius:4px; padding:10px; font-family:inherit; font-size:14px; }
+  .dash-item .row-foot{ display:flex; justify-content:space-between; align-items:center; margin-top:8px; }
+  .dash-item .saved-at{ font-size:12px; color:var(--ink-soft); }
+  .dash-item button{ padding:7px 14px; font-size:13px; }
+</style>
+</head>
+<body>
+  <div class="dash-shell">
+    <div class="dash-top">
+      <div>
+        <h1 style="font-size:24px;margin:0;">Content dashboard</h1>
+        <p style="margin:4px 0 0;font-size:13.5px;color:var(--ink-soft);">Signed in as <span id="who">…</span></p>
+      </div>
+      <button class="btn btn-ghost" id="logout-btn">Log out</button>
+    </div>
+    <div id="items"></div>
+  </div>
+
+<script>
+async function checkSession() {
+  const res = await fetch('/api/session');
+  const data = await res.json();
+  if (!data.loggedIn) { window.location.href = '/admin/login.html'; return; }
+  document.getElementById('who').textContent = data.username;
+}
+
+async function loadContent() {
+  const res = await fetch('/api/content/admin');
+  if (res.status === 401) { window.location.href = '/admin/login.html'; return; }
+  const rows = await res.json();
+  const container = document.getElementById('items');
+  container.innerHTML = '';
+  rows.forEach(row => {
+    const div = document.createElement('div');
+    div.className = 'dash-item';
+    div.innerHTML = `
+      <label>${row.key}</label>
+      <textarea data-key="${row.key}">${row.value}</textarea>
+      <div class="row-foot">
+        <span class="saved-at">Last updated ${row.updated_at || '—'}</span>
+        <button class="btn btn-primary save-btn" data-key="${row.key}">Save</button>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+
+  container.querySelectorAll('.save-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const key = btn.dataset.key;
+      const value = container.querySelector(`textarea[data-key="${key}"]`).value;
+      btn.textContent = 'Saving…';
+      const res = await fetch('/api/content/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key, value })
+      });
+      btn.textContent = res.ok ? 'Saved ✓' : 'Failed';
+      setTimeout(() => { btn.textContent = 'Save'; }, 1500);
+    });
+  });
+}
+
+document.getElementById('logout-btn').addEventListener('click', async () => {
+  await fetch('/api/logout', { method: 'POST' });
+  window.location.href = '/admin/login.html';
+});
+
+checkSession();
+loadContent();
+</script>
+</body>
+</html>
