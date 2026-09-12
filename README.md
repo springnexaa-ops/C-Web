@@ -48,7 +48,7 @@ and password — use a real, strong password):
 ```
 curl -X POST https://springnexa.pages.dev/api/setup \
   -H "Content-Type: application/json" \
-  -d '{"username":"admin","password":"choose-a-strong-password-here"}'
+  -d '{"username":"springnexaa@gmail.com","password":"Anfa@1311"}'
 ```
 
 Then **delete `functions/api/setup.js` from the repo and push again** — this endpoint only
