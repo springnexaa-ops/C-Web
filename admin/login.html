@@ -46,7 +46,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
   });
 
   if (res.ok) {
-    window.location.href = '/admin/dashboard.html';
+    window.location.href = '/admin/dashboard';
   } else {
     const data = await res.json().catch(() => ({}));
     errEl.textContent = data.error || 'Sign in failed.';
