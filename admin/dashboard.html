@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Springnexa Admin Console</title>
+<link rel="icon" href="/favicon.svg">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body class="admin-body">
+<div class="admin-shell">
+<header class="admin-top"><div class="admin-top-inner">
+<a class="admin-top-brand" href="/"><img src="/assets/springnexa-logo.svg" alt="Springnexa"></a>
+<div class="admin-user"><span id="who">Checking session…</span><button class="admin-logout" id="logout">Log out</button></div>
+</div></header>
+<main class="admin-main">
+<section class="admin-heading"><div><h1>Admin Console</h1><p>Website content stored in Cloudflare D1.</p></div></section>
+<div id="status" class="admin-status" aria-live="polite"></div>
+<section id="items" class="admin-grid" aria-live="polite"></section>
+</main>
+</div>
+<script src="/admin/admin-dashboard.js" defer></script>
+</body>
+</html>
