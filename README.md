@@ -6,8 +6,8 @@ Public corporate website for SpringNexa Private Limited, covering Healthcare, In
 
 - Static HTML/CSS/JavaScript
 - Cloudflare Pages
-- Pages Functions for the public AI chat endpoint
-- No legacy corporate admin console or browser-based content dashboard
+- Pages Functions
+- Cloudflare D1 for editable public content and the admin console
 
 ## Public pages
 
@@ -33,6 +33,29 @@ Public corporate website for SpringNexa Private Limited, covering Healthcare, In
 - `site-content.js` — shared navigation, branding and internal-page shell
 - `home-slider.js` — homepage-only product tabs and 3D slider behavior
 
+## D1 Admin Console
+
+The corporate website now has a new `/admin/` console backed by Cloudflare D1. It is separate from the old console and uses:
+
+- `admin_users` for administrator accounts
+- `admin_sessions` for server-side sessions
+- PBKDF2-SHA-256 password hashing with per-user salts
+- HttpOnly, Secure, SameSite=Strict session cookies
+- Server-side authorization for every content read/write
+- `/api/admin/bootstrap` for one-time first-admin initialization, protected by the `ADMIN_BOOTSTRAP_KEY` Cloudflare secret and disabled after the first account exists
+
+Admin pages are marked `noindex,nofollow`. Do not put passwords, bootstrap keys, API keys or other secrets in Git.
+
+### First-time setup
+
+1. Deploy the current `main` branch with a D1 binding named `DB`.
+2. Add a strong Cloudflare environment/secret variable named `ADMIN_BOOTSTRAP_KEY`.
+3. POST the first username/password to `/api/admin/bootstrap` with the `X-Admin-Bootstrap-Key` header.
+4. Rotate the bootstrap key after initialization.
+5. Open `/admin/login.html` and sign in.
+
+The bootstrap endpoint will not create another administrator once an account exists.
+
 ## Server-side AI chat
 
 `functions/api/chat.js` provides the public `/api/chat` endpoint. The provider API key remains server-side in Cloudflare environment variables.
@@ -44,10 +67,6 @@ Recommended variables:
 - `AI_MODEL` (optional)
 
 Apply rate limiting/WAF controls to `/api/chat` in Cloudflare before public high-volume use.
-
-## Legacy admin removal
-
-The old `/admin` login/dashboard and its authentication/content-management implementation have been removed from the website project. Nexa AI administration should remain in the dedicated Nexa AI application rather than being duplicated inside the corporate website repository.
 
 ## Deployment
 
