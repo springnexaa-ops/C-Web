@@ -1,0 +1,13 @@
+/* Live rendering fixes: local hero artwork, deterministic CTA visibility and logo sizing. */
+body.home-page .reference-hero{background:#a9cfe6 url('/assets/home-mountains.svg?v=20260914-0015') center center/cover no-repeat!important;isolation:isolate!important}
+body.home-page .hero-mountain{background:linear-gradient(90deg,rgba(238,248,253,.86) 0%,rgba(225,241,249,.64) 48%,rgba(173,207,225,.28) 100%)!important;z-index:0!important;opacity:1!important;filter:none!important}
+body.home-page .hero-mountain:after{background:linear-gradient(180deg,transparent 55%,rgba(34,78,105,.16))!important;opacity:1!important}
+body.home-page .hero-reference-grid{z-index:5!important}
+body.home-page .hero-copy{position:relative!important;z-index:6!important}
+body.home-page .btn-row{position:relative!important;z-index:8!important;display:flex!important;visibility:visible!important;opacity:1!important}
+body.home-page .btn-row .btn{display:inline-flex!important;visibility:visible!important;opacity:1!important;position:relative!important;z-index:9!important;align-items:center!important;justify-content:center!important;min-height:40px!important;cursor:pointer!important}
+body.home-page .btn-row .btn:not(.btn-ghost){background:#0878c9!important;color:#fff!important;border:1px solid #0878c9!important;box-shadow:0 8px 18px rgba(8,120,201,.2)!important}
+body.home-page .btn-row .btn-ghost{background:rgba(255,255,255,.96)!important;color:#0878c9!important;border:1px solid #0878c9!important}
+body.home-page header.site .brand img{visibility:visible!important;opacity:1!important}
+body.home-page .hero-quote{position:relative!important;z-index:6!important}
+@media(max-width:900px){body.home-page .reference-hero{height:auto!important;min-height:420px!important}.hero-reference-grid{min-height:420px!important;height:auto!important}.hero-copy{padding:46px 0!important}.hero-copy h1{font-size:42px!important}}
