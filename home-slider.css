@@ -1,0 +1,28 @@
+/* SpringNexa 3D visual slider — lightweight, no external media dependency. */
+body.home-page .sn-vision{padding:24px 0 18px;background:#f7fbfd;border:0;overflow:hidden}
+body.home-page .sn-vision-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:12px}
+body.home-page .sn-vision-head h2{margin:0;color:#082f57;font-size:28px}
+body.home-page .sn-vision-head p{margin:0;color:#607c91;font-size:12px}
+body.home-page .sn-vision-stage{height:245px;perspective:1200px;position:relative;display:flex;align-items:center;justify-content:center}
+body.home-page .sn-vision-track{position:relative;width:100%;height:100%;transform-style:preserve-3d}
+body.home-page .sn-slide{position:absolute;top:10px;left:50%;width:min(620px,72vw);height:215px;transform-style:preserve-3d;transform-origin:center center;transition:transform .75s cubic-bezier(.2,.7,.2,1),opacity .75s,filter .75s;overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.6);box-shadow:0 20px 55px rgba(8,74,117,.22);backface-visibility:hidden}
+body.home-page .sn-slide::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(3,38,62,.42));z-index:1}
+body.home-page .sn-slide::after{content:"";position:absolute;left:-10%;right:-10%;bottom:-28%;height:62%;background:linear-gradient(165deg,transparent 0 25%,rgba(255,255,255,.16) 26% 30%,transparent 31%),linear-gradient(170deg,transparent 0 42%,rgba(8,48,75,.65) 43% 70%,transparent 71%);z-index:1}
+body.home-page .sn-slide:nth-child(1){background:linear-gradient(145deg,#cfeafa 0 35%,#87b9d6 36% 50%,#3d789d 51% 70%,#173e5c 71%)}
+body.home-page .sn-slide:nth-child(2){background:linear-gradient(145deg,#d9f5f0 0 32%,#7ec8c0 33% 48%,#3b8290 49% 67%,#163f5b 68%)}
+body.home-page .sn-slide:nth-child(3){background:linear-gradient(145deg,#e7f4ff 0 35%,#9ac5e4 36% 51%,#5288ae 52% 68%,#193e5b 69%)}
+body.home-page .sn-slide-copy{position:absolute;left:28px;top:25px;right:28px;z-index:3;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.28)}
+body.home-page .sn-slide-kicker{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.92}
+body.home-page .sn-slide h3{font-family:Manrope,Inter,sans-serif;font-size:38px;line-height:1;margin:10px 0 7px;color:#fff;letter-spacing:-.04em}
+body.home-page .sn-slide p{font-size:12px;line-height:1.4;max-width:420px;margin:0;color:#eef9ff}
+body.home-page .sn-slide-mark{position:absolute;right:25px;bottom:22px;z-index:3;font-size:9px;letter-spacing:.16em;font-weight:800;color:#fff}
+body.home-page .sn-slide.is-center{transform:translateX(-50%) translateZ(80px) rotateY(0deg) scale(1);opacity:1;filter:none;z-index:3}
+body.home-page .sn-slide.is-left{transform:translateX(calc(-50% - 285px)) translateZ(-110px) rotateY(22deg) scale(.82);opacity:.65;filter:saturate(.72);z-index:2}
+body.home-page .sn-slide.is-right{transform:translateX(calc(-50% + 285px)) translateZ(-110px) rotateY(-22deg) scale(.82);opacity:.65;filter:saturate(.72);z-index:2}
+body.home-page .sn-slide.is-hidden{transform:translateX(-50%) translateZ(-260px) scale(.6);opacity:0;z-index:0;pointer-events:none}
+body.home-page .sn-vision-controls{display:flex;justify-content:center;gap:7px;margin-top:5px}
+body.home-page .sn-dot{width:8px;height:8px;border-radius:50%;border:0;background:#c7dce8;cursor:pointer;padding:0}
+body.home-page .sn-dot.active{width:23px;border-radius:99px;background:#0878c9}
+@media(max-width:900px){body.home-page .sn-slide{width:76vw}.sn-slide.is-left{transform:translateX(calc(-50% - 205px)) translateZ(-80px) rotateY(18deg) scale(.78)}.sn-slide.is-right{transform:translateX(calc(-50% + 205px)) translateZ(-80px) rotateY(-18deg) scale(.78)}}
+@media(max-width:650px){body.home-page .sn-vision{padding:20px 0 14px}.sn-vision-head{display:block!important}.sn-vision-head p{margin-top:4px!important}.sn-vision-stage{height:215px!important}.sn-slide{width:88vw!important;height:190px!important;top:10px!important}.sn-slide h3{font-size:30px!important}.sn-slide.is-left{transform:translateX(calc(-50% - 130px)) translateZ(-90px) rotateY(14deg) scale(.72)!important;opacity:.35!important}.sn-slide.is-right{transform:translateX(calc(-50% + 130px)) translateZ(-90px) rotateY(-14deg) scale(.72)!important;opacity:.35!important}.sn-slide-copy{left:20px!important;top:20px!important}.sn-slide-mark{right:18px!important;bottom:16px!important}}
+@media(prefers-reduced-motion:reduce){body.home-page .sn-slide{transition:none!important}}
