@@ -1,25 +1,19 @@
 (function(){
-  function removeDuplicateDivisions(){
-    document.querySelectorAll('body.home-page .nav-links').forEach(menu=>menu.querySelectorAll('a[href="divisions.html"][data-division-root]').forEach(a=>a.closest('li')?.remove()));
-    document.querySelectorAll('body.home-page .mobile-menu').forEach(menu=>menu.querySelectorAll('a[href="divisions.html"][data-division-root]').forEach(a=>a.remove()));
-  }
   function productTabs(){
-    const css=document.createElement('style');css.textContent='.product-nav-ai,.product-nav-lmis{display:inline-flex!important;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;background:linear-gradient(135deg,#147ff5,#6637d8)!important;color:#fff!important;box-shadow:0 7px 18px rgba(20,127,245,.16)}.product-nav-lmis{background:linear-gradient(135deg,#0b76e5,#3e22d7)!important}.product-nav-ai span,.product-nav-lmis span{font-size:8px;background:#fff;color:#4d42b8;padding:2px 5px;border-radius:999px;font-weight:900}@media(max-width:900px){.product-nav-ai,.product-nav-lmis{padding:7px 9px}}';document.head.appendChild(css);
     document.querySelectorAll('body.home-page .nav-links').forEach(menu=>{if(menu.querySelector('.product-nav-ai'))return;const a=document.createElement('li');a.innerHTML='<a class="product-nav-ai" href="nexa-ai.html">NEXA AI <span>NEW</span></a>';const b=document.createElement('li');b.innerHTML='<a class="product-nav-lmis" href="nexa-lmis.html">NEXA LMIS <span>NEW</span></a>';const about=menu.querySelector('a[href="about.html"]')?.closest('li');if(about)about.after(a,b);else menu.append(a,b)});
-    document.querySelectorAll('body.home-page .mobile-menu').forEach(menu=>{if(menu.querySelector('a[href="nexa-ai.html"]'))return;const a=document.createElement('a');a.href='nexa-ai.html';a.textContent='NEXA AI';const b=document.createElement('a');b.href='nexa-lmis.html';b.textContent='NEXA LMIS';const about=menu.querySelector('a[href="about.html"]');if(about){about.after(a,b)}else menu.append(a,b)});
+    document.querySelectorAll('body.home-page .mobile-menu').forEach(menu=>{if(menu.querySelector('a[href="nexa-ai.html"]'))return;const a=document.createElement('a');a.href='nexa-ai.html';a.textContent='NEXA AI';const b=document.createElement('a');b.href='nexa-lmis.html';b.textContent='NEXA LMIS';const about=menu.querySelector('a[href="about.html"]');if(about)about.after(a,b);else menu.append(a,b)});
   }
   function mount(){
     if(!document.body.classList.contains('home-page'))return;
-    removeDuplicateDivisions();productTabs();
+    productTabs();
     if(document.getElementById('sn-vision'))return;
     const section=document.createElement('section');section.id='sn-vision';section.className='sn-vision';
     section.innerHTML='<div class="wrap"><div class="sn-vision-head"><div><div class="eyebrow">Springnexa vision</div><h2>Better J&amp;K. Healthier J&amp;K.</h2></div><p>People · Innovation · Impact</p></div><div class="sn-vision-stage"><div class="sn-vision-track"><article class="sn-slide"><div class="sn-slide-copy"><span class="sn-slide-kicker">Better J&amp;K</span><h3>Better J&amp;K</h3><p>Technology that strengthens communities, improves access and creates practical digital opportunities across Jammu &amp; Kashmir.</p></div><span class="sn-slide-mark">SPRINGNEXA</span></article><article class="sn-slide"><div class="sn-slide-copy"><span class="sn-slide-kicker">Healthier J&amp;K</span><h3>Healthier J&amp;K</h3><p>Connected healthcare, neurophysiology, digital health and patient-focused systems for a healthier tomorrow.</p></div><span class="sn-slide-mark">HEALTHCARE</span></article><article class="sn-slide"><div class="sn-slide-copy"><span class="sn-slide-kicker">Digital J&amp;K</span><h3>Digital J&amp;K</h3><p>AI, LMIS, software and secure digital infrastructure designed for institutions, services and communities.</p></div><span class="sn-slide-mark">NEXA AI · LMIS</span></article></div></div><div class="sn-vision-controls" aria-label="Slider controls"><button class="sn-dot" type="button" aria-label="Show Better J&K"></button><button class="sn-dot" type="button" aria-label="Show Healthier J&K"></button><button class="sn-dot" type="button" aria-label="Show Digital J&K"></button></div></div>';
     const hero=document.querySelector('.reference-hero');if(hero&&hero.parentNode)hero.parentNode.insertBefore(section,hero.nextSibling);else document.body.prepend(section);
     const slides=[...section.querySelectorAll('.sn-slide')],dots=[...section.querySelectorAll('.sn-dot')];let current=0,timer;
     function render(){slides.forEach((s,i)=>{s.classList.remove('is-center','is-left','is-right','is-hidden');const d=(i-current+slides.length)%slides.length;if(d===0)s.classList.add('is-center');else if(d===1)s.classList.add('is-right');else if(d===slides.length-1)s.classList.add('is-left');else s.classList.add('is-hidden')});dots.forEach((d,i)=>d.classList.toggle('active',i===current))}
-    function go(i){current=(i+slides.length)%slides.length;render();reset()}
-    function reset(){clearInterval(timer);if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setInterval(()=>go(current+1),4200)}
-    dots.forEach((d,i)=>d.addEventListener('click',()=>go(i)));section.addEventListener('mouseenter',()=>clearInterval(timer));section.addEventListener('mouseleave',reset);render();reset();
+    function reset(){clearInterval(timer);if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setInterval(()=>{current=(current+1)%slides.length;render()},4200)}
+    dots.forEach((d,i)=>d.addEventListener('click',()=>{current=i;render();reset()}));section.addEventListener('mouseenter',()=>clearInterval(timer));section.addEventListener('mouseleave',reset);render();reset();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 })();
