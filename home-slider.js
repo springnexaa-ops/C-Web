@@ -1,6 +1,12 @@
 (function(){
+  function removeDuplicateDivisions(){
+    document.querySelectorAll('body.home-page .nav-links').forEach(menu=>menu.querySelectorAll('a[href="divisions.html"][data-division-root]').forEach(a=>a.closest('li')?.remove()));
+    document.querySelectorAll('body.home-page .mobile-menu').forEach(menu=>menu.querySelectorAll('a[href="divisions.html"][data-division-root]').forEach(a=>a.remove()));
+  }
   function mount(){
-    if(!document.body.classList.contains('home-page')||document.getElementById('sn-vision'))return;
+    if(!document.body.classList.contains('home-page'))return;
+    removeDuplicateDivisions();
+    if(document.getElementById('sn-vision'))return;
     const section=document.createElement('section');section.id='sn-vision';section.className='sn-vision';
     section.innerHTML='<div class="wrap"><div class="sn-vision-head"><div><div class="eyebrow">Springnexa vision</div><h2>Better J&amp;K. Healthier J&amp;K.</h2></div><p>People · Innovation · Impact</p></div><div class="sn-vision-stage"><div class="sn-vision-track"><article class="sn-slide"><div class="sn-slide-copy"><span class="sn-slide-kicker">Better J&amp;K</span><h3>Better J&amp;K</h3><p>Technology that strengthens communities, improves access and creates practical digital opportunities across Jammu &amp; Kashmir.</p></div><span class="sn-slide-mark">SPRINGNEXA</span></article><article class="sn-slide"><div class="sn-slide-copy"><span class="sn-slide-kicker">Healthier J&amp;K</span><h3>Healthier J&amp;K</h3><p>Connected healthcare, neurophysiology, digital health and patient-focused systems for a healthier tomorrow.</p></div><span class="sn-slide-mark">HEALTHCARE</span></article><article class="sn-slide"><div class="sn-slide-copy"><span class="sn-slide-kicker">Digital J&amp;K</span><h3>Digital J&amp;K</h3><p>AI, LMIS, software and secure digital infrastructure designed for institutions, services and communities.</p></div><span class="sn-slide-mark">NEXA AI · LMIS</span></article></div></div><div class="sn-vision-controls" aria-label="Slider controls"><button class="sn-dot" type="button" aria-label="Show Better J&K"></button><button class="sn-dot" type="button" aria-label="Show Healthier J&K"></button><button class="sn-dot" type="button" aria-label="Show Digital J&K"></button></div></div>';
     const hero=document.querySelector('.reference-hero');if(hero&&hero.parentNode)hero.parentNode.insertBefore(section,hero.nextSibling);else document.body.prepend(section);
