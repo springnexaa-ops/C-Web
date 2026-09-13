@@ -1,90 +1,54 @@
-# Springnexa Private Limited — Website
+# SpringNexa Private Limited — Corporate Website
 
-Public site (Home, About, Divisions, Contact) + an admin login/content dashboard + an AI chat
-assistant, all running on Cloudflare Pages + Pages Functions + D1.
+Public corporate website for SpringNexa Private Limited, covering Healthcare, Information Technology and Social Welfare, plus the Nexa AI and NEXA Neurology LMIS product landing pages.
 
-## Push this update
+## Stack
 
-```
-git add .
-git commit -m "Add admin login, content dashboard, and AI chat agent"
-git push
-```
+- Static HTML/CSS/JavaScript
+- Cloudflare Pages
+- Pages Functions for the public AI chat endpoint
+- No legacy corporate admin console or browser-based content dashboard
 
-Cloudflare Pages will auto-redeploy since it's connected to this repo — but the new backend
-pieces below need one-time setup before they work.
+## Public pages
 
-## 1. Create the D1 database
+- `index.html` — corporate homepage
+- `about.html` — company overview
+- `divisions.html` — division overview
+- `healthcare.html` — Healthcare
+- `it.html` — Information Technology
+- `social-welfare.html` — Social Welfare
+- `team.html` — Our Team
+- `contact.html` — Contact
+- `nexa-ai.html` — Nexa AI Coming Soon
+- `nexa-lmis.html` — NEXA Neurology LMIS Coming Soon
 
-- Cloudflare dashboard → **Workers & Pages** → **D1** → **Create database** → name it e.g. `springnexa-db`
-- Open its **Console** tab and paste the contents of `schema.sql` from this repo, then run it
-  (creates the `admins` and `site_content` tables and seeds default content)
+## Front-end structure
 
-## 2. Bind the database to your Pages project
+- `styles.css` — shared base/site styles
+- `reference-home.css` — homepage reference design
+- `home-slider.css` — homepage 3D vision slider and product navigation styling
+- `division-pages.css` — shared internal-page shell
+- `nexa-products.css` — Nexa AI / NEXA LMIS product design system
+- `homepage-live-fix.css` — homepage rendering override retained for the local mountain artwork
+- `site-content.js` — shared navigation, branding and internal-page shell
+- `home-slider.js` — homepage-only product tabs and 3D slider behavior
 
-- Your Pages project → **Settings** → **Functions** → **D1 database bindings** → **Add binding**
-- Variable name: `DB` (must match exactly — the code refers to `env.DB`)
-- D1 database: the one you just created
-- Save, then **redeploy** the project (bindings only take effect on the next deploy)
+## Server-side AI chat
 
-## 3. Set your secrets
+`functions/api/chat.js` provides the public `/api/chat` endpoint. The provider API key remains server-side in Cloudflare environment variables.
 
-Same **Settings** page → **Environment variables** (add as **Secret**, not plain text):
+Recommended variables:
 
-| Name | Value |
-|---|---|
-| `SESSION_SECRET` | any long random string (e.g. generate one with `openssl rand -hex 32`) — signs admin login sessions |
-| `AI_API_KEY` | your Anthropic (or OpenAI) API key |
-| `AI_PROVIDER` | `anthropic` or `openai` (defaults to `anthropic` if omitted) |
-| `AI_MODEL` | optional — defaults to `claude-sonnet-4-6` for Anthropic, `gpt-4o-mini` for OpenAI |
+- `AI_API_KEY`
+- `AI_PROVIDER` (`openai` or `anthropic`)
+- `AI_MODEL` (optional)
 
-Redeploy after adding these too.
+Apply rate limiting/WAF controls to `/api/chat` in Cloudflare before public high-volume use.
 
-## 4. Create your admin account (one time only)
+## Legacy admin removal
 
-With everything above deployed, run this once from your own machine (replace the URL, username,
-and password — use a real, strong password):
+The old `/admin` login/dashboard and its authentication/content-management implementation have been removed from the website project. Nexa AI administration should remain in the dedicated Nexa AI application rather than being duplicated inside the corporate website repository.
 
-```
-curl.exe -X POST https://c-web-dfw.pages.dev/api/setup -H "Content-Type: application/json" -d "{\"username\":\"admin\",\"password\":\"Anfa@1311\"}"
-```
+## Deployment
 
-Then **delete `functions/api/setup.js` from the repo and push again** — this endpoint only
-works once (it refuses if an admin already exists), but removing it entirely closes that door
-for good.
-
-## 5. Log in
-
-Go to `https://<your-domain>/admin/login.html`, sign in, and you'll land on
-`/admin/dashboard.html` — edit any field and hit Save. Public pages pick up the change within
-about a minute (content is cached for 60 seconds).
-
-## 6. The AI chat widget
-
-Appears automatically (bottom-right bubble) on every public page once `AI_API_KEY` is set —
-it answers visitor questions using only the Springnexa facts baked into its system prompt
-(divisions, registration details). It won't invent pricing, staff names, or specifics you
-haven't given it.
-
-## Security notes
-
-- Admin sessions are HttpOnly, Secure, SameSite=Strict cookies — not reachable by JavaScript,
-  not sent cross-site.
-- Passwords are hashed with PBKDF2-SHA256 (100,000 iterations) + a random salt per user; the
-  plaintext password is never stored.
-- `/admin/*` is gated by `functions/admin/_middleware.js` — you can't reach the dashboard
-  without a valid session, even if you guess the URL.
-- Delete `functions/api/setup.js` after creating your admin account (step 4). Leaving it in
-  is harmless *after* an admin exists (it refuses to run again) but removing it is still better
-  practice.
-- Rotate `SESSION_SECRET` any time you want to invalidate all logged-in sessions at once.
-- Consider adding a Cloudflare **Rate Limiting rule** on `/api/chat` and `/api/login` (Security →
-  WAF → Rate limiting rules) to prevent abuse driving up your AI API bill or brute-forcing the
-  login.
-
-## Still placeholder / needs your real info
-
-- `contact_email` / `contact_phone` in `site_content` — edit via the dashboard once logged in
-- Healthcare and Social Welfare division descriptions — same, via the dashboard
-- The AI assistant's knowledge is limited to what's in its system prompt
-  (`functions/api/chat.js`) — expand that text with more real details as you have them
+Cloudflare Pages should redeploy automatically from the `main` branch. Allow the deployment and CDN cache to propagate before evaluating production rendering.
