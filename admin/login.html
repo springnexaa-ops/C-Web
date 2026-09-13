@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Springnexa Admin — Sign in</title>
+<link rel="icon" href="/favicon.svg">
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body class="admin-body">
+<main class="admin-auth">
+  <section class="admin-card">
+    <a class="admin-brand" href="/"><img src="/assets/springnexa-logo.svg" alt="Springnexa"></a>
+    <div class="admin-kicker">SECURE ADMIN CONSOLE</div>
+    <h1>Sign in</h1>
+    <p class="admin-muted">Manage approved website content through Cloudflare D1.</p>
+    <form id="login-form" novalidate>
+      <label>Username<input id="username" name="username" autocomplete="username" maxlength="80" required></label>
+      <label>Password<input id="password" name="password" type="password" autocomplete="current-password" maxlength="200" required></label>
+      <div id="error" class="admin-error" role="alert" hidden></div>
+      <button class="admin-primary" type="submit" id="submit">Sign in</button>
+    </form>
+    <a class="admin-back" href="/">← Back to Springnexa</a>
+  </section>
+</main>
+<script src="/admin/admin-login.js" defer></script>
+</body>
+</html>
