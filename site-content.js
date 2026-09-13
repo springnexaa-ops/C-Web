@@ -21,6 +21,28 @@
   document.body.insertBefore(bar, document.body.firstChild);
 })();
 
+(function useLogoOnly() {
+  function apply() {
+    document.querySelectorAll('.brand').forEach(brand => {
+      const img = brand.querySelector('img');
+      if (!img) return;
+      img.src = '/assets/springnexa-icon.svg?v=20260913';
+      img.alt = 'Springnexa logo';
+      brand.style.width = '64px';
+      brand.style.height = '56px';
+      brand.style.overflow = 'hidden';
+      brand.style.display = 'flex';
+      brand.style.alignItems = 'center';
+      brand.style.flex = '0 0 64px';
+      img.style.width = '56px';
+      img.style.height = '56px';
+      img.style.objectFit = 'contain';
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply);
+  else apply();
+})();
+
 (function mountChatWidget() {
   const style = document.createElement('style');
   style.textContent = `
