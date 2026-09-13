@@ -1,9 +1,4 @@
-// Loaded on every public page. Two jobs:
-// 1) Fetch live content from /api/content/public and drop it into any element
-//    with a matching data-key attribute (progressive enhancement — the static
-//    HTML already has sensible defaults, this just overrides them when live
-//    content differs).
-// 2) Mount the AI chat widget.
+// Loaded on every public page. Live content + premium announcement + AI chat.
 
 (async function loadLiveContent() {
   try {
@@ -14,28 +9,35 @@
       const key = el.getAttribute('data-key');
       if (content[key] !== undefined) el.textContent = content[key];
     });
-  } catch (e) { /* fall back to static defaults silently */ }
+  } catch (e) { /* static defaults remain available */ }
+})();
+
+(function mountAnnouncement() {
+  if (!document.body || document.getElementById('sn-announcement')) return;
+  const bar = document.createElement('div');
+  bar.id = 'sn-announcement';
+  bar.setAttribute('role', 'status');
+  bar.innerHTML = 'Springnexa Innovation Update <span class="sn-pill">LMIS COMING SOON</span> <span class="sn-pill">AI COMING SOON</span>';
+  document.body.insertBefore(bar, document.body.firstChild);
 })();
 
 (function mountChatWidget() {
   const style = document.createElement('style');
   style.textContent = `
-    #sn-chat-btn{ position:fixed; bottom:22px; right:22px; width:52px; height:52px; border-radius:50%;
-      background:var(--blue); color:#fff; border:none; cursor:pointer; z-index:1000;
-      box-shadow:0 4px 14px rgba(20,30,40,.25); font-size:22px; display:flex; align-items:center; justify-content:center; }
-    #sn-chat-panel{ position:fixed; bottom:86px; right:22px; width:320px; max-height:440px; background:var(--panel,#fff);
-      border:1px solid var(--line,#DAD6CC); border-radius:8px; box-shadow:0 10px 30px rgba(20,30,40,.18);
-      display:none; flex-direction:column; z-index:1000; overflow:hidden; }
-    #sn-chat-panel.open{ display:flex; }
-    #sn-chat-head{ padding:12px 14px; border-bottom:1px solid var(--line,#DAD6CC); font-weight:600; font-size:14px; }
-    #sn-chat-log{ flex:1; overflow-y:auto; padding:12px 14px; font-size:13.5px; display:flex; flex-direction:column; gap:10px; }
-    .sn-msg{ max-width:85%; padding:8px 11px; border-radius:6px; line-height:1.4; }
-    .sn-msg.user{ align-self:flex-end; background:var(--blue,#21456F); color:#fff; }
-    .sn-msg.bot{ align-self:flex-start; background:#EFEEE9; color:#14171C; }
-    #sn-chat-form{ display:flex; border-top:1px solid var(--line,#DAD6CC); }
-    #sn-chat-input{ flex:1; border:none; padding:10px 12px; font-size:13.5px; font-family:inherit; }
-    #sn-chat-input:focus{ outline:none; }
-    #sn-chat-send{ border:none; background:var(--blue,#21456F); color:#fff; padding:0 16px; cursor:pointer; font-weight:600; }
+    #sn-chat-btn{position:fixed;bottom:24px;right:24px;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--primary,#63a9ff),var(--primary2,#8c6cff));color:#fff;border:1px solid rgba(255,255,255,.2);cursor:pointer;z-index:1000;box-shadow:0 14px 38px rgba(0,0,0,.35);font-size:22px;display:flex;align-items:center;justify-content:center;transition:.25s}
+    #sn-chat-btn:hover{transform:translateY(-4px) scale(1.04)}
+    #sn-chat-panel{position:fixed;bottom:94px;right:24px;width:350px;max-height:500px;background:rgba(10,24,42,.94);backdrop-filter:blur(20px);color:var(--text,#f7fbff);border:1px solid var(--line,rgba(255,255,255,.11));border-radius:20px;box-shadow:0 28px 80px rgba(0,0,0,.42);display:none;flex-direction:column;z-index:1000;overflow:hidden}
+    #sn-chat-panel.open{display:flex}
+    #sn-chat-head{padding:16px 18px;border-bottom:1px solid var(--line,rgba(255,255,255,.11));font-weight:700;font-size:14px;background:linear-gradient(90deg,rgba(99,169,255,.1),rgba(140,108,255,.1))}
+    #sn-chat-log{flex:1;overflow-y:auto;padding:16px;font-size:13.5px;display:flex;flex-direction:column;gap:10px}
+    .sn-msg{max-width:86%;padding:9px 12px;border-radius:14px;line-height:1.45}
+    .sn-msg.user{align-self:flex-end;background:linear-gradient(135deg,#4d91ed,#785be0);color:#fff}
+    .sn-msg.bot{align-self:flex-start;background:rgba(255,255,255,.07);color:#dce7f4;border:1px solid rgba(255,255,255,.08)}
+    #sn-chat-form{display:flex;border-top:1px solid var(--line,rgba(255,255,255,.11));padding:8px;background:rgba(255,255,255,.025)}
+    #sn-chat-input{flex:1;border:0;background:transparent;color:#fff;padding:10px 12px;font-size:13.5px;font-family:inherit;outline:none}
+    #sn-chat-input::placeholder{color:#8397af}
+    #sn-chat-send{border:0;border-radius:12px;background:linear-gradient(135deg,#63a9ff,#8c6cff);color:#fff;padding:0 16px;cursor:pointer;font-weight:700}
+    @media(max-width:600px){#sn-chat-panel{right:12px;left:12px;width:auto;bottom:82px}#sn-chat-btn{right:16px;bottom:16px}}
   `;
   document.head.appendChild(style);
 
@@ -47,17 +49,13 @@
   const panel = document.createElement('div');
   panel.id = 'sn-chat-panel';
   panel.innerHTML = `
-    <div id="sn-chat-head">Ask Springnexa</div>
+    <div id="sn-chat-head">✦ Ask Springnexa</div>
     <div id="sn-chat-log"></div>
-    <form id="sn-chat-form">
-      <input id="sn-chat-input" type="text" placeholder="Ask about our divisions…" autocomplete="off">
-      <button id="sn-chat-send" type="submit">Send</button>
-    </form>
+    <form id="sn-chat-form"><input id="sn-chat-input" type="text" placeholder="Ask about our divisions…" autocomplete="off"><button id="sn-chat-send" type="submit">Send</button></form>
   `;
 
   document.body.appendChild(btn);
   document.body.appendChild(panel);
-
   const log = panel.querySelector('#sn-chat-log');
   const history = [];
 
@@ -70,7 +68,6 @@
   }
 
   addMsg('bot', "Hi — I can answer questions about Springnexa's Healthcare, IT, and Social Welfare divisions. What would you like to know?");
-
   btn.addEventListener('click', () => panel.classList.toggle('open'));
 
   panel.querySelector('#sn-chat-form').addEventListener('submit', async (e) => {
@@ -80,28 +77,15 @@
     if (!text) return;
     input.value = '';
     addMsg('user', text);
-    history.push({ role: 'user', content: text });
-
-    addMsg('bot', '…');
+    history.push({role:'user',content:text});
+    addMsg('bot','…');
     const thinking = log.lastChild;
-
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: history })
-      });
+      const res = await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history})});
       const data = await res.json();
       thinking.remove();
-      if (res.ok) {
-        addMsg('bot', data.reply || "Sorry, I didn't get a response.");
-        history.push({ role: 'assistant', content: data.reply || '' });
-      } else {
-        addMsg('bot', 'Sorry, the assistant is temporarily unavailable.');
-      }
-    } catch (err) {
-      thinking.remove();
-      addMsg('bot', 'Sorry, something went wrong reaching the assistant.');
-    }
+      if(res.ok){addMsg('bot',data.reply||"Sorry, I didn't get a response.");history.push({role:'assistant',content:data.reply||''});}
+      else addMsg('bot','Sorry, the assistant is temporarily unavailable.');
+    } catch(err){thinking.remove();addMsg('bot','Sorry, something went wrong reaching the assistant.');}
   });
 })();
