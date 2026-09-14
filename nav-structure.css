@@ -1,0 +1,12 @@
+/* SpringNexa canonical navigation */
+.nav-links>li.division-nav{position:relative}
+.nav-links>li.division-nav>.division-toggle{display:inline-flex;align-items:center;gap:6px;text-decoration:none;cursor:pointer}
+.nav-links>li.division-nav>.division-toggle span{font-size:11px;transition:transform .18s ease}
+.division-nav:hover>.division-toggle span,.division-nav:focus-within>.division-toggle span,.division-nav.is-open>.division-toggle span{transform:rotate(180deg)}
+.division-dropdown{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(6px);width:310px;padding:8px;background:#fff;border:1px solid #dbeaf3;border-radius:12px;box-shadow:0 18px 45px rgba(7,89,133,.16);opacity:0;visibility:hidden;pointer-events:none;z-index:120;transition:opacity .18s ease,transform .18s ease,visibility .18s ease}
+.division-nav:hover>.division-dropdown,.division-nav:focus-within>.division-dropdown,.division-nav.is-open>.division-dropdown{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.division-dropdown a{display:block;padding:12px 13px;border-radius:9px;text-decoration:none}
+.division-dropdown a:hover,.division-dropdown a:focus{background:#f1f9fd;outline:none}
+.division-dropdown strong{display:block;color:#073b63;font-size:13px;line-height:1.3}
+.division-dropdown small{display:block;color:#61788b;font-size:10px;line-height:1.4;margin-top:3px}
+@media(max-width:900px){.nav-links>.division-nav{display:none!important}.mobile-menu details{margin:0}.mobile-menu details a{display:block}}
