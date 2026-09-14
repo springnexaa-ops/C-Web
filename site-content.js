@@ -4,18 +4,14 @@
   const css=(href,id)=>{if(document.querySelector('link[data-sn-css="'+id+'"]'))return;const l=document.createElement('link');l.rel='stylesheet';l.href=href+'?v='+stamp;l.dataset.snCss=id;document.head.appendChild(l)};
   const logo=()=>{document.querySelectorAll('.brand img').forEach(i=>{i.src='/assets/springnexa-logo.svg?v='+stamp;i.alt='SpringNexa Private Limited'});document.querySelectorAll('link[rel="icon"]').forEach(i=>i.href='/favicon.svg?v='+stamp)};
   function nav(){
+    css('/nav-structure.css','nav');
     document.querySelectorAll('.nav-links').forEach(m=>{
-      /* Remove every legacy division/root item first. This prevents duplicate Divisions tabs. */
       m.querySelectorAll('a[href="healthcare.html"],a[href="it.html"],a[href="social-welfare.html"],a[href="divisions.html"],.division-nav,.admin-nav').forEach(a=>a.closest('li')?.remove());
-      const d=document.createElement('li');
-      d.className='division-nav';
+      const d=document.createElement('li');d.className='division-nav';
       d.innerHTML='<a href="#" class="division-toggle" aria-haspopup="true" aria-expanded="false">Divisions <span aria-hidden="true">⌄</span></a><div class="division-dropdown" role="menu"><a href="healthcare.html" role="menuitem"><strong>Healthcare</strong><small>Neurophysiology &amp; Digital Health</small></a><a href="it.html" role="menuitem"><strong>Information Technology</strong><small>Software, AI &amp; Digital Infrastructure</small></a><a href="social-welfare.html" role="menuitem"><strong>Social Welfare</strong><small>Community &amp; Social Impact</small></a></div>';
-      const ab=m.querySelector('a[href="about.html"]')?.closest('li');
-      if(ab)ab.after(d);else m.append(d);
-      const toggle=d.querySelector('.division-toggle');
-      toggle.addEventListener('click',e=>{e.preventDefault();const open=d.classList.toggle('is-open');toggle.setAttribute('aria-expanded',String(open))});
-      const a=document.createElement('li');a.className='admin-nav';a.innerHTML='<a href="/admin/login.html">Admin</a>';
-      const c=m.querySelector('a[href="contact.html"]')?.closest('li');if(c)c.after(a);else m.append(a);
+      const ab=m.querySelector('a[href="about.html"]')?.closest('li');if(ab)ab.after(d);else m.append(d);
+      const toggle=d.querySelector('.division-toggle');toggle.addEventListener('click',e=>{e.preventDefault();const open=d.classList.toggle('is-open');toggle.setAttribute('aria-expanded',String(open))});
+      const a=document.createElement('li');a.className='admin-nav';a.innerHTML='<a href="/admin/login.html">Admin</a>';const c=m.querySelector('a[href="contact.html"]')?.closest('li');if(c)c.after(a);else m.append(a);
     });
     document.querySelectorAll('.mobile-menu').forEach(m=>m.innerHTML='<a href="index.html">Home</a><a href="about.html">About</a><details><summary>Divisions</summary><a href="healthcare.html">Healthcare</a><a href="it.html">Information Technology</a><a href="social-welfare.html">Social Welfare</a></details><a href="team.html">Our Team</a><a href="contact.html">Contact</a><a class="mobile-admin-link" href="/admin/login.html">▣ Admin Portal</a>');
     document.querySelectorAll('.nav').forEach(n=>{if(!n.querySelector('.header-tagline')){const t=document.createElement('span');t.className='header-tagline';t.textContent='Technology for a Healthier, Stronger Tomorrow';n.insertBefore(t,n.querySelector('.nav-cta'))}if(!n.querySelector('.header-search')){const s=document.createElement('button');s.className='header-search';s.type='button';s.setAttribute('aria-label','Search');s.textContent='⌕';n.insertBefore(s,n.querySelector('.nav-cta'))}});
