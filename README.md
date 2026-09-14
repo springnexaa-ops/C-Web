@@ -1,73 +1,49 @@
 # SpringNexa Private Limited — Corporate Website
 
-Public corporate website for SpringNexa Private Limited, covering Healthcare, Information Technology and Social Welfare, plus the Nexa AI and NEXA Neurology LMIS product landing pages.
+Investor-friendly static corporate website for SpringNexa Private Limited covering Healthcare, Information Technology and Social Welfare, plus dedicated Nexa AI and NEXA Neurology LMIS product pages.
 
-## Stack
+## Public HTML structure
 
-- Static HTML/CSS/JavaScript
-- Cloudflare Pages
-- Pages Functions
-- Cloudflare D1 for editable public content and the admin console
+- `index.html` — cinematic corporate homepage
+- `about.html` — company thesis, registrations and operating model
+- `divisions.html` — portfolio/division overview
+- `healthcare.html` — Healthcare operating division
+- `it.html` — Information Technology operating division
+- `social-welfare.html` — Social Welfare operating division
+- `team.html` — leadership and governance
+- `contact.html` — corporate, partnership and investor enquiries
+- `nexa-ai.html` — Nexa AI product page
+- `nexa-lmis.html` — NEXA Neurology LMIS product page
 
-## Public pages
+## Structure principles
 
-- `index.html` — corporate homepage
-- `about.html` — company overview
-- `divisions.html` — division overview
-- `healthcare.html` — Healthcare
-- `it.html` — Information Technology
-- `social-welfare.html` — Social Welfare
-- `team.html` — Our Team
-- `contact.html` — Contact
-- `nexa-ai.html` — Nexa AI Coming Soon
-- `nexa-lmis.html` — NEXA Neurology LMIS Coming Soon
+- One canonical navigation system across corporate HTML pages
+- One canonical footer across internal HTML pages
+- Duplicate division links are removed at runtime
+- Investor/partner/customer perspective is surfaced without changing the underlying business claims
+- Core proof points are presented consistently: 1,900+ patients, 12+ healthcare procedures, 3 divisions and 2026 platform stage
+- Mobile navigation is normalized to one Division menu and one Admin Portal link
+- NEXA AI and NEXA LMIS remain dedicated product pages and are not merged with corporate content
 
-## Front-end structure
+## Front-end
 
 - `styles.css` — shared base/site styles
-- `reference-home.css` — homepage reference design
-- `home-slider.css` — homepage 3D vision slider and product navigation styling
+- `reference-home.css` — homepage reference styling
+- `home-slider.css` — seasonal 3D slider styling
+- `home-slider-real.css` — photographic seasonal layer
+- `cinematic-home.css` — cinematic Kashmir homepage treatment
 - `division-pages.css` — shared internal-page shell
+- `investor-structure.css` — investor-friendly internal page system
 - `nexa-products.css` — Nexa AI / NEXA LMIS product design system
-- `homepage-live-fix.css` — homepage rendering override retained for the local mountain artwork
-- `site-content.js` — shared navigation, branding and internal-page shell
-- `home-slider.js` — homepage-only product tabs and 3D slider behavior
+- `site-content.js` — canonical navigation, duplicate cleanup, internal-page structure and live content
+- `home-slider.js` — homepage seasonal slider
 
 ## D1 Admin Console
 
-The corporate website now has a new `/admin/` console backed by Cloudflare D1. It is separate from the old console and uses:
+The `/admin/` console is backed by Cloudflare D1 with server-side sessions, PBKDF2-SHA-256 password hashing, HttpOnly/Secure/SameSite=Strict cookies and server-side authorization. Admin pages are `noindex,nofollow`.
 
-- `admin_users` for administrator accounts
-- `admin_sessions` for server-side sessions
-- PBKDF2-SHA-256 password hashing with per-user salts
-- HttpOnly, Secure, SameSite=Strict session cookies
-- Server-side authorization for every content read/write
-- `/api/admin/bootstrap` for one-time first-admin initialization, protected by the `ADMIN_BOOTSTRAP_KEY` Cloudflare secret and disabled after the first account exists
-
-Admin pages are marked `noindex,nofollow`. Do not put passwords, bootstrap keys, API keys or other secrets in Git.
-
-### First-time setup
-
-1. Deploy the current `main` branch with a D1 binding named `DB`.
-2. Add a strong Cloudflare environment/secret variable named `ADMIN_BOOTSTRAP_KEY`.
-3. POST the first username/password to `/api/admin/bootstrap` with the `X-Admin-Bootstrap-Key` header.
-4. Rotate the bootstrap key after initialization.
-5. Open `/admin/login.html` and sign in.
-
-The bootstrap endpoint will not create another administrator once an account exists.
-
-## Server-side AI chat
-
-`functions/api/chat.js` provides the public `/api/chat` endpoint. The provider API key remains server-side in Cloudflare environment variables.
-
-Recommended variables:
-
-- `AI_API_KEY`
-- `AI_PROVIDER` (`openai` or `anthropic`)
-- `AI_MODEL` (optional)
-
-Apply rate limiting/WAF controls to `/api/chat` in Cloudflare before public high-volume use.
+Do not put passwords, bootstrap keys, API keys or other secrets in Git.
 
 ## Deployment
 
-Cloudflare Pages should redeploy automatically from the `main` branch. Allow the deployment and CDN cache to propagate before evaluating production rendering.
+Cloudflare Pages should redeploy automatically from `main`. Allow the deployment/CDN cache to propagate before evaluating production rendering.
