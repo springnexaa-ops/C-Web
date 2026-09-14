@@ -4,23 +4,44 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Springnexa Admin Console</title>
+<title>SpringNexa Admin Control</title>
 <link rel="icon" href="/favicon.svg">
 <link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="/admin/admin.css">
+<link rel="stylesheet" href="/admin/admin.css?v=20260914-02">
 </head>
 <body class="admin-body">
 <div class="admin-shell">
 <header class="admin-top"><div class="admin-top-inner">
-<a class="admin-top-brand" href="/"><img src="/assets/springnexa-logo.svg" alt="Springnexa"></a>
-<div class="admin-user"><span id="who">Checking session…</span><button class="admin-logout" id="logout">Log out</button></div>
+<a class="admin-top-brand" href="/"><img src="/assets/springnexa-logo.svg" alt="SpringNexa"></a>
+<div class="admin-top-meta"><span class="admin-secure-pill"><i class="admin-secure-dot"></i> Secure Admin</span><div class="admin-user"><span class="admin-avatar" id="avatar">A</span><span id="who">Checking session…</span><button class="admin-logout" id="logout">Log out</button></div></div>
 </div></header>
+<div class="admin-layout">
+<aside class="admin-sidebar">
+<div class="admin-side-label">Control Center</div>
+<nav class="admin-nav" aria-label="Admin navigation">
+<a class="active" href="#overview"><span class="admin-nav-icon">◈</span>Overview</a>
+<a href="#content"><span class="admin-nav-icon">▣</span>Website Content</a>
+<a href="/" target="_blank" rel="noopener"><span class="admin-nav-icon">↗</span>Live Website</a>
+</nav>
+<div class="admin-side-label" style="margin-top:25px">Administration</div>
+<nav class="admin-nav"><a href="/admin/login.html"><span class="admin-nav-icon">⌁</span>Security Session</a></nav>
+<div class="admin-side-note">This console is protected by the existing server-side admin session. Public website visitors cannot access these controls.</div>
+</aside>
 <main class="admin-main">
-<section class="admin-heading"><div><h1>Admin Console</h1><p>Website content stored in Cloudflare D1.</p></div></section>
+<section class="admin-heading" id="overview"><div><h1>Website Control Center</h1><p>Manage SpringNexa website content securely through the Cloudflare-backed admin console.</p></div><div class="admin-actions"><button class="admin-action" id="refresh" type="button">↻ Refresh</button><a class="admin-action primary" href="/" target="_blank" rel="noopener">View Live Site ↗</a></div></section>
+<section class="admin-stat-grid" aria-label="Dashboard statistics">
+<div class="admin-stat"><div class="admin-stat-label">Editable fields</div><div class="admin-stat-value" id="field-count">—</div><div class="admin-stat-sub">Cloudflare D1 content records</div></div>
+<div class="admin-stat"><div class="admin-stat-label">Session</div><div class="admin-stat-value">Protected</div><div class="admin-stat-sub">Secure admin session</div></div>
+<div class="admin-stat"><div class="admin-stat-label">Website</div><div class="admin-stat-value">Live</div><div class="admin-stat-sub">Open the public site to verify changes</div></div>
+</section>
 <div id="status" class="admin-status" aria-live="polite"></div>
+<section id="content">
+<div class="admin-toolbar"><div><strong>Website Content</strong><div class="admin-muted" style="margin:3px 0 0;font-size:11px">Edit values below and save individually.</div></div><input id="search" class="admin-search" type="search" placeholder="Search content keys…" autocomplete="off"></div>
 <section id="items" class="admin-grid" aria-live="polite"></section>
+</section>
 </main>
 </div>
-<script src="/admin/admin-dashboard.js" defer></script>
+</div>
+<script src="/admin/admin-dashboard.js?v=20260914-02" defer></script>
 </body>
 </html>
