@@ -1,0 +1,9 @@
+/* Real-photo override for the Himalayan seasonal carousel. */
+body.home-page .sn-slide{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important}
+body.home-page .sn-slide:nth-child(1),body.home-page .sn-slide:nth-child(5){background-image:url('https://images.unsplash.com/photo-1715933787517-6082995e0d07?auto=format&fit=crop&w=1800&q=88')!important}
+body.home-page .sn-slide:nth-child(2),body.home-page .sn-slide:nth-child(6){background-image:url('https://images.unsplash.com/photo-1531520140596-076b6929bc69?auto=format&fit=crop&w=1800&q=88')!important}
+body.home-page .sn-slide:nth-child(3),body.home-page .sn-slide:nth-child(7){background-image:url('https://images.unsplash.com/photo-1731083704547-024b82e8bfef?auto=format&fit=crop&w=1800&q=88')!important}
+body.home-page .sn-slide:nth-child(4),body.home-page .sn-slide:nth-child(8){background-image:url('https://images.unsplash.com/photo-1719599728307-13f1dfcfe9fd?auto=format&fit=crop&w=1800&q=88')!important}
+body.home-page .sn-slide:nth-child(9),body.home-page .sn-slide:nth-child(10),body.home-page .sn-slide:nth-child(11){background-image:url('https://images.unsplash.com/photo-1542003488933-7cfa7453807a?auto=format&fit=crop&w=1800&q=88')!important}
+body.home-page .sn-slide:nth-child(12){background-image:url('https://images.unsplash.com/photo-1544705357-9b6144a78295?auto=format&fit=crop&w=1800&q=88')!important}
+body.home-page .sn-slide::before{background:linear-gradient(90deg,rgba(2,24,39,.70),rgba(2,24,39,.30) 48%,rgba(2,24,39,.08)),linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,20,35,.64))!important}
