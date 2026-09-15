@@ -4,15 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
+<meta name="build" content="2026-09-15">
 <title>SpringNexa Admin Control</title>
-<link rel="icon" href="/favicon.svg">
-<link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="/admin/admin.css?v=20260914-03">
+<link rel="icon" href="/favicon.svg?v=20260915-1200">
+<link rel="stylesheet" href="/styles.css?v=20260915-1200">
+<link rel="stylesheet" href="/admin/admin.css?v=20260915-1200">
 </head>
 <body class="admin-body admin-seasonal">
 <div class="admin-shell">
 <header class="admin-top"><div class="admin-top-inner">
-<a class="admin-top-brand" href="/"><img src="/assets/springnexa-logo.svg" alt="SpringNexa"></a>
+<a class="admin-top-brand" href="/"><img src="/assets/springnexa-logo.svg?v=20260915-1200" alt="SpringNexa"></a>
 <div class="admin-top-meta"><span class="admin-secure-pill"><i class="admin-secure-dot"></i> Secure Admin</span><div class="admin-user"><span class="admin-avatar" id="avatar">A</span><span id="who">Checking session…</span><button class="admin-logout" id="logout">Log out</button></div></div>
 </div></header>
 <div class="admin-layout">
@@ -54,15 +55,8 @@
 </div>
 </div>
 <script>
-(function(){
-  const m=new Date().getMonth()+1;
-  const season=m>=3&&m<=5?'spring':m>=6&&m<=8?'summer':m>=9&&m<=11?'autumn':'winter';
-  document.body.classList.add('season-'+season);
-  document.querySelectorAll('.admin-season-card').forEach(c=>c.classList.toggle('active',c.classList.contains('season-'+season)));
-  const label=season.toUpperCase()+' · ACTIVE';
-  const el=document.getElementById('current-season');if(el)el.textContent=label;
-})();
+(function(){const m=new Date().getMonth()+1;const season=m>=3&&m<=5?'spring':m>=6&&m<=8?'summer':m>=9&&m<=11?'autumn':'winter';document.body.classList.add('season-'+season);document.querySelectorAll('.admin-season-card').forEach(c=>c.classList.toggle('active',c.classList.contains('season-'+season)));const el=document.getElementById('current-season');if(el)el.textContent=season.toUpperCase()+' · ACTIVE'})();
 </script>
-<script src="/admin/admin-dashboard.js?v=20260914-03" defer></script>
+<script src="/admin/admin-dashboard.js?v=20260915-1200" defer></script>
 </body>
 </html>
