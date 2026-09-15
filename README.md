@@ -17,13 +17,14 @@ Investor-friendly static corporate website for SpringNexa Private Limited coveri
 
 ## Structure principles
 
-- One canonical navigation system across corporate HTML pages
-- One canonical footer across internal HTML pages
-- Duplicate division links are removed at runtime
+- One canonical premium navigation system across corporate HTML pages
+- Healthcare, Information Technology and Social Welfare are grouped under the Divisions mega-menu
+- Nexa AI and NEXA Neurology LMIS have dedicated product destinations
+- Duplicate legacy division links are removed at runtime
+- One canonical footer is generated across internal corporate pages
 - Investor/partner/customer perspective is surfaced without changing the underlying business claims
 - Core proof points are presented consistently: 1,900+ patients, 12+ healthcare procedures, 3 divisions and 2026 platform stage
-- Mobile navigation is normalized to one Division menu and one Admin Portal link
-- NEXA AI and NEXA LMIS remain dedicated product pages and are not merged with corporate content
+- Mobile navigation is normalized into accessible expandable sections and a secure Admin Portal link
 
 ## Front-end
 
@@ -35,8 +36,10 @@ Investor-friendly static corporate website for SpringNexa Private Limited coveri
 - `division-pages.css` — shared internal-page shell
 - `investor-structure.css` — investor-friendly internal page system
 - `nexa-products.css` — Nexa AI / NEXA LMIS product design system
+- `nav-structure.css` — premium mega-navigation system
 - `site-content.js` — canonical navigation, duplicate cleanup, internal-page structure and live content
 - `home-slider.js` — homepage seasonal slider
+- `_headers` — production HTML/admin cache and indexing policy
 
 ## D1 Admin Console
 
@@ -46,4 +49,4 @@ Do not put passwords, bootstrap keys, API keys or other secrets in Git.
 
 ## Deployment
 
-Cloudflare Pages should redeploy automatically from `main`. Allow the deployment/CDN cache to propagate before evaluating production rendering.
+Cloudflare Pages should redeploy automatically from `main`. The production `_headers` policy now forces HTML/admin revalidation so an older HTML response should not remain cached after deployment. Verify the Cloudflare Pages project connected to `springnexaa-ops/C-Web` uses `main` as its production branch.
