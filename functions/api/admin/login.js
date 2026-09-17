@@ -16,14 +16,31 @@ function equal(a, b) {
 export async function onRequestPost({ request, env }) {
   const origin = request.headers.get('Origin');
   if (origin && origin !== new URL(request.url).origin) return json({ error: 'Invalid origin.' }, 403);
-  const configured = String(env.ADMIN_TOKEN || '');
-  if (!configured) return json({ error: 'Admin authentication is not configured.' }, 503);
-  const body = await request.json().catch(() => ({}));
-  const token = String(body.token || '').trim();
+
+  const configured = typeof env.ADMIN_TOKEN === 'string' ? env.ADMIN_TOKEN : '';
+  if (!configured) {
+    return json({ error: 'Admin authentication is not configured on this production deployment.' }, 503);
+  }
+
+  const body = await request.json().catch(() => null);
+  if (!body || typeof body !== 'object') return json({ error: 'Invalid login request.' }, 400);
+
+  const token = typeof body.token === 'string' ? body.token.trim() : '';
   if (!token || token.length > 500) return json({ error: 'Admin token is required.' }, 400);
+
   const [present, expected] = await Promise.all([digest(token), digest(configured)]);
   if (!equal(present, expected)) return json({ error: 'Invalid admin token.' }, 401);
-  await env.DB.prepare("DELETE FROM admin_sessions WHERE expires_at <= datetime('now')").run();
-  const session = await createSession(env, 'ADMIN_TOKEN');
-  return json({ ok: true }, 200, { 'Set-Cookie': sessionCookie(session) });
+
+  if (!env.DB) {
+    return json({ error: 'Admin session database binding is missing from this production deployment.' }, 503);
+  }
+
+  try {
+    await env.DB.prepare("DELETE FROM admin_sessions WHERE expires_at <= datetime('now')").run();
+    const session = await createSession(env, 'ADMIN_TOKEN');
+    return json({ ok: true }, 200, { 'Set-Cookie': sessionCookie(session) });
+  } catch (error) {
+    console.error('Admin session creation failed:', error);
+    return json({ error: 'Admin token was accepted, but the admin session database is unavailable.' }, 503);
+  }
 }
