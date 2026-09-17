@@ -10,8 +10,22 @@
     const t=li.querySelector('.mega-toggle');t.addEventListener('click',e=>{e.preventDefault();const open=li.classList.toggle('is-open');t.setAttribute('aria-expanded',String(open))});
     return li;
   }
+  function bindMobileMenu(){
+    document.querySelectorAll('.mobile-toggle').forEach(b=>{
+      b.removeAttribute('onclick');
+      if(b.dataset.snBound==='1')return;
+      b.dataset.snBound='1';
+      b.setAttribute('aria-expanded','false');
+      b.addEventListener('click',()=>{
+        const m=document.querySelector('.mobile-menu');
+        const open=!!m?.classList.toggle('open');
+        b.setAttribute('aria-expanded',String(open));
+      });
+    });
+  }
   function nav(){
     css('/nav-structure.css','nav');
+    bindMobileMenu();
     document.querySelectorAll('.nav-links').forEach(m=>{
       m.querySelectorAll('.mega-nav,.division-nav,.admin-nav').forEach(x=>x.remove());
       m.querySelectorAll('a[href="healthcare.html"],a[href="it.html"],a[href="social-welfare.html"],a[href="divisions.html"],a[href="nexa-ai.html"],a[href="nexa-lmis.html"]').forEach(a=>a.closest('li')?.remove());
@@ -27,7 +41,7 @@
       const divisions=[
         {label:'Healthcare',featured:true,items:[item('Healthcare Division','Neurophysiology & Digital Health','healthcare.html'),item('Neurodiagnostics','EEG · NCS · EMG · VEP · BERA','healthcare.html'),item('Digital Health','LMIS & healthcare workflows','healthcare.html')]},
         {label:'Information Technology',items:[item('IT Division','Software · ERP · Cloud · AI','it.html'),item('Enterprise Systems','ERP and healthcare ERP','it.html'),item('Digital Infrastructure','Cloud · APIs · Cybersecurity','it.html')]},
-        {label:'Social Welfare',items:[item('Social Welfare','NGO · CSR · Community Impact','social-welfare.html'),item('Rural Health','Community healthcare support','social-welfare.html'),item('Skill Development','Digital inclusion & skills','social-welfare.html')]} 
+        {label:'Social Welfare',items:[item('Social Welfare','NGO · CSR · Community Impact','social-welfare.html'),item('Rural Health','Community healthcare support','social-welfare.html'),item('Skill Development','Digital inclusion & skills','social-welfare.html')]}
       ];
       if(team)team.before(mega('Divisions',divisions,true));else m.append(mega('Divisions',divisions,true));
       const products=[
@@ -46,7 +60,7 @@
   function internal(){if(!document.body.classList.contains('internal-page'))return;css('/division-pages.css','division');nav();logo();const a=document.getElementById('sn-announcement');if(a){a.className='top-contact';a.innerHTML='<div class="top-contact-inner"><div class="top-left"><span>☎ +91 7006318286</span><span>☎ +91 1931-462974</span><span>✉ info@springnexa.in</span></div><div class="top-right"><span>⌖ Kulgam, Jammu & Kashmir, India</span></div></div>'}const h=document.querySelector('.page-head');if(h&&!h.querySelector('.page-head-meta')){const m=document.createElement('div');m.className='page-head-meta';m.innerHTML='<span>SPRINGNEXA</span><span>/</span><span>'+((location.pathname.split('/').pop()||'home').replace('.html','').replace(/-/g,' '))+'</span>';h.querySelector('.wrap')?.prepend(m)}footer();investor()}
   function home(){if(!document.body.classList.contains('home-page'))return;css('/cinematic-home.css','cinematic');nav();logo()}
   function live(){fetch('/api/content/public').then(r=>r.ok?r.json():null).then(c=>{if(!c)return;document.querySelectorAll('[data-key]').forEach(e=>{if(c[e.dataset.key]!==undefined)e.textContent=c[e.dataset.key]})}).catch(()=>{})}
-  function chat(){if(document.getElementById('sn-chat-btn'))return;const b=document.createElement('button');b.id='sn-chat-btn';b.textContent='💬';b.onclick=()=>document.getElementById('sn-chat-panel')?.classList.toggle('open');const p=document.createElement('div');p.id='sn-chat-panel';p.innerHTML='<div class="sn-chat-head">✦ Ask SpringNexa</div><div id="sn-chat-log"><div class="sn-msg bot">Hi — ask about Healthcare, IT, Social Welfare, Nexa AI or our corporate services.</div></div>';document.body.append(b,p)}
+  function chat(){if(document.getElementById('sn-chat-btn'))return;const b=document.createElement('button');b.id='sn-chat-btn';b.textContent='💬';b.addEventListener('click',()=>document.getElementById('sn-chat-panel')?.classList.toggle('open'));const p=document.createElement('div');p.id='sn-chat-panel';p.innerHTML='<div class="sn-chat-head">✦ Ask SpringNexa</div><div id="sn-chat-log"><div class="sn-msg bot">Hi — ask about Healthcare, IT, Social Welfare, Nexa AI or our corporate services.</div></div>';document.body.append(b,p)}
   function init(){document.body.classList.contains('internal-page')?internal():home();chat();live()}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
