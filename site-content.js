@@ -1,8 +1,8 @@
 /* SpringNexa shared site controller — canonical navigation, footer and live content. */
 (function(){
-  const stamp='20260917-1000';
+  const stamp='20260917-1600';
   const css=(href,id)=>{if(document.querySelector('link[data-sn-css="'+id+'"]'))return;const l=document.createElement('link');l.rel='stylesheet';l.href=href+'?v='+stamp;l.dataset.snCss=id;document.head.appendChild(l)};
-  const logo=()=>{document.querySelectorAll('.brand img').forEach(i=>{i.src='/assets/springnexa-logo.svg?v='+stamp;i.alt='SpringNexa Private Limited'});document.querySelectorAll('link[rel="icon"]').forEach(i=>i.href='/favicon.svg?v='+stamp)};
+  const logo=()=>{document.querySelectorAll('.brand img,.footer-logo').forEach(i=>{i.src='/assets/springnexa-logo.svg?v='+stamp;i.alt='SpringNexa Private Limited'});document.querySelectorAll('link[rel="icon"]').forEach(i=>i.href='/favicon.svg?v='+stamp)};
   const item=(title,desc,href)=>'<a href="'+href+'"><strong>'+title+'</strong><small>'+desc+'</small></a>';
   function mega(label,groups,wide){
     const li=document.createElement('li');li.className='mega-nav';
@@ -31,7 +31,15 @@
   function footer(){const f=document.querySelector('.internal-page footer.site');if(!f)return;f.className='site reference-footer';f.innerHTML='<div class="wrap footer-reference-grid"><div><img class="footer-logo" src="/assets/springnexa-logo.svg?v='+stamp+'" alt="SpringNexa Private Limited"><p>Healthcare | Information Technology | Social Welfare</p><small>© 2026 SpringNexa Private Limited. All rights reserved.</small></div><div><h4>Explore</h4><a href="index.html">Home</a><a href="about.html">About</a><a href="team.html">Our Team</a><a href="contact.html">Contact Executive</a></div><div><h4>Divisions</h4><a href="healthcare.html">Healthcare</a><a href="it.html">Information Technology</a><a href="social-welfare.html">Social Welfare</a></div><div><h4>Products</h4><a href="nexa-ai.html">Nexa AI</a><a href="nexa-lmis.html">NEXA Neurology LMIS</a></div><div><h4>Corporate Contact</h4><span>☎ +91 7006318286</span><span>✉ info@springnexa.in</span><p>50 Shah Mohallah, Matibugh, Yaripora 192232, Jammu and Kashmir, India</p></div></div>'}
   function internal(){if(!document.body.classList.contains('internal-page'))return;css('/division-pages.css','division');nav();logo();const a=document.getElementById('sn-announcement');if(a){a.className='top-contact';a.innerHTML='<div class="top-contact-inner"><div class="top-left"><span>☎ +91 7006318286</span><span>☎ +91 1931-462974</span><span>✉ info@springnexa.in</span></div><div class="top-right"><span>⌖ Kulgam, Jammu & Kashmir, India</span></div></div>'}const h=document.querySelector('.page-head');if(h&&!h.querySelector('.page-head-meta')){const m=document.createElement('div');m.className='page-head-meta';m.innerHTML='<span>SPRINGNEXA</span><span>/</span><span>'+((location.pathname.split('/').pop()||'home').replace('.html','').replace(/-/g,' '))+'</span>';h.querySelector('.wrap')?.prepend(m)}footer()}
   function home(){if(!document.body.classList.contains('home-page'))return;css('/cinematic-home.css','cinematic');nav();logo()}
-  function live(){fetch('/api/content/public').then(r=>r.ok?r.json():null).then(c=>{if(!c)return;document.querySelectorAll('[data-key]').forEach(e=>{if(c[e.dataset.key]!==undefined)e.textContent=c[e.dataset.key]})}).catch(()=>{})}
+  function applyCompany(c){
+    if(!c)return;
+    const name=c.company_name||'SpringNexa Private Limited';
+    document.querySelectorAll('[data-company-name]').forEach(e=>e.textContent=name);
+    if(c.company_logo_url){document.querySelectorAll('.brand img,.footer-logo').forEach(i=>{i.src=c.company_logo_url;i.alt=name})}
+    if(c.company_email)document.querySelectorAll('[data-company-email]').forEach(e=>e.textContent=c.company_email);
+    if(c.company_phone)document.querySelectorAll('[data-company-phone]').forEach(e=>e.textContent=c.company_phone);
+  }
+  function live(){fetch('/api/content/public').then(r=>r.ok?r.json():null).then(c=>{if(!c)return;document.querySelectorAll('[data-key]').forEach(e=>{if(c[e.dataset.key]!==undefined)e.textContent=c[e.dataset.key]});applyCompany(c)}).catch(()=>{})}
   function chat(){
     css('/nexa-ai-agent.css','nexa-ai-agent');
     if(document.getElementById('sn-chat-btn'))return;
