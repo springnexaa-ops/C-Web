@@ -4,23 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build" content="2026-09-17-4d-admin-login">
+<meta name="build" content="2026-09-17-2000">
 <title>SpringNexa Admin — Secure Sign in</title>
-<link rel="icon" href="/favicon.svg?v=20260917-1800">
-<link rel="stylesheet" href="/styles.css?v=20260917-1800">
-<link rel="stylesheet" href="/admin/admin.css?v=20260917-1800">
+<link rel="icon" href="/favicon.svg?v=20260917-2000">
+<link rel="stylesheet" href="/styles.css?v=20260917-2000">
+<link rel="stylesheet" href="/admin/admin.css?v=20260917-2000">
 <style>
-/* Critical login shell: intentionally self-contained so the login remains styled even if a CDN/browser cache serves an older stylesheet. */
 html,body{margin:0!important;min-height:100%!important;background:#030712!important}
 body.admin-body{min-height:100vh!important;overflow-x:hidden!important;color:#f7fbff!important;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;background:radial-gradient(circle at 18% 8%,rgba(49,184,255,.24),transparent 30%),radial-gradient(circle at 86% 18%,rgba(116,79,255,.22),transparent 28%),radial-gradient(circle at 50% 100%,rgba(25,213,171,.13),transparent 35%),linear-gradient(145deg,#02050c 0%,#071423 48%,#030711 100%)!important}
 body.admin-body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.28;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 85%)}
 .admin-auth{position:relative;z-index:1;min-height:100svh!important;width:100%;display:grid!important;place-items:center!important;padding:28px 18px!important;box-sizing:border-box!important}
-.admin-auth:before,.admin-auth:after{content:"";position:fixed;width:210px;height:210px;border-radius:50%;filter:blur(2px);pointer-events:none;animation:snFloat 8s ease-in-out infinite alternate}
-.admin-auth:before{top:9%;left:-90px;background:radial-gradient(circle,rgba(44,198,255,.24),transparent 68%)}
-.admin-auth:after{right:-80px;bottom:7%;background:radial-gradient(circle,rgba(119,79,255,.25),transparent 68%);animation-delay:-3s}
-.admin-card{position:relative;width:min(470px,100%)!important;padding:34px!important;box-sizing:border-box;border:1px solid rgba(255,255,255,.14)!important;border-radius:30px!important;background:linear-gradient(145deg,rgba(18,35,57,.88),rgba(4,13,25,.78))!important;box-shadow:0 35px 100px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.1),inset 0 -1px 0 rgba(0,0,0,.35)!important;backdrop-filter:blur(28px) saturate(145%)!important;-webkit-backdrop-filter:blur(28px) saturate(145%)!important;transform:perspective(1200px) rotateX(1.2deg)!important;overflow:hidden!important}
-.admin-card:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(125deg,rgba(255,255,255,.13),transparent 25%,transparent 70%,rgba(63,191,255,.06));border-radius:inherit}
-.admin-card:after{content:"";position:absolute;top:-110px;right:-90px;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,rgba(61,200,255,.2),transparent 68%);filter:blur(8px);pointer-events:none}
+.admin-card{position:relative;width:min(470px,100%)!important;padding:34px!important;box-sizing:border-box;border:1px solid rgba(255,255,255,.14)!important;border-radius:30px!important;background:linear-gradient(145deg,rgba(18,35,57,.88),rgba(4,13,25,.78))!important;box-shadow:0 35px 100px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.1)!important;backdrop-filter:blur(28px) saturate(145%)!important;-webkit-backdrop-filter:blur(28px) saturate(145%)!important;transform:perspective(1200px) rotateX(1.2deg)!important;overflow:hidden!important}
 .admin-brand{position:relative;z-index:2;display:flex!important;align-items:center;justify-content:center;margin:0 0 26px!important;text-decoration:none!important}
 .admin-login-logo{width:175px!important;height:auto!important;filter:drop-shadow(0 12px 22px rgba(65,183,255,.22));animation:snLogoFloat 5s ease-in-out infinite}
 .admin-kicker{position:relative;z-index:2;text-align:center;font-size:9px!important;letter-spacing:.2em!important;font-weight:900!important;color:#79ddff!important;margin:0 0 10px!important;text-transform:uppercase}
@@ -28,40 +22,34 @@ body.admin-body:before{content:"";position:fixed;inset:0;pointer-events:none;opa
 .admin-muted{position:relative;z-index:2;margin:13px 0 25px!important;text-align:center;color:#a6bacb!important;font-size:13px!important;line-height:1.7!important}
 .admin-muted strong{color:#e9f8ff}
 #login-form{position:relative;z-index:2}
-.admin-card label{display:block!important;margin:0 0 15px!important;color:#d9eaf5!important;font-size:12px!important;font-weight:800!important;letter-spacing:.02em}
+.admin-card label{display:block!important;margin:0 0 15px!important;color:#d9eaf5!important;font-size:12px!important;font-weight:800!important}
 .admin-card input{width:100%!important;height:50px!important;margin:8px 0 0!important;padding:0 15px!important;box-sizing:border-box!important;border:1px solid rgba(255,255,255,.13)!important;border-radius:14px!important;background:rgba(1,9,18,.72)!important;color:#fff!important;outline:none!important;font:600 14px inherit!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.035),0 10px 28px rgba(0,0,0,.18)!important;transition:.2s ease!important}
 .admin-card input::placeholder{color:#617789!important}
-.admin-card input:focus{border-color:rgba(70,201,255,.7)!important;box-shadow:0 0 0 4px rgba(50,183,255,.11),0 12px 30px rgba(0,0,0,.25)!important;transform:translateY(-1px)}
-.admin-token-note{margin:0 0 17px!important;color:#6f899d!important;font-size:10px!important;line-height:1.55!important;text-align:center}
-.admin-primary{width:100%!important;min-height:52px!important;margin:0!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:14px!important;background:linear-gradient(135deg,#24b8ff 0%,#5969ff 52%,#8254ff 100%)!important;color:#fff!important;font-size:13px!important;font-weight:900!important;letter-spacing:.02em;cursor:pointer!important;box-shadow:0 14px 35px rgba(50,117,255,.27),inset 0 1px 0 rgba(255,255,255,.24)!important;transition:transform .18s ease,box-shadow .18s ease,filter .18s ease!important}
-.admin-primary:hover{transform:translateY(-2px)!important;filter:saturate(1.12)!important;box-shadow:0 18px 42px rgba(50,117,255,.38),inset 0 1px 0 rgba(255,255,255,.3)!important}
-.admin-primary:active{transform:translateY(0)!important}
+.admin-card input:focus{border-color:rgba(70,201,255,.7)!important;box-shadow:0 0 0 4px rgba(50,183,255,.11),0 12px 30px rgba(0,0,0,.25)!important}
+.admin-primary{width:100%!important;min-height:52px!important;margin:0!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:14px!important;background:linear-gradient(135deg,#24b8ff 0%,#5969ff 52%,#8254ff 100%)!important;color:#fff!important;font-size:13px!important;font-weight:900!important;cursor:pointer!important;box-shadow:0 14px 35px rgba(50,117,255,.27)!important}
 .admin-primary:disabled{opacity:.65!important;cursor:wait!important}
 .admin-error{position:relative;z-index:2;margin:0 0 12px!important;padding:10px 12px!important;border:1px solid rgba(255,100,120,.3)!important;border-radius:12px!important;background:rgba(255,50,80,.09)!important;color:#ffb9c1!important;font-size:12px!important}
 .admin-back{position:relative;z-index:2;display:block!important;margin:21px 0 0!important;text-align:center;color:#8199aa!important;font-size:12px!important;text-decoration:none!important}
-.admin-back:hover{color:#cceeff!important}
-@keyframes snLogoFloat{0%,100%{transform:translateY(0) rotateX(0deg)}50%{transform:translateY(-7px) rotateX(3deg)}}
-@keyframes snFloat{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,-18px,0)}}
-@media(max-width:520px){.admin-auth{padding:18px 13px!important}.admin-card{padding:27px 20px!important;border-radius:25px!important}.admin-login-logo{width:145px!important}.admin-muted{font-size:12px!important;line-height:1.65!important}.admin-card input{height:48px!important}.admin-primary{min-height:50px!important}}
-@media(prefers-reduced-motion:reduce){.admin-card,.admin-login-logo,.admin-auth:before,.admin-auth:after{animation:none!important;transform:none!important}.admin-primary,.admin-card input{transition:none!important}}
+@keyframes snLogoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@media(max-width:520px){.admin-auth{padding:18px 13px!important}.admin-card{padding:27px 20px!important;border-radius:25px!important}.admin-login-logo{width:145px!important}}
+@media(prefers-reduced-motion:reduce){.admin-login-logo{animation:none!important}}
 </style>
 </head>
 <body class="admin-body">
 <main class="admin-auth">
 <section class="admin-card" aria-labelledby="admin-title">
-<a class="admin-brand" href="/" aria-label="Return to SpringNexa home"><img class="admin-login-logo" src="/assets/springnexa-logo.svg?v=20260917-1800" alt="SpringNexa"></a>
+<a class="admin-brand" href="/" aria-label="Return to SpringNexa home"><img class="admin-login-logo" src="/assets/springnexa-logo.svg?v=20260917-2000" alt="SpringNexa"></a>
 <div class="admin-kicker">SPRINGNEXA · WEB HOSTING CONTROL</div>
 <h1 id="admin-title">Admin Console</h1>
-<p class="admin-muted">Private maintenance access for the SpringNexa website. Authentication uses the Cloudflare <strong>ADMIN_TOKEN</strong> secret; no username or password is stored in the website.</p>
+<p class="admin-muted">Private maintenance access. Enter the <strong>ADMIN_TOKEN</strong> configured in Cloudflare.</p>
 <form id="login-form" novalidate>
 <label for="token">Admin Token<input id="token" name="token" type="password" autocomplete="current-password" maxlength="500" placeholder="Enter ADMIN_TOKEN" required></label>
-<div class="admin-token-note">Your token is sent only to the same-origin server endpoint and is never written to the browser or Git repository.</div>
 <div id="error" class="admin-error" role="alert" hidden></div>
 <button class="admin-primary" type="submit" id="submit">Open secure console</button>
 </form>
 <a class="admin-back" href="/">← Back to SpringNexa</a>
 </section>
 </main>
-<script src="/admin/admin-login.js?v=20260917-1800" defer></script>
+<script src="/admin/admin-login.js?v=20260917-2000" defer></script>
 </body>
 </html>
