@@ -4,28 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build" content="2026-09-15">
-<title>Springnexa Admin — Secure Sign in</title>
-<link rel="icon" href="/favicon.svg?v=20260915-1200">
-<link rel="stylesheet" href="/styles.css?v=20260915-1200">
-<link rel="stylesheet" href="/admin/admin.css?v=20260915-1200">
+<meta name="build" content="2026-09-17">
+<title>SpringNexa Admin — Secure Sign in</title>
+<link rel="icon" href="/favicon.svg?v=20260917-1600">
+<link rel="stylesheet" href="/styles.css?v=20260917-1600">
+<link rel="stylesheet" href="/admin/admin.css?v=20260917-1600">
 </head>
 <body class="admin-body">
 <main class="admin-auth">
 <section class="admin-card">
-<a class="admin-brand" href="/"><img src="/assets/springnexa-logo.svg?v=20260915-1200" alt="Springnexa"></a>
-<div class="admin-kicker">SECURE ADMIN CONSOLE</div>
-<h1>Sign in</h1>
-<p class="admin-muted">Private access to the Springnexa Website Control Center. Public visitors cannot access this area.</p>
+<a class="admin-brand" href="/"><img class="admin-login-logo" src="/assets/springnexa-logo.svg?v=20260917-1600" alt="SpringNexa"></a>
+<div class="admin-kicker">SPRINGNEXA · WEB HOSTING CONTROL</div>
+<h1>Admin Console</h1>
+<p class="admin-muted">Private maintenance access for the SpringNexa website. Authentication uses the Cloudflare <strong>ADMIN_TOKEN</strong> secret; no username or password is stored in the website.</p>
 <form id="login-form" novalidate>
-<label>Username<input id="username" name="username" autocomplete="username" maxlength="80" required></label>
-<label>Password<input id="password" name="password" type="password" autocomplete="current-password" maxlength="200" required></label>
+<label>Admin Token<input id="token" name="token" type="password" autocomplete="current-password" maxlength="500" placeholder="Enter ADMIN_TOKEN" required></label>
+<div class="admin-token-note">Your token is sent only to the same-origin server endpoint and is never written to the browser or Git repository.</div>
 <div id="error" class="admin-error" role="alert" hidden></div>
-<button class="admin-primary" type="submit" id="submit">Sign in securely</button>
+<button class="admin-primary" type="submit" id="submit">Open secure console</button>
 </form>
-<a class="admin-back" href="/">← Back to Springnexa</a>
+<a class="admin-back" href="/">← Back to SpringNexa</a>
 </section>
 </main>
-<script src="/admin/admin-login.js?v=20260915-1200" defer></script>
+<script src="/admin/admin-login.js?v=20260917-1600" defer></script>
 </body>
 </html>
