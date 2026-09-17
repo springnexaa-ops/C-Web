@@ -4,49 +4,54 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build" content="2026-09-15">
-<title>SpringNexa Admin Control</title>
-<link rel="icon" href="/favicon.svg?v=20260915-1200">
-<link rel="stylesheet" href="/styles.css?v=20260915-1200">
-<link rel="stylesheet" href="/admin/admin.css?v=20260915-1200">
+<meta name="build" content="2026-09-17">
+<title>SpringNexa Admin Control Center</title>
+<link rel="icon" href="/favicon.svg?v=20260917-1600">
+<link rel="stylesheet" href="/styles.css?v=20260917-1600">
+<link rel="stylesheet" href="/admin/admin.css?v=20260917-1600">
 </head>
 <body class="admin-body admin-seasonal">
 <div class="admin-shell">
 <header class="admin-top"><div class="admin-top-inner">
-<a class="admin-top-brand" href="/"><img src="/assets/springnexa-logo.svg?v=20260915-1200" alt="SpringNexa"></a>
-<div class="admin-top-meta"><span class="admin-secure-pill"><i class="admin-secure-dot"></i> Secure Admin</span><div class="admin-user"><span class="admin-avatar" id="avatar">A</span><span id="who">Checking session…</span><button class="admin-logout" id="logout">Log out</button></div></div>
+<a class="admin-top-brand" href="/"><img src="/assets/springnexa-logo.svg?v=20260917-1600" alt="SpringNexa"></a>
+<div class="admin-top-meta"><span class="admin-secure-pill"><i class="admin-secure-dot"></i> Full Maintenance Access</span><div class="admin-user"><span class="admin-avatar">A</span><span id="who">Checking session…</span><button class="admin-logout" id="logout">Log out</button></div></div>
 </div></header>
 <div class="admin-layout">
 <aside class="admin-sidebar">
 <div class="admin-side-label">Control Center</div>
 <nav class="admin-nav" aria-label="Admin navigation">
 <a class="active" href="#overview"><span class="admin-nav-icon">◈</span>Overview</a>
-<a href="#seasonal"><span class="admin-nav-icon">✦</span>Kashmir Seasonal</a>
+<a href="#hosting"><span class="admin-nav-icon">⌘</span>Hosting Maintenance</a>
+<a href="#requests"><span class="admin-nav-icon">✓</span>Approval Requests</a>
+<a href="#company"><span class="admin-nav-icon">◆</span>Company & Logo</a>
 <a href="#content"><span class="admin-nav-icon">▣</span>Website Content</a>
 <a href="/" target="_blank" rel="noopener"><span class="admin-nav-icon">↗</span>Live Website</a>
 </nav>
-<div class="admin-side-label" style="margin-top:25px">Administration</div>
-<nav class="admin-nav"><a href="/admin/login.html"><span class="admin-nav-icon">⌁</span>Security Session</a></nav>
-<div class="admin-side-note">This console is protected by the existing server-side admin session. Public website visitors cannot access these controls.</div>
+<div class="admin-side-label" style="margin-top:25px">Security</div>
+<div class="admin-side-note">Authenticated with the Cloudflare ADMIN_TOKEN secret. GitHub maintenance actions use a server-side GITHUB_TOKEN and are never exposed to the browser.</div>
 </aside>
 <main class="admin-main">
-<section class="admin-heading" id="overview"><div><div class="admin-kashmir-kicker">KASHMIR · SEASONAL OPERATIONS</div><h1>Website Control Center</h1><p>Manage SpringNexa website content securely through the Cloudflare-backed admin console.</p></div><div class="admin-actions"><button class="admin-action" id="refresh" type="button">↻ Refresh</button><a class="admin-action primary" href="/" target="_blank" rel="noopener">View Live Site ↗</a></div></section>
-<section id="seasonal" class="admin-seasonal-panel" aria-labelledby="seasonal-title">
-<div class="admin-seasonal-head"><div><span class="admin-section-kicker">Kashmir Seasonal UI</span><h2 id="seasonal-title">Four Seasons · One Living Identity</h2><p>Seasonal presentation for Kashmir, Jammu and Ladakh across the SpringNexa digital experience.</p></div><span class="admin-current-season" id="current-season">AUTUMN · ACTIVE</span></div>
-<div class="admin-season-grid">
-<article class="admin-season-card season-spring"><div class="season-overlay"></div><div class="season-content"><small>KASHMIR · 01</small><strong>Spring</strong><span>Tulips · renewal · new beginnings</span></div></article>
-<article class="admin-season-card season-summer"><div class="season-overlay"></div><div class="season-content"><small>KASHMIR · 02</small><strong>Summer</strong><span>Valleys · lakes · green landscapes</span></div></article>
-<article class="admin-season-card season-autumn active"><div class="season-overlay"></div><div class="season-content"><small>KASHMIR · 03</small><strong>Autumn</strong><span>Chinar · gold · harvest season</span></div></article>
-<article class="admin-season-card season-winter"><div class="season-overlay"></div><div class="season-content"><small>KASHMIR · 04</small><strong>Winter</strong><span>Snow · mountains · quiet landscapes</span></div></article>
-</div>
-<div class="admin-season-note"><span>◆</span><b>Seasonal website layer</b><span>Visual identity can rotate independently from website content and does not alter the secure admin authentication system.</span></div>
-</section>
+<section class="admin-heading" id="overview"><div><div class="admin-kashmir-kicker">SPRINGNEXA · FULL WEB MAINTENANCE</div><h1>Admin Control Center</h1><p>Manage hosting branches, approve requests, update company identity and edit live website content from one secure console.</p></div><div class="admin-actions"><button class="admin-action" id="refresh" type="button">↻ Refresh</button><a class="admin-action primary" href="/" target="_blank" rel="noopener">View Live Site ↗</a></div></section>
 <section class="admin-stat-grid" aria-label="Dashboard statistics">
 <div class="admin-stat"><div class="admin-stat-label">Editable fields</div><div class="admin-stat-value" id="field-count">—</div><div class="admin-stat-sub">Cloudflare D1 content records</div></div>
-<div class="admin-stat"><div class="admin-stat-label">Session</div><div class="admin-stat-value">Protected</div><div class="admin-stat-sub">Secure admin session</div></div>
-<div class="admin-stat"><div class="admin-stat-label">Website</div><div class="admin-stat-value">Live</div><div class="admin-stat-sub">Open the public site to verify changes</div></div>
+<div class="admin-stat"><div class="admin-stat-label">GitHub</div><div class="admin-stat-value" id="repo-status">Checking…</div><div class="admin-stat-sub">Repository maintenance gateway</div></div>
+<div class="admin-stat"><div class="admin-stat-label">Session</div><div class="admin-stat-value">Protected</div><div class="admin-stat-sub">Cloudflare ADMIN_TOKEN</div></div>
 </section>
 <div id="status" class="admin-status" aria-live="polite"></div>
+<section id="hosting" class="admin-maintenance-section">
+<div class="admin-section-title"><div><span class="admin-section-kicker">WEB HOSTING MAINTENANCE</span><h2>Branches</h2><p>Create a new Git branch from any existing branch. Production remains on the configured Cloudflare deployment branch.</p></div><button class="admin-action" id="load-branches" type="button">↻ Load branches</button></div>
+<div class="admin-form-grid"><label>New branch name<input id="branch-name" maxlength="100" placeholder="feature/company-update"></label><label>Source branch<select id="branch-from"><option value="main">main</option></select></label><button class="admin-primary admin-inline-button" id="create-branch" type="button">Create Branch</button></div>
+<div id="branches" class="admin-list" aria-live="polite"></div>
+</section>
+<section id="requests" class="admin-maintenance-section">
+<div class="admin-section-title"><div><span class="admin-section-kicker">APPROVAL WORKFLOW</span><h2>Pull Request Approval</h2><p>Review open GitHub pull requests and approve a request directly from the secure admin console.</p></div><button class="admin-action" id="load-pulls" type="button">↻ Load requests</button></div>
+<div id="pulls" class="admin-list" aria-live="polite"></div>
+</section>
+<section id="company" class="admin-maintenance-section">
+<div class="admin-section-title"><div><span class="admin-section-kicker">COMPANY IDENTITY</span><h2>Company Details & Logo</h2><p>Update the public company identity without editing source files manually.</p></div></div>
+<form id="company-form" class="admin-company-form">
+<div class="admin-form-grid two"><label>Company name<input id="company_name" maxlength="180"></label><label>Tagline<input id="company_tagline" maxlength="240"></label><label>Phone<input id="company_phone" maxlength="100"></label><label>Email<input id="company_email" type="email" maxlength="180"></label><label class="full">Registered / corporate address<textarea id="company_address" maxlength="1000" rows="3"></textarea></label><label class="full">Logo URL (optional)<input id="company_logo_url" maxlength="1000" placeholder="/assets/company-logo.png"></label><label class="full">Upload new logo<input id="company_logo" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"></label></div>utton class="admin-primary admin-inline-button" type="submit">Save Company Identity</button></form>\div>
+</section>
 <section id="content">
 <div class="admin-toolbar"><div><strong>Website Content</strong><div class="admin-muted" style="margin:3px 0 0;font-size:11px">Edit values below and save individually.</div></div><input id="search" class="admin-search" type="search" placeholder="Search content keys…" autocomplete="off"></div>
 <section id="items" class="admin-grid" aria-live="polite"></section>
@@ -54,9 +59,6 @@
 </main>
 </div>
 </div>
-<script>
-(function(){const m=new Date().getMonth()+1;const season=m>=3&&m<=5?'spring':m>=6&&m<=8?'summer':m>=9&&m<=11?'autumn':'winter';document.body.classList.add('season-'+season);document.querySelectorAll('.admin-season-card').forEach(c=>c.classList.toggle('active',c.classList.contains('season-'+season)));const el=document.getElementById('current-season');if(el)el.textContent=season.toUpperCase()+' · ACTIVE'})();
-</script>
-<script src="/admin/admin-dashboard.js?v=20260915-1200" defer></script>
+<script src="/admin/admin-dashboard.js?v=20260917-1600" defer></script>
 </body>
 </html>
