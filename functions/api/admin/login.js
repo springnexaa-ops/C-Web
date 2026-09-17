@@ -31,16 +31,11 @@ export async function onRequestPost({ request, env }) {
   const [present, expected] = await Promise.all([digest(token), digest(configured)]);
   if (!equal(present, expected)) return json({ error: 'Invalid admin token.' }, 401);
 
-  if (!env.DB) {
-    return json({ error: 'Admin session database binding is missing from this production deployment.' }, 503);
-  }
-
   try {
-    await env.DB.prepare("DELETE FROM admin_sessions WHERE expires_at <= datetime('now')").run();
     const session = await createSession(env, 'ADMIN_TOKEN');
     return json({ ok: true }, 200, { 'Set-Cookie': sessionCookie(session) });
   } catch (error) {
     console.error('Admin session creation failed:', error);
-    return json({ error: 'Admin token was accepted, but the admin session database is unavailable.' }, 503);
+    return json({ error: 'Admin token was accepted, but the secure admin session could not be created.' }, 503);
   }
 }
