@@ -10,14 +10,23 @@
     status.textContent = text;
     status.className = `admin-status ${error ? 'error' : ''}`;
     clearTimeout(message.timer);
-    message.timer = setTimeout(() => { status.textContent = ''; }, 3500);
+    message.timer = setTimeout(() => { status.textContent = ''; }, 5000);
   };
 
   async function api(url, options = {}) {
-    const response = await fetch(url, { credentials: 'same-origin', ...options });
+    const response = await fetch(url, { credentials: 'same-origin', cache: 'no-store', ...options });
     const data = await response.json().catch(() => ({}));
-    if (response.status === 401) { window.location.href = '/admin/login.html'; throw new Error('Session expired.'); }
-    if (!response.ok) throw new Error(data.error || 'Request failed.');
+    if (response.status === 401) {
+      // Do not silently bounce the operator back to login. This makes deployment,
+      // cookie, or secret mismatches visible instead of looking like a failed login.
+      if (url === '/api/admin/session') {
+        const detail = data && data.error ? data.error : 'The admin session cookie was not accepted by the server.';
+        throw new Error(`Admin session rejected: ${detail}`);
+      }
+      window.location.href = '/admin/login.html';
+      throw new Error('Session expired.');
+    }
+    if (!response.ok) throw new Error(data.error || `Request failed (${response.status}).`);
     return data;
   }
 
@@ -142,13 +151,16 @@
   function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
   function escapeAttr(value) { return escapeHtml(value).replace(/`/g, '&#96;'); }
 
-  async function logout() { await fetch('/api/admin/logout', { method: 'POST', credentials: 'same-origin' }); window.location.href = '/admin/login.html'; }
+  async function logout() { await fetch('/api/admin/logout', { method: 'POST', credentials: 'same-origin', cache: 'no-store' }); window.location.href = '/admin/login.html'; }
 
   async function load() {
     try {
       await session();
       await Promise.all([loadContent(), loadBranches(), loadPulls(), loadCompany()]);
-    } catch (error) { message(error.message, true); }
+    } catch (error) {
+      who.textContent = 'Session check failed';
+      message(`${error.message} If this appeared immediately after login, the production deployment may still be serving an older Admin Function.`, true);
+    }
   }
 
   document.getElementById('search').addEventListener('input', () => renderContent(contentRows));
