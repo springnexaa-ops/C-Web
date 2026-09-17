@@ -18,9 +18,7 @@ export async function onRequestPost({ request, env }) {
   if (origin && origin !== new URL(request.url).origin) return json({ error: 'Invalid origin.' }, 403);
 
   const configured = typeof env.ADMIN_TOKEN === 'string' ? env.ADMIN_TOKEN : '';
-  if (!configured) {
-    return json({ error: 'Admin authentication is not configured on this production deployment.' }, 503);
-  }
+  if (!configured) return json({ error: 'Admin authentication is not configured on this production deployment.' }, 503);
 
   const body = await request.json().catch(() => null);
   if (!body || typeof body !== 'object') return json({ error: 'Invalid login request.' }, 400);
@@ -33,9 +31,11 @@ export async function onRequestPost({ request, env }) {
 
   try {
     const session = await createSession(env, 'ADMIN_TOKEN');
-    return json({ ok: true }, 200, { 'Set-Cookie': sessionCookie(session) });
+    // Return the signed session as a browser-memory fallback as well as an HttpOnly
+    // cookie. This keeps Admin usable if a proxy/browser refuses the Set-Cookie header.
+    return json({ ok: true, session }, 200, { 'Set-Cookie': sessionCookie(session) });
   } catch (error) {
     console.error('Admin session creation failed:', error);
-    return json({ error: 'Admin token was accepted, but the secure admin session could not be created.' }, 503);
+    return json({ error: 'Admin authentication session could not be created.' }, 503);
   }
 }
