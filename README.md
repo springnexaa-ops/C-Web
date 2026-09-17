@@ -15,6 +15,39 @@ Investor-friendly static corporate website for SpringNexa Private Limited coveri
 - `nexa-ai.html` — Nexa AI product page
 - `nexa-lmis.html` — NEXA Neurology LMIS product page
 
+## Admin Control Center
+
+`/admin/login.html` is a private Cloudflare-backed maintenance console. Authentication is token-only: the browser submits the administrator token to `/api/admin/login`, which validates it against the Cloudflare Worker/Pages secret `ADMIN_TOKEN` and then issues the existing HttpOnly server session. No admin password or token is stored in Git.
+
+The console provides:
+
+- GitHub branch listing and branch creation from an existing branch
+- Open pull-request listing and explicit approval actions
+- Company name, tagline, phone, email and address editing through D1
+- Company logo URL management and authenticated logo upload to the repository
+- Existing D1 website-content editing
+- Live-site access and secure session logout
+
+### Required Cloudflare secrets
+
+Configure these as **Secrets** in the Cloudflare Pages/Workers project, not as plaintext Git variables:
+
+```text
+ADMIN_TOKEN=<long-random-admin-token>
+GITHUB_TOKEN=<GitHub-token-with-required-repository-permissions>
+```
+
+Optional non-secret bindings can select another repository:
+
+```text
+GITHUB_OWNER=springnexaa-ops
+GITHUB_REPO=C-Web
+```
+
+For local development, use `.env` or `.dev.vars` and never commit it. Cloudflare recommends secrets for sensitive values such as API tokens and passwords. citeturn0search0turn0search4
+
+The GitHub maintenance token should be limited to the repository permissions required for branch and pull-request operations. GitHub's Contents write permission is required for repository file mutations; branch/ref operations also require suitable repository write permissions. citeturn0search6turn0search9
+
 ## Structure principles
 
 - One canonical premium navigation system across corporate HTML pages
@@ -22,9 +55,9 @@ Investor-friendly static corporate website for SpringNexa Private Limited coveri
 - Nexa AI and NEXA Neurology LMIS have dedicated product destinations
 - Duplicate legacy division links are removed at runtime
 - One canonical footer is generated across internal corporate pages
-- Investor/partner/customer perspective is surfaced without changing the underlying business claims
 - Core proof points are presented consistently: 1,900+ patients, 12+ healthcare procedures, 3 divisions and 2026 platform stage
 - Mobile navigation is normalized into accessible expandable sections and a secure Admin Portal link
+- Company identity and logo can be updated through the authenticated Admin Control Center
 
 ## Front-end
 
@@ -34,19 +67,16 @@ Investor-friendly static corporate website for SpringNexa Private Limited coveri
 - `home-slider-real.css` — photographic seasonal layer
 - `cinematic-home.css` — cinematic Kashmir homepage treatment
 - `division-pages.css` — shared internal-page shell
-- `investor-structure.css` — investor-friendly internal page system
 - `nexa-products.css` — Nexa AI / NEXA LMIS product design system
 - `nav-structure.css` — premium mega-navigation system
-- `site-content.js` — canonical navigation, duplicate cleanup, internal-page structure and live content
+- `site-content.js` — canonical navigation, live company identity and public content
 - `home-slider.js` — homepage seasonal slider
 - `_headers` — production HTML/admin cache and indexing policy
 
-## D1 Admin Console
+## Nexa AI Agent
 
-The `/admin/` console is backed by Cloudflare D1 with server-side sessions, PBKDF2-SHA-256 password hashing, HttpOnly/Secure/SameSite=Strict cookies and server-side authorization. Admin pages are `noindex,nofollow`.
-
-Do not put passwords, bootstrap keys, API keys or other secrets in Git.
+The public website includes a live Nexa AI agent UI backed by `/api/nexa-ai/chat`. The upstream Nexa AI API URL, model and API key are server-side bindings and are never exposed to the browser.
 
 ## Deployment
 
-Cloudflare Pages should redeploy automatically from `main`. The production `_headers` policy now forces HTML/admin revalidation so an older HTML response should not remain cached after deployment. Verify the Cloudflare Pages project connected to `springnexaa-ops/C-Web` uses `main` as its production branch.
+Cloudflare Pages should redeploy automatically from `main`. Verify that the production project is connected to `springnexaa-ops/C-Web` and that the production branch is `main`. Cloudflare secrets are configured separately from Git and should be deployed through the Cloudflare dashboard or Wrangler. citeturn0search4turn0search5
