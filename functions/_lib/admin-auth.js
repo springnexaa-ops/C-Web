@@ -2,10 +2,6 @@ const COOKIE = 'sn_admin';
 const encoder = new TextEncoder();
 const SESSION_TTL = 12 * 60 * 60;
 
-function hex(buffer) {
-  return [...new Uint8Array(buffer)].map(byte => byte.toString(16).padStart(2, '0')).join('');
-}
-
 function base64url(value) {
   const bytes = typeof value === 'string' ? encoder.encode(value) : value;
   let binary = '';
@@ -41,27 +37,6 @@ export function readCookie(request) {
   return match ? decodeURIComponent(match[1]) : null;
 }
 
-function readBearer(request) {
-  const value = request.headers.get('Authorization') || '';
-  return value.startsWith('Bearer ') ? value.slice(7).trim() : null;
-}
-
-async function validateSession(token, env) {
-  if (!token || typeof env.ADMIN_TOKEN !== 'string' || !env.ADMIN_TOKEN) return null;
-  const parts = token.split('.');
-  if (parts.length !== 2 || !parts[0] || !parts[1]) return null;
-  if (!(await verifySignature(parts[0], parts[1], env.ADMIN_TOKEN))) return null;
-  try {
-    const payload = JSON.parse(new TextDecoder().decode(fromBase64url(parts[0])));
-    if (!payload || typeof payload.username !== 'string' || !payload.exp) return null;
-    if (Number(payload.exp) <= Math.floor(Date.now() / 1000)) return null;
-    return { username: payload.username };
-  } catch {
-    return null;
-  }
-}
-
-// Stateless admin sessions are signed by ADMIN_TOKEN and do not depend on D1.
 export async function createSession(env, username) {
   if (typeof env.ADMIN_TOKEN !== 'string' || !env.ADMIN_TOKEN) throw new Error('ADMIN_TOKEN is not configured');
   const payload = base64url(JSON.stringify({
@@ -73,7 +48,20 @@ export async function createSession(env, username) {
 }
 
 export async function getAdmin(request, env) {
-  return (await validateSession(readCookie(request), env)) || (await validateSession(readBearer(request), env));
+  if (typeof env.ADMIN_TOKEN !== 'string' || !env.ADMIN_TOKEN) return null;
+  const token = readCookie(request);
+  if (!token) return null;
+  const parts = token.split('.');
+  if (parts.length !== 2 || !parts[0] || !parts[1]) return null;
+  if (!(await verifySignature(parts[0], parts[1], env.ADMIN_TOKEN))) return null;
+  try {
+    const payload = JSON.parse(new TextDecoder().decode(fromBase64url(parts[0])));
+    if (!payload || payload.username !== 'ADMIN_TOKEN' || !Number.isFinite(Number(payload.exp))) return null;
+    if (Number(payload.exp) <= Math.floor(Date.now() / 1000)) return null;
+    return { username: payload.username };
+  } catch {
+    return null;
+  }
 }
 
 export async function clearSession() {
@@ -91,5 +79,8 @@ export function sessionCookie(token) {
 }
 
 export function json(data, status = 200, headers = {}) {
-  return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...headers } });
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store, private', ...headers }
+  });
 }
