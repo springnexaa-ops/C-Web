@@ -1,7 +1,6 @@
 (() => {
   const form = document.getElementById('login-form');
-  const user = document.getElementById('username');
-  const pass = document.getElementById('password');
+  const token = document.getElementById('token');
   const err = document.getElementById('error');
   const btn = document.getElementById('submit');
 
@@ -9,24 +8,25 @@
     event.preventDefault();
     err.hidden = true;
     btn.disabled = true;
-    btn.textContent = 'Signing in…';
+    btn.textContent = 'Verifying secure token…';
     try {
       const response = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
-        body: JSON.stringify({ username: user.value.trim(), password: pass.value })
+        body: JSON.stringify({ token: token.value })
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || 'Sign in failed.');
+      token.value = '';
       window.location.href = '/admin/dashboard.html';
     } catch (error) {
       err.textContent = error.message;
       err.hidden = false;
-      pass.focus();
+      token.focus();
     } finally {
       btn.disabled = false;
-      btn.textContent = 'Sign in';
+      btn.textContent = 'Open secure console';
     }
   });
 })();
