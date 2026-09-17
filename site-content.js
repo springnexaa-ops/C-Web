@@ -1,6 +1,6 @@
-/* SpringNexa shared site controller — premium navigation, canonical footer, page structure and live content. */
+/* SpringNexa shared site controller — canonical navigation, footer and live content. */
 (function(){
-  const stamp='20260915-1200';
+  const stamp='20260917-1000';
   const css=(href,id)=>{if(document.querySelector('link[data-sn-css="'+id+'"]'))return;const l=document.createElement('link');l.rel='stylesheet';l.href=href+'?v='+stamp;l.dataset.snCss=id;document.head.appendChild(l)};
   const logo=()=>{document.querySelectorAll('.brand img').forEach(i=>{i.src='/assets/springnexa-logo.svg?v='+stamp;i.alt='SpringNexa Private Limited'});document.querySelectorAll('link[rel="icon"]').forEach(i=>i.href='/favicon.svg?v='+stamp)};
   const item=(title,desc,href)=>'<a href="'+href+'"><strong>'+title+'</strong><small>'+desc+'</small></a>';
@@ -10,50 +10,38 @@
     const t=li.querySelector('.mega-toggle');t.addEventListener('click',e=>{e.preventDefault();const open=li.classList.toggle('is-open');t.setAttribute('aria-expanded',String(open))});
     return li;
   }
-  function bindMobileMenu(){
-    document.querySelectorAll('.mobile-toggle').forEach(b=>{
-      b.removeAttribute('onclick');
-      if(b.dataset.snBound==='1')return;
-      b.dataset.snBound='1';
-      b.setAttribute('aria-expanded','false');
-      b.addEventListener('click',()=>{
-        const m=document.querySelector('.mobile-menu');
-        const open=!!m?.classList.toggle('open');
-        b.setAttribute('aria-expanded',String(open));
-      });
-    });
-  }
+  function bindMobileMenu(){document.querySelectorAll('.mobile-toggle').forEach(b=>{b.removeAttribute('onclick');if(b.dataset.snBound==='1')return;b.dataset.snBound='1';b.setAttribute('aria-expanded','false');b.addEventListener('click',()=>{const m=document.querySelector('.mobile-menu');const open=!!m?.classList.toggle('open');b.setAttribute('aria-expanded',String(open))})})}
   function nav(){
-    css('/nav-structure.css','nav');
-    bindMobileMenu();
+    css('/nav-structure.css','nav');bindMobileMenu();
     document.querySelectorAll('.nav-links').forEach(m=>{
       m.querySelectorAll('.mega-nav,.division-nav,.admin-nav').forEach(x=>x.remove());
-      m.querySelectorAll('a[href="healthcare.html"],a[href="it.html"],a[href="social-welfare.html"],a[href="divisions.html"],a[href="nexa-ai.html"],a[href="nexa-lmis.html"]').forEach(a=>a.closest('li')?.remove());
-      const about=m.querySelector('a[href="about.html"]')?.closest('li');
+      /* Static About/Divisions/Nexa links are fallbacks only; runtime mega navigation owns them. */
+      m.querySelectorAll('a[href="about.html"],a[href="divisions.html"],a[href="nexa-ai.html"],a[href="nexa-lmis.html"],a[href="healthcare.html"],a[href="it.html"],a[href="social-welfare.html"]').forEach(a=>a.closest('li')?.remove());
       const team=m.querySelector('a[href="team.html"]')?.closest('li');
       const contact=m.querySelector('a[href="contact.html"]')?.closest('li');
-      const groups=[
+      const about=[
         {label:'Company',featured:true,items:[item('About SpringNexa','Company, vision & operating model','about.html'),item('Leadership & Team','Executive and specialist team','team.html')]},
         {label:'Credentials',items:[item('Registrations','DPIIT · StartupJK · BIRAC','about.html'),item('Corporate Profile','Company information','about.html')]},
         {label:'Engage',items:[item('Contact','Corporate & partnership enquiries','contact.html'),item('Admin Portal','Secure website administration','/admin/login.html')]}
       ];
-      if(about)about.after(mega('About',groups,false));else m.append(mega('About',groups,false));
       const divisions=[
         {label:'Healthcare',featured:true,items:[item('Healthcare Division','Neurophysiology & Digital Health','healthcare.html'),item('Neurodiagnostics','EEG · NCS · EMG · VEP · BERA','healthcare.html'),item('Digital Health','LMIS & healthcare workflows','healthcare.html')]},
         {label:'Information Technology',items:[item('IT Division','Software · ERP · Cloud · AI','it.html'),item('Enterprise Systems','ERP and healthcare ERP','it.html'),item('Digital Infrastructure','Cloud · APIs · Cybersecurity','it.html')]},
         {label:'Social Welfare',items:[item('Social Welfare','NGO · CSR · Community Impact','social-welfare.html'),item('Rural Health','Community healthcare support','social-welfare.html'),item('Skill Development','Digital inclusion & skills','social-welfare.html')]}
       ];
-      if(team)team.before(mega('Divisions',divisions,true));else m.append(mega('Divisions',divisions,true));
       const products=[
         {label:'Nexa AI',featured:true,items:[item('Nexa AI','Intelligent AI platform','nexa-ai.html'),item('AI Healthcare','AI-assisted healthcare workflows','nexa-ai.html'),item('AI Infrastructure','Agents, APIs & automation','nexa-ai.html')]},
         {label:'NEXA LMIS',items:[item('NEXA Neurology LMIS','Laboratory & medical information system','nexa-lmis.html'),item('Patient Workflows','Records, procedures & reporting','nexa-lmis.html')]},
         {label:'Technology',items:[item('Software Development','Web, desktop & enterprise','it.html'),item('Cloud & AI','Connected digital infrastructure','it.html')]}
       ];
-      if(team)team.before(mega('Nexa AI',products,false));
+      const insert=(node,ref)=>ref?ref.before(node):m.append(node);
+      insert(mega('About',about,false),team);
+      insert(mega('Divisions',divisions,true),team);
+      insert(mega('Nexa AI',products,false),team);
       if(contact){const admin=document.createElement('li');admin.className='admin-nav';admin.innerHTML='<a href="/admin/login.html">Admin</a>';contact.after(admin)}
     });
     document.querySelectorAll('.mobile-menu').forEach(m=>{m.innerHTML='<a href="index.html">Home</a><details><summary>About</summary><a class="mobile-sub" href="about.html">About SpringNexa</a><a class="mobile-sub" href="team.html">Leadership & Team</a></details><details><summary>Divisions</summary><a class="mobile-sub" href="healthcare.html">Healthcare</a><a class="mobile-sub" href="it.html">Information Technology</a><a class="mobile-sub" href="social-welfare.html">Social Welfare</a></details><details><summary>Nexa AI</summary><a class="mobile-sub" href="nexa-ai.html">Nexa AI</a><a class="mobile-sub" href="nexa-lmis.html">NEXA Neurology LMIS</a></details><a href="team.html">Our Team</a><a href="contact.html">Contact Executive</a><a class="mobile-admin-link" href="/admin/login.html">▣ Admin Portal</a>'});
-    document.querySelectorAll('.nav').forEach(n=>{if(!n.querySelector('.header-tagline')){const t=document.createElement('span');t.className='header-tagline';t.textContent='Technology for a Healthier, Stronger Tomorrow';n.insertBefore(t,n.querySelector('.nav-cta'))}if(!n.querySelector('.header-search')){const s=document.createElement('button');s.className='header-search';s.type='button';s.setAttribute('aria-label','Search');s.textContent='⌕';n.insertBefore(s,n.querySelector('.nav-cta'))}});
+    document.querySelectorAll('.nav').forEach(n=>{if(!n.querySelector('.header-tagline')){const t=document.createElement('span');t.className='header-tagline';t.textContent='Technology for a Healthier, Stronger Tomorrow';n.insertBefore(t,n.querySelector('.nav-cta'))}if(!n.querySelector('.header-search')){const s=document.createElement('button');s.className='header-search';s.type='button';s.setAttribute('aria-label','Search');s.textContent='⌕';n.insertBefore(s,n.querySelector('.nav-cta'))}})
   }
   function footer(){const f=document.querySelector('.internal-page footer.site');if(!f)return;f.className='site reference-footer';f.innerHTML='<div class="wrap footer-reference-grid"><div><img class="footer-logo" src="/assets/springnexa-logo.svg?v='+stamp+'" alt="SpringNexa Private Limited"><p>Healthcare | Information Technology | Social Welfare</p><small>© 2026 SpringNexa Private Limited. All rights reserved.</small></div><div><h4>Explore</h4><a href="index.html">Home</a><a href="about.html">About</a><a href="team.html">Our Team</a><a href="contact.html">Contact Executive</a></div><div><h4>Divisions</h4><a href="healthcare.html">Healthcare</a><a href="it.html">Information Technology</a><a href="social-welfare.html">Social Welfare</a></div><div><h4>Products</h4><a href="nexa-ai.html">Nexa AI</a><a href="nexa-lmis.html">NEXA Neurology LMIS</a></div><div><h4>Corporate Contact</h4><span>☎ +91 7006318286</span><span>✉ info@springnexa.in</span><p>50 Shah Mohallah, Matibugh, Yaripora 192232, Jammu and Kashmir, India</p></div></div>'}
   function investor(){if(!document.body.classList.contains('internal-page')||document.querySelector('.investor-snapshot'))return;css('/investor-structure.css','investor');const f=(location.pathname.split('/').pop()||'home').replace('.html','').toLowerCase();const data={about:['Company Thesis','Integrated healthcare, technology and social-impact platform.','Operating model'],divisions:['Portfolio View','Three operating divisions with distinct service lines.','Diversification'],healthcare:['Healthcare Platform','Neurophysiology and digital-health service infrastructure.','Service depth'],it:['Technology Platform','Software, cloud, AI and digital infrastructure capabilities.','Scale potential'],['social-welfare']:['Social Impact Platform','Community and social-service delivery capabilities.','Impact model'],team:['Leadership & Governance','Leadership, professional expertise and operational capability.','Execution'],contact:['Partnership & Investor Relations','A direct channel for strategic, commercial and investment enquiries.','Engagement']}[f]||['SpringNexa Snapshot','Healthcare, Information Technology and Social Welfare under one platform.','Investor lens'];const h=document.querySelector('.page-head');if(!h)return;const s=document.createElement('section');s.className='investor-snapshot';s.innerHTML='<div class="wrap investor-snapshot-grid"><div class="investor-thesis"><small>'+data[0]+'</small><strong>'+data[1]+'</strong><span>'+data[2]+'</span></div><div class="investor-metric"><b>1,900+</b><span>Patients served</span><em>Operating proof</em></div><div class="investor-metric"><b>12+</b><span>Healthcare procedures</span><em>Service depth</em></div><div class="investor-metric"><b>3</b><span>Core divisions</span><em>Diversified model</em></div><div class="investor-metric"><b>2026</b><span>Corporate platform</span><em>Growth stage</em></div></div></section>';h.after(s);const main=document.querySelector('main')||document.body;const sec=document.createElement('section');sec.className='investor-section';sec.innerHTML='<div class="wrap"><div class="investor-section-head"><div><small>Investor Perspective</small><h2>'+data[2]+'</h2></div><p>Designed for customers, strategic partners and prospective investors.</p></div><div class="investor-cards"><article class="investor-card"><b>Clear business lines</b><p>Each division has a dedicated service page, operating narrative and enquiry path.</p><span class="signal">STRUCTURED</span></article><article class="investor-card"><b>Digital leverage</b><p>AI, LMIS, software and connected workflows provide a technology layer across operations.</p><span class="signal">SCALABLE</span></article><article class="investor-card"><b>Regional foundation</b><p>SpringNexa is rooted in Jammu & Kashmir with a model designed to expand beyond the region.</p><span class="signal">EXPANDABLE</span></article></div></div>';const first=main.querySelector('section:not(.page-head):not(.investor-snapshot):not(.investor-section)');if(first)first.before(sec);else main.append(sec)}
