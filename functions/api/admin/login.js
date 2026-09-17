@@ -18,12 +18,12 @@ export async function onRequestPost({ request, env }) {
   if (origin && origin !== new URL(request.url).origin) return json({ error: 'Invalid origin.' }, 403);
 
   const configured = typeof env.ADMIN_TOKEN === 'string' ? env.ADMIN_TOKEN : '';
-  if (!configured) return json({ error: 'Admin authentication is not configured on this production deployment.' }, 503);
+  if (!configured) return json({ error: 'ADMIN_TOKEN is not configured in this Cloudflare deployment.' }, 503);
 
   const body = await request.json().catch(() => null);
   if (!body || typeof body !== 'object') return json({ error: 'Invalid login request.' }, 400);
 
-  const token = typeof body.token === 'string' ? body.token.trim() : '';
+  const token = typeof body.token === 'string' ? body.token : '';
   if (!token || token.length > 500) return json({ error: 'Admin token is required.' }, 400);
 
   const [present, expected] = await Promise.all([digest(token), digest(configured)]);
@@ -31,9 +31,7 @@ export async function onRequestPost({ request, env }) {
 
   try {
     const session = await createSession(env, 'ADMIN_TOKEN');
-    // Return the signed session as a browser-memory fallback as well as an HttpOnly
-    // cookie. This keeps Admin usable if a proxy/browser refuses the Set-Cookie header.
-    return json({ ok: true, session }, 200, { 'Set-Cookie': sessionCookie(session) });
+    return json({ ok: true }, 200, { 'Set-Cookie': sessionCookie(session) });
   } catch (error) {
     console.error('Admin session creation failed:', error);
     return json({ error: 'Admin authentication session could not be created.' }, 503);
