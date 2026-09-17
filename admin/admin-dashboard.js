@@ -5,7 +5,6 @@
   const fieldCount = document.getElementById('field-count');
   const repoStatus = document.getElementById('repo-status');
   let contentRows = [];
-  const SESSION_KEY = 'springnexa_admin_session';
 
   const message = (text, error = false) => {
     status.textContent = text;
@@ -15,14 +14,11 @@
   };
 
   async function api(url, options = {}) {
-    const headers = new Headers(options.headers || {});
-    const session = sessionStorage.getItem(SESSION_KEY);
-    if (session) headers.set('Authorization', `Bearer ${session}`);
-    const response = await fetch(url, { credentials: 'same-origin', cache: 'no-store', ...options, headers });
+    const response = await fetch(url, { credentials: 'same-origin', cache: 'no-store', ...options });
     const data = await response.json().catch(() => ({}));
     if (response.status === 401) {
       if (url === '/api/admin/session') {
-        const detail = data && data.error ? data.error : 'The admin session was rejected by the server.';
+        const detail = data && data.error ? data.error : 'The Cloudflare admin session was rejected.';
         throw new Error(`Admin session rejected: ${detail}`);
       }
       window.location.href = '/admin/login.html';
@@ -153,11 +149,7 @@
   function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
   function escapeAttr(value) { return escapeHtml(value).replace(/`/g, '&#96;'); }
 
-  async function logout() {
-    sessionStorage.removeItem(SESSION_KEY);
-    await fetch('/api/admin/logout', { method: 'POST', credentials: 'same-origin', cache: 'no-store' });
-    window.location.href = '/admin/login.html';
-  }
+  async function logout() { await fetch('/api/admin/logout', { method: 'POST', credentials: 'same-origin', cache: 'no-store' }); window.location.href = '/admin/login.html'; }
 
   async function load() {
     try {
@@ -165,7 +157,7 @@
       await Promise.all([loadContent(), loadBranches(), loadPulls(), loadCompany()]);
     } catch (error) {
       who.textContent = 'Session check failed';
-      message(`${error.message} If this appeared immediately after login, refresh once after the new deployment is live.`, true);
+      message(`${error.message} Check the Cloudflare ADMIN_TOKEN binding and redeploy the Pages project.`, true);
     }
   }
 
