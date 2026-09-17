@@ -6,12 +6,6 @@ function hex(buffer) {
   return [...new Uint8Array(buffer)].map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-function bytesFromHex(value) {
-  const bytes = new Uint8Array(value.length / 2);
-  for (let i = 0; i < bytes.length; i++) bytes[i] = parseInt(value.slice(i * 2, i * 2 + 2), 16);
-  return bytes;
-}
-
 function base64url(value) {
   const bytes = typeof value === 'string' ? encoder.encode(value) : value;
   let binary = '';
@@ -27,53 +21,18 @@ function fromBase64url(value) {
   return bytes;
 }
 
-async function hmac(value, secret) {
-  const key = await crypto.subtle.importKey(
-    'raw',
-    encoder.encode(secret),
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign', 'verify']
-  );
-  return new Uint8Array(await crypto.subtle.sign('HMAC', key, encoder.encode(value)));
-}
-
 async function sign(value, secret) {
-  return base64url(await hmac(value, secret));
+  const key = await crypto.subtle.importKey('raw', encoder.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  return base64url(await crypto.subtle.sign('HMAC', key, encoder.encode(value)));
 }
 
 async function verifySignature(value, signature, secret) {
   try {
-    const key = await crypto.subtle.importKey(
-      'raw',
-      encoder.encode(secret),
-      { name: 'HMAC', hash: 'SHA-256' },
-      false,
-      ['verify']
-    );
+    const key = await crypto.subtle.importKey('raw', encoder.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']);
     return await crypto.subtle.verify('HMAC', key, fromBase64url(signature), encoder.encode(value));
   } catch {
     return false;
   }
-}
-
-async function digest(value) {
-  return hex(await crypto.subtle.digest('SHA-256', typeof value === 'string' ? encoder.encode(value) : value));
-}
-
-export async function hashPassword(password, saltHex) {
-  const salt = saltHex ? bytesFromHex(saltHex) : crypto.getRandomValues(new Uint8Array(16));
-  const material = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']);
-  const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: 150000 }, material, 256);
-  return { hash: hex(bits), salt: hex(salt) };
-}
-
-export async function verifyPassword(password, storedHash, salt) {
-  const { hash } = await hashPassword(password, salt);
-  if (!storedHash || hash.length !== storedHash.length) return false;
-  let diff = 0;
-  for (let i = 0; i < hash.length; i++) diff |= hash.charCodeAt(i) ^ storedHash.charCodeAt(i);
-  return diff === 0;
 }
 
 export function readCookie(request) {
@@ -82,22 +41,13 @@ export function readCookie(request) {
   return match ? decodeURIComponent(match[1]) : null;
 }
 
-// Stateless admin sessions: the ADMIN_TOKEN secret signs the cookie, so login does
-// not depend on a D1 table being initialized. The cookie contains no admin secret.
-export async function createSession(env, username) {
-  if (typeof env.ADMIN_TOKEN !== 'string' || !env.ADMIN_TOKEN) throw new Error('ADMIN_TOKEN is not configured');
-  const payload = base64url(JSON.stringify({
-    username,
-    exp: Math.floor(Date.now() / 1000) + SESSION_TTL,
-    nonce: base64url(crypto.getRandomValues(new Uint8Array(18)))
-  }));
-  return `${payload}.${await sign(payload, env.ADMIN_TOKEN)}`;
+function readBearer(request) {
+  const value = request.headers.get('Authorization') || '';
+  return value.startsWith('Bearer ') ? value.slice(7).trim() : null;
 }
 
-export async function getAdmin(request, env) {
-  if (typeof env.ADMIN_TOKEN !== 'string' || !env.ADMIN_TOKEN) return null;
-  const token = readCookie(request);
-  if (!token) return null;
+async function validateSession(token, env) {
+  if (!token || typeof env.ADMIN_TOKEN !== 'string' || !env.ADMIN_TOKEN) return null;
   const parts = token.split('.');
   if (parts.length !== 2 || !parts[0] || !parts[1]) return null;
   if (!(await verifySignature(parts[0], parts[1], env.ADMIN_TOKEN))) return null;
@@ -109,6 +59,21 @@ export async function getAdmin(request, env) {
   } catch {
     return null;
   }
+}
+
+// Stateless admin sessions are signed by ADMIN_TOKEN and do not depend on D1.
+export async function createSession(env, username) {
+  if (typeof env.ADMIN_TOKEN !== 'string' || !env.ADMIN_TOKEN) throw new Error('ADMIN_TOKEN is not configured');
+  const payload = base64url(JSON.stringify({
+    username,
+    exp: Math.floor(Date.now() / 1000) + SESSION_TTL,
+    nonce: base64url(crypto.getRandomValues(new Uint8Array(18)))
+  }));
+  return `${payload}.${await sign(payload, env.ADMIN_TOKEN)}`;
+}
+
+export async function getAdmin(request, env) {
+  return (await validateSession(readCookie(request), env)) || (await validateSession(readBearer(request), env));
 }
 
 export async function clearSession() {
