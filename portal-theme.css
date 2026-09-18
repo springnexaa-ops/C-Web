@@ -181,3 +181,32 @@ body.home-page .reference-stats{background:#e8f2f2!important}
 .sn-skip-link:hover,.sn-skip-link:focus-visible{background:#fff!important;color:#063f40!important;outline:2px solid #f07b16!important;outline-offset:1px!important}
 @media(max-width:700px){.sn-code-utility{height:auto!important}.sn-code-utility-inner{min-height:42px!important;padding:7px 12px!important;flex-wrap:nowrap!important;justify-content:space-between!important;gap:12px!important;overflow-x:auto!important;white-space:nowrap!important}.sn-code-utility-left,.sn-code-utility-right{justify-content:flex-start!important;flex-wrap:nowrap!important;flex-shrink:0!important}.sn-code-utility-right{margin-left:auto!important}.sn-code-utility-label{display:inline!important}}
 @media(max-width:430px){.sn-code-utility-inner{gap:8px!important}.sn-code-utility-left{font-size:10px!important}.sn-code-utility-right{font-size:10px!important}.sn-code-utility-label{display:inline!important}.sn-font-controls button{min-width:27px!important;padding:0 5px!important}.sn-skip-link{padding:0 8px!important}}
+
+
+/* Career / candidate portal — formal academic-portal inspired interface */
+.career-page{background:#f5f8f8!important;color:#183c45!important}
+.career-page .career-shell{max-width:1180px;margin:0 auto;padding:48px 22px 70px}
+.career-page .career-head{background:#fff;border:1px solid #d7e5e5;border-radius:8px;padding:28px 30px;margin-bottom:22px;box-shadow:0 8px 24px rgba(0,60,60,.06)}
+.career-page .career-head .eyebrow{font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#087777}
+.career-page .career-head h1{font-size:34px;color:#075557;margin:8px 0}
+.career-page .career-head p{margin:0;color:#60777c;font-size:13px}
+.career-page .career-card{max-width:560px;margin:0 auto;background:#fff;border:1px solid #d7e5e5;border-radius:8px;box-shadow:0 12px 32px rgba(0,60,60,.08);overflow:hidden}
+.career-page .career-brandbar{padding:16px 22px;background:#075557;color:#fff;font-size:14px;font-weight:900;border-bottom:4px solid #e8750a}
+.career-page .career-tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #dbe7e7}
+.career-page .career-tab{appearance:none;border:0;background:#f5f9f9;color:#45666c;padding:15px 12px;font:800 13px Inter,system-ui;cursor:pointer}
+.career-page .career-tab.active{background:#fff;color:#075557;box-shadow:inset 0 -3px 0 #e8750a}
+.career-page .career-panel{display:none;padding:28px 28px 30px}
+.career-page .career-panel.active{display:block}
+.career-page .career-panel h2{font-size:24px;color:#075557;margin-bottom:5px}
+.career-page .career-panel>p{font-size:12px;margin:0 0 22px}
+.career-page .career-field{margin-bottom:15px}
+.career-page .career-field label{display:block;font-size:11px;font-weight:800;color:#4e6a70;margin-bottom:6px}
+.career-page .career-field input{width:100%;height:43px;padding:0 12px;border:1px solid #cbdcdc;border-radius:4px;background:#fff;color:#183c45;font:13px Inter,system-ui;outline:none}
+.career-page .career-field input:focus{border-color:#087777;box-shadow:0 0 0 3px rgba(8,119,119,.10)}
+.career-page .career-submit{width:100%;height:44px;border:1px solid #075557;border-radius:4px;background:#075557;color:#fff;font:800 13px Inter,system-ui;cursor:pointer}
+.career-page .career-submit:hover{background:#064749}
+.career-page .career-forgot{display:block;margin-top:14px;text-align:right;color:#087777;font-size:11px;font-weight:800;text-decoration:none}
+.career-page .career-note{margin-top:18px;padding:11px 12px;background:#f3f8f8;border-left:3px solid #e8750a;color:#60777c;font-size:10px;line-height:1.55}
+.career-page .career-message{display:none;margin:0 28px 24px;padding:11px 12px;border-radius:4px;font-size:11px;font-weight:700}
+.career-page .career-message.show{display:block}.career-page .career-message.success{background:#eaf8f0;color:#166534}.career-page .career-message.error{background:#fff1f1;color:#991b1b}.career-page .career-message.pending{background:#eef8f8;color:#075557}
+@media(max-width:700px){.career-page .career-shell{padding:28px 14px 50px}.career-page .career-head{padding:22px}.career-page .career-head h1{font-size:28px}.career-page .career-panel{padding:22px 18px}.career-page .career-message{margin-left:18px;margin-right:18px}}
