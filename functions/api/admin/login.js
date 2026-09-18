@@ -13,27 +13,53 @@ function equal(a, b) {
   return diff === 0;
 }
 
+function redirect(request, error) {
+  const url = new URL('/admin/login.html', request.url);
+  if (error) url.searchParams.set('error', error);
+  return new Response(null, {
+    status: 303,
+    headers: {
+      Location: url.toString(),
+      'Cache-Control': 'no-store, private'
+    }
+  });
+}
+
 export async function onRequestPost({ request, env }) {
   const origin = request.headers.get('Origin');
   if (origin && origin !== new URL(request.url).origin) return json({ error: 'Invalid origin.' }, 403);
 
   const configured = typeof env.ADMIN_TOKEN === 'string' ? env.ADMIN_TOKEN : '';
-  if (!configured) return json({ error: 'ADMIN_TOKEN is not configured in this Cloudflare deployment.' }, 503);
+  if (!configured) return redirect(request, 'config');
 
-  const body = await request.json().catch(() => null);
-  if (!body || typeof body !== 'object') return json({ error: 'Invalid login request.' }, 400);
+  const contentType = request.headers.get('Content-Type') || '';
+  let token = '';
 
-  const token = typeof body.token === 'string' ? body.token : '';
-  if (!token || token.length > 500) return json({ error: 'Admin token is required.' }, 400);
+  if (contentType.includes('application/json')) {
+    const body = await request.json().catch(() => null);
+    token = typeof body?.token === 'string' ? body.token : '';
+  } else {
+    const form = await request.formData().catch(() => null);
+    token = typeof form?.get('token') === 'string' ? form.get('token') : '';
+  }
+
+  if (!token || token.length > 500) return redirect(request, 'invalid');
 
   const [present, expected] = await Promise.all([digest(token), digest(configured)]);
-  if (!equal(present, expected)) return json({ error: 'Invalid admin token.' }, 401);
+  if (!equal(present, expected)) return redirect(request, 'invalid');
 
   try {
     const session = await createSession(env, 'ADMIN_TOKEN');
-    return json({ ok: true }, 200, { 'Set-Cookie': sessionCookie(session) });
+    return new Response(null, {
+      status: 303,
+      headers: {
+        Location: '/admin/dashboard.html?v=20260918-admin-auth',
+        'Set-Cookie': sessionCookie(session),
+        'Cache-Control': 'no-store, private'
+      }
+    });
   } catch (error) {
     console.error('Admin session creation failed:', error);
-    return json({ error: 'Admin authentication session could not be created.' }, 503);
+    return redirect(request, 'session');
   }
 }
