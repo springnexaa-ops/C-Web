@@ -20,7 +20,8 @@ function redirect(request, error) {
     status: 303,
     headers: {
       Location: url.toString(),
-      'Cache-Control': 'no-store, private'
+      'Cache-Control': 'no-store, private',
+      'CDN-Cache-Control': 'no-store'
     }
   });
 }
@@ -55,7 +56,9 @@ export async function onRequestPost({ request, env }) {
       headers: {
         Location: '/admin/dashboard.html?v=20260918-admin-auth',
         'Set-Cookie': sessionCookie(session),
-        'Cache-Control': 'no-store, private'
+        'Cache-Control': 'no-store, private',
+        'CDN-Cache-Control': 'no-store',
+        'Vary': 'Cookie'
       }
     });
   } catch (error) {
