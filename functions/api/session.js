@@ -1,1 +1,0 @@
-export async function onRequestGet(){return new Response(JSON.stringify({error:'Legacy admin console has been removed.'}),{status:410,headers:{'Content-Type':'application/json','Cache-Control':'no-store'}})}
