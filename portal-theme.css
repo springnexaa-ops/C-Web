@@ -210,3 +210,12 @@ body.home-page .reference-stats{background:#e8f2f2!important}
 .career-page .career-message{display:none;margin:0 28px 24px;padding:11px 12px;border-radius:4px;font-size:11px;font-weight:700}
 .career-page .career-message.show{display:block}.career-page .career-message.success{background:#eaf8f0;color:#166534}.career-page .career-message.error{background:#fff1f1;color:#991b1b}.career-page .career-message.pending{background:#eef8f8;color:#075557}
 @media(max-width:700px){.career-page .career-shell{padding:28px 14px 50px}.career-page .career-head{padding:22px}.career-page .career-head h1{font-size:28px}.career-page .career-panel{padding:22px 18px}.career-page .career-message{margin-left:18px;margin-right:18px}}
+
+/* Careers navigation + footer visibility */
+.site .nav-links>li.career-nav>a{color:#fff!important}
+.site .nav-links>li.career-nav>a:hover,.site .nav-links>li.career-nav>a.current{color:#ffad45!important;background:rgba(255,255,255,.045)!important}
+.reference-footer .footer-reference-grid{display:grid!important;grid-template-columns:1.5fr repeat(5,minmax(0,1fr))!important;gap:28px!important}
+.reference-footer .footer-reference-grid>div{min-width:0!important}
+.reference-footer .footer-reference-grid a{display:block!important}
+@media(max-width:900px){.reference-footer .footer-reference-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:560px){.reference-footer .footer-reference-grid{grid-template-columns:1fr!important}}
