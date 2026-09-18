@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<meta name="build" content="2026-09-18-admin-auth">
+<meta name="build" content="2026-09-18-admin-status">
 <title>SpringNexa Admin — Secure Sign in</title>
 <link rel="icon" href="/favicon.svg?v=20260918-admin-auth">
 <link rel="stylesheet" href="/styles.css?v=20260918-admin-auth">
@@ -28,7 +28,7 @@ body.admin-body:before{content:"";position:fixed;inset:0;pointer-events:none;opa
 .admin-card input:focus{border-color:rgba(70,201,255,.7)!important;box-shadow:0 0 0 4px rgba(50,183,255,.11),0 12px 30px rgba(0,0,0,.25)!important}
 .admin-primary{width:100%!important;min-height:52px!important;margin:0!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:14px!important;background:linear-gradient(135deg,#24b8ff 0%,#5969ff 52%,#8254ff 100%)!important;color:#fff!important;font-size:13px!important;font-weight:900!important;cursor:pointer!important;box-shadow:0 14px 35px rgba(50,117,255,.27)!important}
 .admin-primary:disabled{opacity:.65!important;cursor:wait!important}
-.admin-error{position:relative;z-index:2;margin:0 0 12px!important;padding:10px 12px!important;border:1px solid rgba(255,100,120,.3)!important;border-radius:12px!important;background:rgba(255,50,80,.09)!important;color:#ffb9c1!important;font-size:12px!important}
+.admin-error,.admin-success{position:relative;z-index:2;margin:0 0 12px!important;padding:10px 12px!important;border-radius:12px!important;font-size:12px!important}.admin-error{border:1px solid rgba(255,100,120,.3)!important;background:rgba(255,50,80,.09)!important;color:#ffb9c1!important}.admin-success{border:1px solid rgba(60,220,170,.35)!important;background:rgba(30,210,150,.1)!important;color:#a9ffe0!important}
 .admin-back{position:relative;z-index:2;display:block!important;margin:21px 0 0!important;text-align:center;color:#8199aa!important;font-size:12px!important;text-decoration:none!important}
 @keyframes snLogoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 @media(max-width:520px){.admin-auth{padding:18px 13px!important}.admin-card{padding:27px 20px!important;border-radius:25px!important}.admin-login-logo{width:145px!important}}
