@@ -121,3 +121,13 @@ body.home-page footer.site{display:block!important}
  body.home-page .sn-cinematic-ribbon{height:auto!important;min-height:55px!important;flex-wrap:wrap!important;padding:7px 10px!important}
  body.home-page .sn-cinematic-ribbon span{font-size:9px!important;padding:7px 2px!important}
 }
+/* Final straight-line navigation geometry. */
+body.home-page header.site .nav{width:100%!important;max-width:none!important;padding:0 18px!important}
+body.home-page header.site .nav-links{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr)) auto auto auto!important;align-items:stretch!important;height:64px!important;flex:1 1 auto!important}
+body.home-page header.site .nav-links>li{min-width:0!important;width:auto!important}
+body.home-page header.site .nav-links>li>a{width:100%!important;justify-content:center!important;box-sizing:border-box!important;padding:0 12px!important;height:64px!important;min-height:64px!important;border-right:1px solid rgba(255,255,255,.12)!important}
+body.home-page header.site .nav-links .public-auth-nav>a{justify-content:center!important}
+body.home-page header.site .nav-links .signup-nav>a{width:auto!important;min-width:118px!important;margin:10px 0 10px 8px!important;height:44px!important;min-height:44px!important}
+body.home-page header.site .nav-links .public-auth-nav:not(.signup-nav)>a{min-width:105px!important}
+@media(max-width:1180px){body.home-page header.site .nav-links>li>a{padding:0 8px!important;font-size:11px!important}.site .nav-links>li>a:before{font-size:15px!important}}
+@media(max-width:900px){body.home-page header.site .nav{padding:0 14px!important}body.home-page header.site .nav-links{display:none!important}}
