@@ -1,6 +1,6 @@
 /* SpringNexa shared site controller — canonical navigation, footer and live content. */
 (function(){
-  const stamp='20260918-portal';
+  const stamp='20260918-graphics';
   const css=(href,id)=>{if(document.querySelector('link[data-sn-css="'+id+'"]'))return;const l=document.createElement('link');l.rel='stylesheet';l.href=href+'?v='+stamp;l.dataset.snCss=id;document.head.appendChild(l)};
   const logo=()=>{document.querySelectorAll('.brand img,.footer-logo').forEach(i=>{i.src='/assets/springnexa-logo.svg?v='+stamp;i.alt='SpringNexa Private Limited'});document.querySelectorAll('link[rel="icon"]').forEach(i=>i.href='/favicon.svg?v='+stamp)};
   const item=(title,desc,href)=>'<a href="'+href+'"><strong>'+title+'</strong><small>'+desc+'</small></a>';
@@ -21,7 +21,7 @@
     utility.innerHTML='<div class="wrap"><div class="sn-utility-left"><span>📍 Jammu & Kashmir</span><span>|</span><span>Healthier J&K</span><span>|</span><span>Healthier Tomorrow</span></div><div class="sn-utility-right"><a href="#main">⌂ Skip to Main Content</a><button type="button" class="access">◉ Screen Reader</button><button type="button" class="access">A−</button><button type="button" class="access">A</button><button type="button" class="access">A+</button><button type="button" class="access">◐</button><span>🌐 | English</span></div></div>';
     const institution=document.createElement('div');
     institution.className='sn-institution-header';
-    institution.innerHTML='<div class="sn-institution-inner"><a class="sn-institution-brand" href="index.html" aria-label="SpringNexa home"><img src="/assets/springnexa-logo.svg?v=20260918-portal" alt="SpringNexa Private Limited"></a><div class="sn-institution-center"><div class="name">Spring<span>Nexa</span></div><div class="sub">Healthcare &nbsp; | &nbsp; Information Technology &nbsp; | &nbsp; Social Services</div><div class="sn-recognition">A DPIIT Recognized Startup <b>|</b> Made in J&K with ❤️ <b>|</b> StartupJK</div></div><div class="sn-institution-mark"><div class="sn-mountain-mark">⌁⌁⌁</div><small>People &nbsp; | &nbsp; Care &nbsp; | &nbsp; Technology<br>For a Healthier Jammu & Kashmir</small></div></div>';
+    institution.innerHTML='<div class="sn-institution-inner"><a class="sn-institution-brand" href="index.html" aria-label="SpringNexa home"><img src="/assets/springnexa-logo.svg?v=20260918-portal" alt="SpringNexa Private Limited"></a><div class="sn-institution-center"><div class="name">Spring<span>Nexa</span></div><div class="sub">Healthcare &nbsp; | &nbsp; Information Technology &nbsp; | &nbsp; Social Services</div><div class="sn-recognition">A DPIIT Recognized Startup <b>|</b> Made in J&K with ❤️ <b>|</b> StartupJK</div></div><div class="sn-institution-mark"><img class="sn-portal-mark" src="/assets/springnexa-portal-mark.svg?v=20260918-graphics" alt="SpringNexa People, Care and Technology graphic"><small>People &nbsp; | &nbsp; Care &nbsp; | &nbsp; Technology<br>For a Healthier Jammu & Kashmir</small></div></div>';
     const header=document.querySelector('header.site');
     if(header){document.body.insertBefore(utility,header);document.body.insertBefore(institution,header);}
     const main=document.querySelector('main');
