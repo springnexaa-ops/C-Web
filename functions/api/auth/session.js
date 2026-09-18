@@ -1,0 +1,2 @@
+import { ensureSchema, getUser, json } from '../../_lib/public-auth.js';
+export async function onRequestGet({request,env}){await ensureSchema(env);const user=await getUser(request,env);return user?json({loggedIn:true,user}):json({loggedIn:false},401)}
