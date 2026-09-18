@@ -34,7 +34,12 @@ async function verifySignature(value, signature, secret) {
 export function readCookie(request) {
   const header = request.headers.get('Cookie') || '';
   const match = header.match(new RegExp(`(?:^|;\\s*)${COOKIE}=([^;]+)`));
-  return match ? decodeURIComponent(match[1]) : null;
+  if (!match) return null;
+  try {
+    return decodeURIComponent(match[1]);
+  } catch {
+    return null;
+  }
 }
 
 export async function createSession(env, username) {
@@ -68,19 +73,27 @@ export async function clearSession() {
   return new Response(JSON.stringify({ ok: true }), {
     headers: {
       'Content-Type': 'application/json',
-      'Cache-Control': 'no-store',
-      'Set-Cookie': `${COOKIE}=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0`
+      'Cache-Control': 'no-store, private',
+      'CDN-Cache-Control': 'no-store',
+      'Vary': 'Cookie',
+      'Set-Cookie': `${COOKIE}=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0`
     }
   });
 }
 
 export function sessionCookie(token) {
-  return `${COOKIE}=${encodeURIComponent(token)}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${SESSION_TTL}`;
+  return `${COOKIE}=${encodeURIComponent(token)}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${SESSION_TTL}`;
 }
 
 export function json(data, status = 200, headers = {}) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store, private', ...headers }
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store, private',
+      'CDN-Cache-Control': 'no-store',
+      'Vary': 'Cookie',
+      ...headers
+    }
   });
 }
