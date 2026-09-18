@@ -53,9 +53,9 @@
       </div>
       <div id="career-login" class="career-panel active">
         <h2>Candidate Login</h2>
-        <p>Use your registered Email ID or Candidate ID and password.</p>
+        <p>Use your registered Email ID / Mobile Number and password.</p>
         <form id="career-login-form">
-          <div class="career-field"><label for="careerLoginEmail">Email Address *</label><input id="careerLoginEmail" name="identifier" type="email" autocomplete="username" placeholder="Enter your email" required></div>
+          <div class="career-field"><label for="careerLoginEmail">Email Address *</label><input id="careerLoginEmail" name="identifier" type="text" autocomplete="username" placeholder="Enter your registered email or mobile number" required></div>
           <div class="career-field"><label for="careerLoginPassword">Password *</label><input id="careerLoginPassword" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required></div><div class="career-field"><label for="careerCaptchaInput">Security Code (Captcha) *</label><div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span id="careerCaptchaDisplay" aria-label="Security code" style="display:inline-block;letter-spacing:4px;font-weight:900;font-size:18px;padding:8px 14px;border:1px solid #cbdcdc;border-radius:4px;background:repeating-linear-gradient(45deg,#e8eeee,#e8eeee 8px,#f7fafa 8px,#f7fafa 16px);color:#183c45">-----</span><button type="button" id="careerCaptchaRefresh" aria-label="Refresh security code" style="border:0;background:transparent;color:#075557;font-size:16px;cursor:pointer">↻</button></div><input id="careerCaptchaInput" name="captchaInput" type="text" autocomplete="off" maxlength="5" placeholder="Enter security code" required></div>
           <button class="career-submit" type="submit">Login</button>
           <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:14px"><a class="career-forgot" href="#forgot">Forgot Password?</a><a class="career-forgot" href="/career-dashboard.html">Track Application Status</a></div>
