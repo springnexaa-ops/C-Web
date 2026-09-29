@@ -1,0 +1,2 @@
+import {getUser} from '../../../_lib/public-auth.js';import {amadeusFetch,json} from '../../../_lib/amadeus.js';
+export async function onRequestGet({request,env}){const user=await getUser(request,env);if(!user)return json({ok:false,error:'Login required.'},401);const id=new URL(request.url).searchParams.get('id');if(!id)return json({ok:false,error:'Order id is required.'},400);try{return json({ok:true,data:await amadeusFetch(env,'/v1/booking/flight-orders/'+encodeURIComponent(id))})}catch(e){return json({ok:false,error:e.message},502)}}
