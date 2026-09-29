@@ -1,0 +1,15 @@
+functions
+dist
+node_modules
+.git
+.github
+.wrangler
+.env
+.env.*
+.dev.vars
+README.md
+SECURITY_BASELINE.md
+schema.sql
+wrangler.json
+wrangler.jsonc
+wrangler.toml
