@@ -36,6 +36,6 @@
     if(firstSection&&!document.getElementById('main')) firstSection.id='main';
   }
   function pageIdentity(){const key=(location.pathname.split('/').pop()||'index.html').replace('.html','').replace(/[^a-z0-9]+/gi,'-').toLowerCase()||'home';document.body.dataset.snPage=key;document.body.classList.add('sn-unique-page-'+key)}
-  function init(){pageIdentity();portalChrome();document.body.classList.contains('internal-page')?internal():home();footer();chat();live()}
+  function init(){css('/site-alignment.css','alignment');pageIdentity();portalChrome();document.body.classList.contains('internal-page')?internal():home();footer();chat();live()}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
