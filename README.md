@@ -17,7 +17,7 @@ Investor-friendly static corporate website for SpringNexa Private Limited coveri
 
 ## Admin Control Center
 
-`/admin/login.html` is a private Cloudflare-backed maintenance console. Authentication is token-only: the browser submits the administrator token to `/api/admin/login`, which validates it against the Cloudflare Worker/Pages secret `ADMIN_TOKEN` and then issues the existing HttpOnly server session. No admin password or token is stored in Git.
+`/admin/login.html` is a private Cloudflare Pages Functions-backed maintenance console. Authentication is token-only: the browser submits the administrator token to `/api/admin/login`, which validates it against the Cloudflare Pages Functions secret `ADMIN_TOKEN` and then issues the existing HttpOnly server session. No admin password or token is stored in Git.
 
 The console provides:
 
@@ -30,7 +30,7 @@ The console provides:
 
 ### Required Cloudflare secrets
 
-Configure these as **Secrets** in the Cloudflare Pages/Workers project, not as plaintext Git variables:
+Configure these as **Secrets** in the Cloudflare Pages project, not as plaintext Git variables:
 
 ```text
 ADMIN_TOKEN=<long-random-admin-token>
@@ -44,7 +44,7 @@ GITHUB_OWNER=springnexaa-ops
 GITHUB_REPO=C-Web
 ```
 
-For local development, use `.env` or `.dev.vars` and never commit it. Cloudflare recommends secrets for sensitive values such as API tokens and passwords. citeturn0search0turn0search4
+For local development, use `.env` or `.dev.vars` and never commit it. Cloudflare recommends using encrypted secrets for sensitive values such as API tokens and passwords.
 
 The GitHub maintenance token should be limited to the repository permissions required for branch and pull-request operations. GitHub's Contents write permission is required for repository file mutations; branch/ref operations also require suitable repository write permissions. citeturn0search6turn0search9
 
@@ -79,4 +79,4 @@ The public website includes a live Nexa AI agent UI backed by `/api/nexa-ai/chat
 
 ## Deployment
 
-Cloudflare Pages should redeploy automatically from `main`. Verify that the production project is connected to `springnexaa-ops/C-Web` and that the production branch is `main`. Cloudflare secrets are configured separately from Git and should be deployed through the Cloudflare dashboard or Wrangler. citeturn0search4turn0search5
+Cloudflare Pages should redeploy automatically from `main`. Connect the Pages project to `springnexaa-ops/C-Web` and set the production branch to `main`. Cloudflare Pages secrets, environment variables, and bindings are configured separately from Git in the Pages project.
