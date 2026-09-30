@@ -243,10 +243,12 @@
       return;
     }
 
-    try {
-      await loadContent();
-    } catch (error) {
-      message('Overview content is temporarily unavailable. Other admin features remain available.', true);
+    if (!window.location.hash || window.location.hash === '#overview') {
+      try {
+        await loadContent();
+      } catch (error) {
+        message('Overview content is temporarily unavailable. Other admin features remain available.', true);
+      }
     }
   }
 
