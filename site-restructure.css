@@ -1,0 +1,270 @@
+/* SpringNexa — unified institutional site structure
+   Presentation layer. Existing routes, forms, authentication and APIs remain unchanged. */
+
+:root{
+  --sn-navy:#063b5c;
+  --sn-deep:#052d46;
+  --sn-blue:#0b6fae;
+  --sn-teal:#087f83;
+  --sn-green:#138a63;
+  --sn-orange:#e98a24;
+  --sn-ink:#17324d;
+  --sn-muted:#607588;
+  --sn-bg:#f4f7fa;
+  --sn-surface:#fff;
+  --sn-line:#d9e4ec;
+  --sn-max:1280px;
+  --sn-radius:8px;
+  --sn-shadow:0 8px 28px rgba(16,48,74,.09);
+}
+
+/* GLOBAL PUBLIC SHELL */
+body.home-page,body.internal-page,body.account-page{
+  color:var(--sn-ink);
+  background:var(--sn-bg);
+}
+body.internal-page{
+  font-family:Inter,"Segoe UI",Arial,sans-serif;
+}
+body.internal-page #sn-announcement{
+  background:var(--sn-navy)!important;
+  color:#dbeaf3!important;
+  min-height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  font-size:12px;
+  letter-spacing:.02em;
+}
+body.internal-page .sn-public-utility{
+  background:#fff!important;
+  border-bottom:1px solid var(--sn-line)!important;
+  color:#587084!important;
+  font-size:11px;
+}
+body.internal-page .sn-institution-header{
+  background:#fff!important;
+  border-bottom:1px solid var(--sn-line)!important;
+}
+body.internal-page .sn-institution-inner{
+  max-width:var(--sn-max)!important;
+  min-height:96px!important;
+  margin:auto!important;
+  padding:12px 24px!important;
+}
+body.internal-page .sn-institution-center .name{
+  color:var(--sn-navy)!important;
+  font-weight:900!important;
+  letter-spacing:-.025em;
+}
+body.internal-page .sn-institution-center .name span{color:var(--sn-blue)!important}
+body.internal-page .sn-institution-center .sub{
+  color:#5d7487!important;
+  font-size:12px!important;
+}
+body.internal-page .sn-recognition{
+  color:var(--sn-teal)!important;
+  font-size:10px!important;
+  font-weight:800!important;
+}
+body.internal-page header.site{
+  position:sticky!important;
+  top:0!important;
+  z-index:100!important;
+  background:#fff!important;
+  border-bottom:1px solid var(--sn-line)!important;
+  box-shadow:0 2px 12px rgba(10,43,67,.06)!important;
+}
+body.internal-page header.site .nav{
+  max-width:var(--sn-max)!important;
+  min-height:62px!important;
+  margin:auto!important;
+  padding:0 24px!important;
+}
+body.internal-page header.site .brand{display:none!important}
+body.internal-page header.site .nav-links>li>a{
+  color:#274a61!important;
+  font-size:13px!important;
+  font-weight:750!important;
+  padding:0 13px!important;
+  min-height:44px!important;
+  display:flex!important;
+  align-items:center!important;
+  border-radius:5px!important;
+}
+body.internal-page header.site .nav-links>li>a:hover{
+  color:var(--sn-blue)!important;
+  background:#edf6fa!important;
+}
+body.internal-page header.site .nav-cta{
+  background:var(--sn-blue)!important;
+  color:#fff!important;
+  border-radius:5px!important;
+  padding:11px 17px!important;
+  font-weight:850!important;
+}
+
+/* PAGE HEADERS */
+body.internal-page .page-head{
+  background:linear-gradient(115deg,#eef7fb 0%,#fff 58%,#edf8f7 100%)!important;
+  border-bottom:1px solid var(--sn-line)!important;
+  padding:52px 24px 48px!important;
+}
+body.internal-page .page-head .wrap{
+  max-width:var(--sn-max)!important;
+  margin:auto!important;
+}
+body.internal-page .page-head .eyebrow{
+  color:var(--sn-teal)!important;
+  font-size:11px!important;
+  font-weight:900!important;
+  letter-spacing:.12em!important;
+  text-transform:uppercase!important;
+}
+body.internal-page .page-head h1{
+  max-width:900px!important;
+  color:var(--sn-navy)!important;
+  font-size:clamp(2.1rem,4.5vw,3.7rem)!important;
+  line-height:1.08!important;
+  letter-spacing:-.04em!important;
+  margin:12px 0 14px!important;
+}
+body.internal-page .page-head p{
+  max-width:760px!important;
+  color:var(--sn-muted)!important;
+  font-size:17px!important;
+  line-height:1.7!important;
+}
+
+/* CONTENT RHYTHM */
+body.internal-page main section:not(.page-head),
+body.internal-page>section:not(.page-head){
+  border-bottom:1px solid #e8eef3;
+}
+body.internal-page .wrap{
+  max-width:var(--sn-max);
+}
+body.internal-page .section-head{
+  align-items:end!important;
+  gap:28px!important;
+  margin-bottom:26px!important;
+}
+body.internal-page .section-head h2{
+  color:var(--sn-navy)!important;
+  letter-spacing:-.025em!important;
+}
+body.internal-page .section-head p{
+  color:var(--sn-muted)!important;
+  line-height:1.6!important;
+}
+
+/* CARDS / SERVICE ARCHITECTURE */
+body.internal-page .service-detail-grid,
+body.internal-page .feature-grid{
+  gap:16px!important;
+}
+body.internal-page .service-panel,
+body.internal-page .feature-card,
+body.internal-page .division-card,
+body.internal-page .stat-card{
+  border:1px solid var(--sn-line)!important;
+  border-radius:var(--sn-radius)!important;
+  box-shadow:0 3px 14px rgba(16,48,74,.035)!important;
+}
+body.internal-page .service-panel{
+  background:#fff!important;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+body.internal-page .service-panel:hover,
+body.internal-page .feature-card:hover,
+body.internal-page .division-card:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--sn-shadow)!important;
+  border-color:#bcd4e1!important;
+}
+body.internal-page .division-card{
+  background:#fff!important;
+  border-top:4px solid var(--sn-blue)!important;
+}
+body.internal-page .division-card:nth-child(2){border-top-color:var(--sn-teal)!important}
+body.internal-page .division-card:nth-child(3){border-top-color:var(--sn-green)!important}
+body.internal-page .division-number,
+body.internal-page .eyebrow{
+  letter-spacing:.1em!important;
+}
+
+/* FOOTER — same information architecture everywhere */
+body.internal-page footer.site{
+  background:var(--sn-deep)!important;
+  color:#d8e6ef!important;
+  border-top:4px solid var(--sn-blue)!important;
+}
+body.internal-page footer.site a{color:#d8e6ef!important}
+body.internal-page footer.site a:hover{color:#fff!important}
+
+/* HOMEPAGE — same institutional grid language */
+body.home-page .sn-portal-section,
+body.home-page .sn-portal-hero{
+  border-color:var(--sn-line)!important;
+}
+body.home-page .sn-portal-section{
+  scroll-margin-top:80px;
+}
+body.home-page .sn-division-card,
+body.home-page .sn-platform,
+body.home-page .sn-role,
+body.home-page .sn-trust-panel{
+  box-shadow:0 3px 14px rgba(16,48,74,.035)!important;
+}
+body.home-page .sn-division-card:hover,
+body.home-page .sn-platform:hover,
+body.home-page .sn-role:hover{
+  transform:translateY(-2px);
+}
+
+/* ACCESS / AUTH / CAREERS use the same institutional frame */
+body.account-page,
+body.career-page{
+  background:var(--sn-bg)!important;
+}
+body.account-page .sn-institution-header,
+body.career-page header.site{
+  background:#fff!important;
+  border-bottom:1px solid var(--sn-line)!important;
+}
+body.account-page .account-shell,
+body.career-page .career-shell{
+  max-width:var(--sn-max)!important;
+}
+body.account-page .account-card,
+body.career-page .career-card{
+  border:1px solid var(--sn-line)!important;
+  border-radius:var(--sn-radius)!important;
+  box-shadow:var(--sn-shadow)!important;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  body.internal-page .sn-institution-center,
+  body.internal-page .sn-institution-mark{display:none!important}
+  body.internal-page .sn-institution-inner{justify-content:center!important}
+  body.internal-page header.site .nav{padding:0 18px!important}
+  body.internal-page header.site .brand{display:flex!important;flex:0 0 180px!important}
+  body.internal-page header.site .brand img{max-height:48px;width:auto}
+}
+@media(max-width:767px){
+  body.internal-page #sn-announcement{font-size:10px;padding:7px 12px;text-align:center}
+  body.internal-page .sn-public-utility{display:none!important}
+  body.internal-page .page-head{padding:38px 18px!important}
+  body.internal-page .page-head h1{font-size:2rem!important}
+  body.internal-page .page-head p{font-size:15px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  body.internal-page .service-panel,
+  body.internal-page .feature-card,
+  body.internal-page .division-card,
+  body.home-page .sn-division-card,
+  body.home-page .sn-platform,
+  body.home-page .sn-role{transition:none!important}
+}
