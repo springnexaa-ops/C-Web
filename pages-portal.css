@@ -1,0 +1,265 @@
+/* SpringNexa Public Service Portal — Pages deployment presentation layer.
+   Formal citizen-service information architecture inspired by public service portals,
+   using SpringNexa branding and existing content. No government identity/assets. */
+
+:root{
+  --sp-teal:#075557;
+  --sp-teal-2:#0a7373;
+  --sp-orange:#e8750a;
+  --sp-blue:#176da8;
+  --sp-ink:#183747;
+  --sp-muted:#607780;
+  --sp-bg:#f3f7f8;
+  --sp-line:#d6e3e5;
+  --sp-white:#fff;
+  --sp-max:1240px;
+  --sp-shadow:0 8px 26px rgba(19,59,67,.08);
+}
+body.home-page,body.internal-page{
+  background:var(--sp-bg)!important;
+  color:var(--sp-ink)!important;
+}
+.wrap,.sn-portal-wrap{max-width:var(--sp-max)!important}
+
+/* Global public portal utility strip */
+body.home-page .sn-code-utility,
+body.internal-page .sn-public-utility{
+  background:#06494b!important;
+  color:#fff!important;
+  border:0!important;
+  font-size:11px!important;
+}
+body.home-page .sn-code-utility-inner{min-height:34px}
+body.home-page .sn-code-utility a,
+body.home-page .sn-code-utility button{color:#fff!important}
+
+/* Institutional masthead */
+body.home-page .sn-portal-header{
+  background:#fff!important;
+  border-bottom:1px solid var(--sp-line)!important;
+}
+body.home-page .sn-portal-brand-row{
+  max-width:var(--sp-max)!important;
+  min-height:102px!important;
+  padding:12px 20px!important;
+}
+body.home-page .sn-portal-logo img{max-height:62px!important;width:auto!important}
+body.home-page .sn-portal-identity strong{color:var(--sp-teal)!important}
+body.home-page .sn-portal-identity span{color:#597078!important}
+body.home-page .sn-portal-brand-actions a{border-radius:4px!important}
+
+/* Common navigation */
+header.site.sn-portal-navigation,
+body.internal-page header.site{
+  background:var(--sp-teal)!important;
+  border:0!important;
+  box-shadow:0 3px 14px rgba(5,63,65,.16)!important;
+}
+header.site.sn-portal-navigation{position:sticky!important;top:0!important;z-index:1000!important}
+header.site.sn-portal-navigation .nav,
+body.internal-page header.site .nav{
+  max-width:var(--sp-max)!important;
+  min-height:56px!important;
+  padding:0 20px!important;
+}
+header.site .nav-links>li>a,
+body.internal-page header.site .nav-links>li>a{
+  color:#fff!important;
+  font-size:12px!important;
+  font-weight:800!important;
+  min-height:56px!important;
+  padding:0 15px!important;
+  border-radius:0!important;
+}
+header.site .nav-links>li>a:hover,
+body.internal-page header.site .nav-links>li>a:hover{
+  color:#ffd09a!important;
+  background:rgba(255,255,255,.06)!important;
+}
+header.site .nav-cta,
+body.internal-page header.site .nav-cta{
+  background:var(--sp-orange)!important;
+  border-color:var(--sp-orange)!important;
+  color:#fff!important;
+  border-radius:4px!important;
+  font-size:11px!important;
+}
+body.internal-page header.site .brand{display:none!important}
+
+/* Mega navigation */
+.mega-panel{
+  border-radius:4px!important;
+  border:1px solid #cfdfe2!important;
+  box-shadow:0 18px 42px rgba(15,54,64,.17)!important;
+}
+.mega-group{border-radius:3px!important}
+.mega-group>a:hover{background:#edf7f7!important;color:var(--sp-teal)!important}
+
+/* Homepage hero */
+body.home-page .sn-portal-hero{
+  background:linear-gradient(115deg,#e8f6f6 0%,#f7fbfb 52%,#fff 100%)!important;
+  border-bottom:1px solid var(--sp-line)!important;
+}
+body.home-page .sn-portal-hero-grid{
+  max-width:var(--sp-max)!important;
+  min-height:420px!important;
+  padding:52px 20px!important;
+}
+body.home-page .sn-portal-hero h1{
+  color:var(--sp-teal)!important;
+  font-size:clamp(38px,5vw,64px)!important;
+}
+body.home-page .sn-portal-hero h1 span{color:var(--sp-orange)!important}
+body.home-page .sn-portal-kicker{color:var(--sp-orange)!important}
+body.home-page .sn-portal-hero p{font-size:16px!important;color:#4e6871!important}
+body.home-page .sn-portal-hero-actions .primary{background:var(--sp-teal)!important}
+body.home-page .sn-portal-hero-actions .secondary{color:var(--sp-teal)!important}
+
+/* Service gateway */
+.sn-citizen-panel{border-radius:4px!important;box-shadow:var(--sp-shadow)!important}
+.sn-panel-title{background:var(--sp-teal)!important}
+.sn-citizen-panel>a:hover{background:#f2f9f9!important}
+
+/* Quick services */
+.sn-quick-actions{background:#fff!important;border-bottom:1px solid var(--sp-line)!important}
+.sn-quick-actions a{color:#294c59!important}
+.sn-quick-actions a:hover{color:var(--sp-teal)!important}
+.sn-quick-actions b{color:var(--sp-teal)!important}
+
+/* Page sections */
+body.home-page .sn-portal-section{padding:48px 20px!important;background:#fff!important}
+body.home-page .sn-portal-section-alt{background:#f1f6f7!important}
+.sn-portal-section-head h2,
+.sn-information-card h2{color:var(--sp-teal)!important}
+.sn-section-code{color:var(--sp-orange)!important}
+
+/* Directory cards */
+.sn-directory-card,
+.sn-platform-directory>a,
+.sn-information-card{
+  border:1px solid var(--sp-line)!important;
+  border-radius:4px!important;
+  box-shadow:0 3px 14px rgba(19,59,67,.035)!important;
+}
+.sn-directory-card:hover,
+.sn-platform-directory>a:hover{
+  border-color:#a9c9cb!important;
+  box-shadow:var(--sp-shadow)!important;
+}
+.sn-directory-card h3,
+.sn-platform-directory h3{color:var(--sp-ink)!important}
+.sn-directory-card>strong,
+.sn-platform-directory>b,
+.sn-information-links a{color:var(--sp-teal)!important}
+.sn-directory-card.healthcare .sn-card-number{background:#e5f5f4!important;color:var(--sp-teal)!important}
+.sn-directory-card.technology .sn-card-number{background:#fff0df!important;color:var(--sp-orange)!important}
+
+/* Notices */
+.sn-notice-strip{background:#eaf5f5!important;border-color:#d2e3e4!important}
+
+/* Internal pages: government-portal-like structure without government branding */
+body.internal-page #sn-announcement{
+  min-height:34px!important;
+  background:#06494b!important;
+  color:#fff!important;
+}
+body.internal-page .sn-institution-header{
+  background:#fff!important;
+  border-bottom:1px solid var(--sp-line)!important;
+}
+body.internal-page .sn-institution-inner{
+  max-width:var(--sp-max)!important;
+  min-height:105px!important;
+  padding:12px 20px!important;
+}
+body.internal-page .sn-institution-brand img{max-height:64px!important;width:auto!important}
+body.internal-page .sn-institution-center .name{color:var(--sp-teal)!important}
+body.internal-page .sn-institution-center .name span{color:var(--sp-orange)!important}
+body.internal-page .sn-institution-center .sub{color:#60777e!important}
+body.internal-page .sn-recognition{color:var(--sp-teal)!important;background:#edf7f7!important}
+
+/* Internal page masthead */
+body.internal-page .page-head{
+  background:linear-gradient(110deg,#eaf7f7,#fff)!important;
+  border-bottom:1px solid var(--sp-line)!important;
+  padding:42px 20px 38px!important;
+}
+body.internal-page .page-head .wrap{max-width:var(--sp-max)!important}
+body.internal-page .page-head .eyebrow{color:var(--sp-orange)!important}
+body.internal-page .page-head h1{
+  color:var(--sp-teal)!important;
+  font-size:clamp(32px,4.4vw,54px)!important;
+  max-width:900px!important;
+}
+body.internal-page .page-head p{color:#5d747c!important;max-width:760px!important}
+
+/* Breadcrumb/meta */
+body.internal-page .page-head-meta{
+  display:flex!important;
+  gap:7px!important;
+  margin-bottom:14px!important;
+  color:#6c7e84!important;
+  font-size:9px!important;
+  font-weight:900!important;
+  letter-spacing:.12em!important;
+  text-transform:uppercase!important;
+}
+body.internal-page .page-head-meta span:first-child{color:var(--sp-teal)!important}
+
+/* Internal content cards */
+body.internal-page .service-panel,
+body.internal-page .feature-card,
+body.internal-page .division-card,
+body.internal-page .stat-card{
+  border-radius:4px!important;
+  border:1px solid var(--sp-line)!important;
+  box-shadow:0 4px 18px rgba(19,59,67,.05)!important;
+}
+body.internal-page .service-panel:hover,
+body.internal-page .division-card:hover,
+body.internal-page .feature-card:hover{
+  transform:translateY(-2px)!important;
+  border-color:#aacbcd!important;
+  box-shadow:var(--sp-shadow)!important;
+}
+body.internal-page .division-card{border-top:4px solid var(--sp-teal)!important}
+body.internal-page .division-card:nth-child(2){border-top-color:var(--sp-orange)!important}
+body.internal-page .division-card:nth-child(3){border-top-color:#6551c9!important}
+
+/* Contact / forms */
+body.internal-page input,
+body.internal-page textarea,
+body.internal-page select{
+  border-radius:4px!important;
+  border-color:#cddde0!important;
+}
+body.internal-page .btn,
+body.internal-page button.btn{border-radius:4px!important;background:var(--sp-teal)!important;color:#fff!important}
+
+/* Footer */
+body.home-page footer.site,
+body.internal-page footer.site{
+  background:#073f41!important;
+  border-top:4px solid var(--sp-orange)!important;
+}
+body.home-page .sn-footer-top{background:#06494b!important}
+body.home-page .sn-footer-action{background:var(--sp-orange)!important}
+
+/* Mobile */
+@media(max-width:900px){
+  body.home-page .sn-portal-header{display:none!important}
+  body.home-page .sn-portal-navigation .brand{display:flex!important;flex:1 1 auto!important}
+  body.home-page .sn-portal-navigation .brand img{width:175px!important;max-height:52px!important}
+  body.internal-page .sn-institution-center,
+  body.internal-page .sn-institution-mark{display:none!important}
+  body.internal-page .sn-institution-inner{display:flex!important;justify-content:center!important}
+  body.internal-page header.site .brand{display:flex!important;flex:1 1 auto!important}
+  body.internal-page header.site .brand img{max-height:48px!important;width:auto!important}
+}
+@media(max-width:700px){
+  body.home-page .sn-portal-hero-grid{padding:36px 18px!important}
+  body.home-page .sn-portal-hero h1{font-size:39px!important}
+  body.home-page .sn-portal-section{padding:38px 18px!important}
+  .sn-quick-actions .wrap{grid-template-columns:repeat(2,1fr)!important}
+  body.internal-page .page-head{padding:36px 18px 32px!important}
+}
