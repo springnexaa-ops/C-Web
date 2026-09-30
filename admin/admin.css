@@ -39,3 +39,36 @@ body.admin-control-v2:before{content:"";position:fixed;inset:0;pointer-events:no
 .admin-control-v2 .error-box strong{color:#ffd28a!important;font-size:12px}
 .admin-control-v2 .error-box small{display:inline-block;margin-top:5px;color:#9ab7ca!important;line-height:1.6}
 .admin-control-v2 .admin-empty{min-height:70px;display:flex;align-items:center;justify-content:center;text-align:center}
+
+/* Health Admin v2 — responsive alignment */
+.admin-control-v2 .admin-main{width:100%;max-width:1220px;margin:0 auto}
+.admin-control-v2 .admin-heading{align-items:center}
+.admin-control-v2 .admin-heading>div:first-child{min-width:0}
+.admin-control-v2 .admin-heading h1{line-height:1.08}
+.admin-control-v2 .admin-heading p{max-width:760px;line-height:1.55}
+.admin-control-v2 .admin-stat-grid{grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch}
+.admin-control-v2 .admin-stat{min-width:0;height:100%;display:flex;flex-direction:column;justify-content:center}
+.admin-control-v2 .admin-stat-sub{line-height:1.45}
+.admin-control-v2 .module-grid{grid-template-columns:repeat(3,minmax(0,1fr));margin:0 0 16px}
+.admin-control-v2 .admin-maintenance-section{overflow:hidden}
+.admin-control-v2 .admin-section-title>div{min-width:0}
+.admin-control-v2 .admin-section-title h2{line-height:1.2}
+.admin-control-v2 .admin-section-title p{line-height:1.55}
+.admin-control-v2 .admin-empty{width:100%;line-height:1.6}
+.admin-control-v2 .security-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:1100px){
+  .admin-control-v2 .admin-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .admin-control-v2 .security-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:900px){
+  .admin-control-v2 .admin-main{max-width:none}
+  .admin-control-v2 .module-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:600px){
+  .admin-control-v2 .admin-stat-grid,.admin-control-v2 .module-grid,.admin-control-v2 .security-grid{grid-template-columns:1fr}
+  .admin-control-v2 .admin-heading{margin-bottom:18px}
+  .admin-control-v2 .admin-heading p{font-size:13px}
+  .admin-control-v2 .admin-actions{width:100%}
+  .admin-control-v2 .admin-actions .admin-action{flex:1;text-align:center}
+  .admin-control-v2 .admin-maintenance-section{margin-bottom:14px}
+}
