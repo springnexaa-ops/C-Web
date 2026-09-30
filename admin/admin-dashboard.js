@@ -151,10 +151,42 @@
 
   async function logout() { await fetch('/api/admin/logout', { method: 'POST', credentials: 'same-origin', cache: 'no-store' }); window.location.href = '/admin/login.html'; }
 
+  async function diagnostics() {
+    const grid = document.getElementById('health-grid');
+    if (!grid) return;
+    grid.innerHTML = '<div class="health-card pending"><span>…</span><div><strong>Running diagnostics</strong><small>Checking authenticated services.</small></div></div>';
+    try {
+      const d = await api('/api/admin/maintenance?type=overview');
+      grid.innerHTML = '';
+      const add = (name,state,detail) => {
+        const ok = ['Connected','Protected','Available','Ready'].includes(state);
+        const el = document.createElement('div');
+        el.className = 'health-card ' + (ok ? 'ok' : 'bad');
+        el.innerHTML = '<span>' + (ok ? '✓' : '!') + '</span><div><strong>' + escapeHtml(name) + '</strong><small>' + escapeHtml(detail || '') + '</small></div><b>' + escapeHtml(state || 'Unknown') + '</b>';
+        grid.appendChild(el);
+      };
+      add('Admin Session','Protected','Signed HttpOnly session is active.');
+      add('Cloudflare D1',d.d1?.status || 'Available',d.d1?.detail || 'Database binding checked.');
+      add('GitHub Gateway',d.github?.status || 'Unavailable',d.github?.detail || 'Repository API check.');
+      add('Production Branch',d.production_branch || 'main','Configured deployment branch.');
+      document.getElementById('env-status').textContent = d.environment?.status || 'Ready';
+      document.getElementById('env-detail').textContent = d.environment?.detail || 'Runtime bindings checked';
+      document.getElementById('repository-name').textContent = d.repository || 'springnexaa-ops/C-Web';
+      document.getElementById('production-branch').textContent = d.production_branch || 'main';
+      document.getElementById('gateway-status').textContent = d.github?.status || 'Unavailable';
+      document.getElementById('repo-detail').textContent = d.github?.detail || 'Repository maintenance gateway';
+      document.getElementById('repository-sha').textContent = d.head_sha || 'Head SHA unavailable';
+    } catch (error) {
+      grid.innerHTML = '<div class="health-card bad"><span>!</span><div><strong>Diagnostics unavailable</strong><small>' + escapeHtml(error.message) + '</small></div><b>Attention</b></div>';
+      document.getElementById('env-status').textContent = 'Attention';
+      document.getElementById('env-detail').textContent = error.message;
+    }
+  }
+
   async function load() {
     try {
       await session();
-      await Promise.all([loadContent(), loadBranches(), loadPulls(), loadCompany()]);
+      await Promise.all([loadContent(), loadBranches(), loadPulls(), loadCompany(), diagnostics()]);
     } catch (error) {
       who.textContent = 'Session check failed';
       message(`${error.message} Check the Cloudflare ADMIN_TOKEN binding and redeploy the Pages project.`, true);
@@ -163,6 +195,8 @@
 
   document.getElementById('search').addEventListener('input', () => renderContent(contentRows));
   document.getElementById('refresh').addEventListener('click', load);
+  document.getElementById('run-health')?.addEventListener('click', diagnostics);
+  document.getElementById('load-repo')?.addEventListener('click', diagnostics);
   document.getElementById('load-branches').addEventListener('click', loadBranches);
   document.getElementById('load-pulls').addEventListener('click', loadPulls);
   document.getElementById('create-branch').addEventListener('click', createBranch);
