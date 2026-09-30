@@ -149,6 +149,14 @@
   function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
   function escapeAttr(value) { return escapeHtml(value).replace(/`/g, '&#96;'); }
 
+  function friendlyError(error, context = 'This service') {
+    const raw = String(error?.message || error || '');
+    if (/502|github|token|repository/i.test(raw)) return context + ' is temporarily unavailable. The rest of the Admin Control Center is still available.';
+    if (/401|session|authenticated/i.test(raw)) return 'Your secure admin session needs to be refreshed. Please sign in again.';
+    if (/D1|database/i.test(raw)) return 'Website content storage is temporarily unavailable. Please try again shortly.';
+    if (/network|fetch/i.test(raw)) return 'The service could not be reached. Please check your connection and try again.';
+    return context + ' could not complete this request. Please try again.';
+  }
   async function logout() { await fetch('/api/admin/logout', { method: 'POST', credentials: 'same-origin', cache: 'no-store' }); window.location.href = '/admin/login.html'; }
 
   async function diagnostics() {
@@ -186,10 +194,27 @@
   async function load() {
     try {
       await session();
-      await Promise.all([loadContent(), loadBranches(), loadPulls(), loadCompany(), diagnostics()]);
+      who.textContent = 'Admin · Active';
     } catch (error) {
-      who.textContent = 'Session check failed';
-      message(`${error.message} Check the Cloudflare ADMIN_TOKEN binding and redeploy the Pages project.`, true);
+      who.textContent = 'Session expired';
+      message('Your secure admin session could not be verified. Please sign in again.', true);
+      return;
+    }
+
+    const tasks = [
+      ['Website content', loadContent],
+      ['Branch management', loadBranches],
+      ['Approval workflow', loadPulls],
+      ['Company identity', loadCompany],
+      ['Service diagnostics', diagnostics]
+    ];
+
+    for (const [label, task] of tasks) {
+      try {
+        await task();
+      } catch (error) {
+        message(label + ' is temporarily unavailable. Other admin features remain available.', true);
+      }
     }
   }
 
