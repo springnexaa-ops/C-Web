@@ -2,91 +2,108 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow"><meta name="build" content="2026-09-30-admin-control-v2">
-<title>SpringNexa Admin Control Center</title>
+<meta name="robots" content="noindex,nofollow"><meta name="build" content="2026-09-30-health-admin-v1">
+<title>SpringNexa Health Admin</title>
 <link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/admin/admin.css">
 </head>
 <body class="admin-body admin-control-v2">
 <div class="admin-shell">
 <header class="admin-top"><div class="admin-top-inner">
 <a class="admin-top-brand" href="/"><img src="/assets/springnexa-logo.svg" alt="SpringNexa"></a>
-<div class="admin-top-meta"><span class="admin-secure-pill"><i class="admin-secure-dot"></i> Full Maintenance Access</span><div class="admin-user"><span class="admin-avatar">A</span><span id="who">Checking session…</span><button class="admin-logout" id="logout">Log out</button></div></div>
+<div class="admin-top-meta"><span class="admin-secure-pill"><i class="admin-secure-dot"></i> Health Operations</span><div class="admin-user"><span class="admin-avatar">A</span><span id="who">Checking session…</span><button class="admin-logout" id="logout">Log out</button></div></div>
 </div></header>
+
 <div class="admin-layout">
 <aside class="admin-sidebar">
-<div class="admin-side-label">Control Center</div>
-<nav class="admin-nav" aria-label="Admin navigation">
-<a class="active" href="#overview"><span class="admin-nav-icon">◈</span>Overview</a>
-<a href="#infrastructure"><span class="admin-nav-icon">⌘</span>Infrastructure</a>
-<a href="#hosting"><span class="admin-nav-icon">▣</span>Hosting & Git</a>
-<a href="#requests"><span class="admin-nav-icon">✓</span>Approval Requests</a>
-<a href="#security"><span class="admin-nav-icon">◇</span>Security</a>
-<a href="#company"><span class="admin-nav-icon">◆</span>Company & Logo</a>
-<a href="#content"><span class="admin-nav-icon">▤</span>Website Content</a>
-<a href="/admin/careers.html"><span class="admin-nav-icon">▣</span>Career Administration</a>
-<a href="/" target="_blank" rel="noopener"><span class="admin-nav-icon">↗</span>Live Website</a>
+<div class="admin-side-label">Health Admin</div>
+<nav class="admin-nav" aria-label="Health administration">
+<a class="active" href="#overview"><span class="admin-nav-icon">◈</span>Dashboard</a>
+<a href="#labs"><span class="admin-nav-icon">▣</span>Micro-Labs & Devices</a>
+<a href="#patients"><span class="admin-nav-icon">♙</span>Patients & Diagnostics</a>
+<a href="#field"><span class="admin-nav-icon">⌖</span>Field Coordinators</a>
+<a href="#workflow"><span class="admin-nav-icon">✓</span>Appointments & Reports</a>
+<a href="#analytics"><span class="admin-nav-icon">◫</span>Analytics & Impact</a>
+<a href="#security"><span class="admin-nav-icon">◇</span>Security & Users</a>
 </nav>
-<div class="admin-side-label" style="margin-top:25px">Security</div>
-<div class="admin-side-note">Cloudflare ADMIN_TOKEN authentication. GitHub credentials remain server-side. Destructive operations require explicit confirmation.</div>
+<div class="admin-side-label" style="margin-top:25px">Operations</div>
+<div class="admin-side-note">Operational health modules are shown separately. No fabricated patient, device, booking, or financial data is displayed.</div>
 </aside>
+
 <main class="admin-main">
 <section class="admin-heading" id="overview">
-<div><div class="admin-kashmir-kicker">SPRINGNEXA · FULL WEB MAINTENANCE</div><h1>Admin Control Center</h1><p>Operate the website, Git repository, content database and maintenance workflows from one secure console.</p></div>
-<div class="admin-actions"><button class="admin-action" id="refresh" type="button">↻ Refresh All</button><a class="admin-action primary" href="/" target="_blank" rel="noopener">View Live Site ↗</a></div>
+<div><div class="admin-kashmir-kicker">SPRINGNEXA · HEALTH OPERATIONS</div><h1>Admin Dashboard</h1><p>Manage diagnostic network operations, patient workflows, field activity, reporting and platform security from one console.</p></div>
+<div class="admin-actions"><button class="admin-action" id="refresh" type="button">↻ Refresh</button><a class="admin-action primary" href="/" target="_blank" rel="noopener">Live Website ↗</a></div>
 </section>
 
 <section class="admin-stat-grid">
-<div class="admin-stat stat-sky"><div class="admin-stat-label">D1 Content</div><div class="admin-stat-value" id="field-count">—</div><div class="admin-stat-sub">Editable records</div></div>
-<div class="admin-stat stat-blue"><div class="admin-stat-label">GitHub</div><div class="admin-stat-value" id="repo-status">Checking…</div><div class="admin-stat-sub" id="repo-detail">Repository gateway</div></div>
-<div class="admin-stat stat-green"><div class="admin-stat-label">Session</div><div class="admin-stat-value">Protected</div><div class="admin-stat-sub">HttpOnly signed session</div></div>
-<div class="admin-stat stat-purple"><div class="admin-stat-label">Environment</div><div class="admin-stat-value" id="env-status">Checking…</div><div class="admin-stat-sub" id="env-detail">Runtime diagnostics</div></div>
+<div class="admin-stat stat-sky"><div class="admin-stat-label">Network</div><div class="admin-stat-value">—</div><div class="admin-stat-sub">Awaiting connected hubs</div></div>
+<div class="admin-stat stat-blue"><div class="admin-stat-label">Patients</div><div class="admin-stat-value">—</div><div class="admin-stat-sub">Awaiting clinical data source</div></div>
+<div class="admin-stat stat-green"><div class="admin-stat-label">Reports</div><div class="admin-stat-value">—</div><div class="admin-stat-sub">Awaiting workflow data</div></div>
+<div class="admin-stat stat-purple"><div class="admin-stat-label">Security</div><div class="admin-stat-value" id="security-status">Checking…</div><div class="admin-stat-sub">Authenticated admin session</div></div>
 </section>
 <div id="status" class="admin-status" aria-live="polite"></div>
 
-<section id="infrastructure" class="admin-maintenance-section admin-hero-panel">
-<div class="admin-section-title"><div><span class="admin-section-kicker">INFRASTRUCTURE HEALTH</span><h2>Service Diagnostics</h2><p>Verify the services required by the administration console without exposing credentials.</p></div><button class="admin-action" id="run-health" type="button">Run diagnostics</button></div>
-<div id="health-grid" class="health-grid"><div class="health-card pending"><span>●</span><div><strong>Waiting for diagnostics</strong><small>Run the health check.</small></div></div></div>
-</section>
-
-<section id="hosting" class="admin-maintenance-section">
-<div class="admin-section-title"><div><span class="admin-section-kicker">WEB HOSTING MAINTENANCE</span><h2>Hosting & Git Operations</h2><p>Manage branches and inspect repository connectivity. Production remains on the configured deployment branch.</p></div></div>
-<div class="hosting-toolbar"><button class="admin-action" id="load-branches" type="button">↻ Load branches</button><button class="admin-action" id="load-repo" type="button">Repository status</button></div>
-<div class="admin-form-grid"><label>New branch name<input id="branch-name" maxlength="100" placeholder="feature/company-update"></label><label>Source branch<select id="branch-from"><option value="main">main</option></select></label><button class="admin-primary admin-inline-button" id="create-branch" type="button">Create Branch</button></div>
-<div id="branches" class="admin-list" aria-live="polite"></div>
-<div class="admin-subgrid">
-<div class="admin-mini-panel"><strong>Production</strong><span id="production-branch">main</span><small>Configured application branch</small></div>
-<div class="admin-mini-panel"><strong>Repository</strong><span id="repository-name">springnexaa-ops/C-Web</span><small id="repository-sha">SHA unavailable</small></div>
-<div class="admin-mini-panel"><strong>API Gateway</strong><span id="gateway-status">Protected</span><small>Authenticated Pages Function</small></div>
+<section id="labs" class="admin-maintenance-section">
+<div class="admin-section-title"><div><span class="admin-section-kicker">NETWORK OPERATIONS</span><h2>Micro-Labs & Device Management</h2><p>Manage rural diagnostic hubs, connected devices, technician assignments, calibration and operational status.</p></div></div>
+<div class="admin-stat-grid module-grid">
+<div class="admin-stat"><div class="admin-stat-label">Active Hubs</div><div class="admin-stat-value">—</div><div class="admin-stat-sub">No hub registry connected</div></div>
+<div class="admin-stat"><div class="admin-stat-label">Devices Online</div><div class="admin-stat-value">—</div><div class="admin-stat-sub">No device telemetry connected</div></div>
+<div class="admin-stat"><div class="admin-stat-label">Calibration</div><div class="admin-stat-value">—</div><div class="admin-stat-sub">No calibration feed connected</div></div>
 </div>
+<div class="admin-empty">Micro-lab and device registry is not connected to this workspace yet. No simulated device status is shown.</div>
 </section>
 
-<section id="requests" class="admin-maintenance-section">
-<div class="admin-section-title"><div><span class="admin-section-kicker">APPROVAL WORKFLOW</span><h2>Pull Request Approval</h2><p>Review open GitHub pull requests before approving changes.</p></div><button class="admin-action" id="load-pulls" type="button">↻ Load requests</button></div>
-<div id="pulls" class="admin-list" aria-live="polite"></div>
+<section id="patients" class="admin-maintenance-section">
+<div class="admin-section-title"><div><span class="admin-section-kicker">CLINICAL RECORDS</span><h2>Patients & Diagnostic Records</h2><p>Search patient identity, diagnostic history and uploaded EEG, ECG, NCS, EMG and other clinical files.</p></div></div>
+<div class="admin-form-grid">
+<label>Patient ID / phone / name<input id="patient-search" type="search" placeholder="Search patient records"></label>
+<button class="admin-primary admin-inline-button" id="patient-search-button" type="button" disabled>Search Records</button>
+</div>
+<div class="admin-empty">Patient and diagnostic-record APIs are not connected to this admin workspace yet. Search is disabled until a clinical data source is configured.</div>
+</section>
+
+<section id="field" class="admin-maintenance-section">
+<div class="admin-section-title"><div><span class="admin-section-kicker">FIELD OPERATIONS</span><h2>Field Coordinators & Agents</h2><p>Manage field personnel, operational zones, assignments, activity logs, targets and expense workflows.</p></div></div>
+<div class="admin-stat-grid module-grid">
+<div class="admin-stat"><div class="admin-stat-label">Coordinators</div><div class="admin-stat-value">—</div><div class="admin-stat-sub">No personnel registry connected</div></div>
+<div class="admin-stat"><div class="admin-stat-label">Active Tasks</div><div class="admin-stat-value">—</div><div class="admin-stat-sub">No field-task feed connected</div></div>
+<div class="admin-stat"><div class="admin-stat-label">Expenses</div><div class="admin-stat-value">—</div><div class="admin-stat-sub">No expense workflow connected</div></div>
+</div>
+<div class="admin-empty">Field-coordinator management is not connected to this workspace yet. No placeholder personnel records are displayed.</div>
+</section>
+
+<section id="workflow" class="admin-maintenance-section">
+<div class="admin-section-title"><div><span class="admin-section-kicker">DIAGNOSTIC WORKFLOW</span><h2>Appointments & Reports</h2><p>Manage booking requests, technician collection, AI draft reports, specialist review, verification and secure report delivery.</p></div></div>
+<div class="admin-stat-grid module-grid">
+<div class="admin-stat"><div class="admin-stat-label">Appointments</div><div class="admin-stat-value">—</div><div class="admin-stat-sub">No scheduling data connected</div></div>
+<div class="admin-stat"><div class="admin-stat-label">Pending Review</div><div class="admin-stat-value">—</div><div class="admin-stat-sub">No clinical queue connected</div></div>
+<div class="admin-stat"><div class="admin-stat-label">Reports</div><div class="admin-stat-value">—</div><div class="admin-stat-sub">No report-dispatch service connected</div></div>
+</div>
+<div class="admin-empty">Appointment and report workflow APIs are not connected to this workspace yet. No fake queues or report counts are shown.</div>
+</section>
+
+<section id="analytics" class="admin-maintenance-section">
+<div class="admin-section-title"><div><span class="admin-section-kicker">PERFORMANCE & IMPACT</span><h2>Analytics & Impact Reporting</h2><p>Track diagnostic volume, rural reach, demographic coverage, operational performance and exportable stakeholder reports.</p></div></div>
+<div class="admin-stat-grid module-grid">
+<div class="admin-stat"><div class="admin-stat-label">Diagnostic Volume</div><div class="admin-stat-value">—</div><div class="admin-stat-sub">No analytics dataset connected</div></div>
+<div class="admin-stat"><div class="admin-stat-label">Rural Reach</div><div class="admin-stat-value">—</div><div class="admin-stat-sub">No geographic dataset connected</div></div>
+<div class="admin-stat"><div class="admin-stat-label">Exports</div><div class="admin-stat-value">—</div><div class="admin-stat-sub">Reporting service not connected</div></div>
+</div>
+<div class="admin-empty">Analytics will become available when operational and clinical datasets are connected. The dashboard does not invent KPIs.</div>
 </section>
 
 <section id="security" class="admin-maintenance-section">
-<div class="admin-section-title"><div><span class="admin-section-kicker">SECURITY OPERATIONS</span><h2>Security & Session</h2><p>Review authentication posture and session controls. Secrets are never rendered into this interface.</p></div></div>
+<div class="admin-section-title"><div><span class="admin-section-kicker">ACCESS CONTROL</span><h2>Security & Users</h2><p>Review administrative authentication and, when connected, manage RBAC, audit trails, backups and notification settings.</p></div></div>
 <div class="security-grid">
-<div class="security-card"><span class="security-icon">✓</span><strong>ADMIN_TOKEN</strong><small>Server-side secret authentication</small><b class="ok">Protected</b></div>
-<div class="security-card"><span class="security-icon">⌁</span><strong>Session Cookie</strong><small>HttpOnly · Secure · SameSite=Lax</small><b class="ok">Protected</b></div>
-<div class="security-card"><span class="security-icon">↯</span><strong>API Cache</strong><small>No-store responses for admin endpoints</small><b class="ok">Disabled</b></div>
-<div class="security-card"><span class="security-icon">◆</span><strong>Git Credentials</strong><small>Used only by server-side Functions</small><b class="ok">Protected</b></div>
+<div class="security-card"><span class="security-icon">✓</span><strong>Admin Session</strong><small>Signed HttpOnly session</small><b class="ok" id="session-state">Checking</b></div>
+<div class="security-card"><span class="security-icon">⌁</span><strong>Secure Cookie</strong><small>HttpOnly · Secure · SameSite=Lax</small><b class="ok">Protected</b></div>
+<div class="security-card"><span class="security-icon">◆</span><strong>RBAC</strong><small>Role management service</small><b>Not Connected</b></div>
+<div class="security-card"><span class="security-icon">◫</span><strong>Audit Log</strong><small>Sensitive-access activity trail</small><b>Not Connected</b></div>
+<div class="security-card"><span class="security-icon">↯</span><strong>Backups</strong><small>Operational backup management</small><b>Not Connected</b></div>
+<div class="security-card"><span class="security-icon">✉</span><strong>Notifications</strong><small>SMS and email templates</small><b>Not Connected</b></div>
 </div>
 </section>
-
-<section id="company" class="admin-maintenance-section">
-<div class="admin-section-title"><div><span class="admin-section-kicker">COMPANY IDENTITY</span><h2>Company Details & Logo</h2><p>Update public company identity without editing source files manually.</p></div></div>
-<form id="company-form" class="admin-company-form"><div class="admin-form-grid two">
-<label>Company name<input id="company_name" maxlength="180"></label><label>Tagline<input id="company_tagline" maxlength="240"></label>
-<label>Phone<input id="company_phone" maxlength="100"></label><label>Email<input id="company_email" type="email" maxlength="180"></label>
-<label class="full">Registered / corporate address<textarea id="company_address" maxlength="1000" rows="3"></textarea></label>
-<label class="full">Logo URL (optional)<input id="company_logo_url" maxlength="1000" placeholder="/assets/company-logo.png"></label>
-<label class="full">Upload new logo<input id="company_logo" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"></label>
-</div><button class="admin-primary admin-inline-button" type="submit">Save Company Identity</button></form>
-</section>
-
-<section id="content"><div class="admin-toolbar"><div><strong>Website Content</strong><div class="admin-muted" style="margin:3px 0 0;font-size:11px">Edit live D1 content records individually.</div></div><input id="search" class="admin-search" type="search" placeholder="Search content keys…" autocomplete="off"></div><section id="items" class="admin-grid" aria-live="polite"></section></section>
-</main></div></div>
-<script src="/admin/admin-dashboard.js?v=20260930-admin-control-v2" defer></script>
+</main>
+</div></div>
+<script src="/admin/admin-dashboard.js?v=20260930-health-admin-v1" defer></script>
 </body></html>
