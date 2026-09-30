@@ -32,3 +32,10 @@ body.admin-control-v2:before{content:"";position:fixed;inset:0;pointer-events:no
 .error-box{border-color:rgba(255,113,129,.22)!important;background:rgba(110,24,42,.12)!important}
 @media(max-width:1050px){.health-grid{grid-template-columns:repeat(2,1fr)}.security-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.health-grid,.security-grid,.admin-subgrid{grid-template-columns:1fr}.hosting-toolbar{display:grid}.hosting-toolbar .admin-action{width:100%}}
+
+/* Friendly status language and service-state presentation */
+.admin-control-v2 .admin-status.error{border-color:rgba(255,193,96,.22);background:rgba(255,170,50,.08);color:#ffd28a}
+.admin-control-v2 .error-box{padding:18px!important;line-height:1.65}
+.admin-control-v2 .error-box strong{color:#ffd28a!important;font-size:12px}
+.admin-control-v2 .error-box small{display:inline-block;margin-top:5px;color:#9ab7ca!important;line-height:1.6}
+.admin-control-v2 .admin-empty{min-height:70px;display:flex;align-items:center;justify-content:center;text-align:center}
