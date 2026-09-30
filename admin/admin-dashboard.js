@@ -13,6 +13,36 @@
     message.timer = setTimeout(() => { status.textContent = ''; }, 5000);
   };
 
+  function showSection(sectionId, updateHash = true) {
+    const sections = [...document.querySelectorAll('.admin-maintenance-section, #content')];
+    const navLinks = [...document.querySelectorAll('.admin-nav a[href^="#"]')];
+    const statGrid = document.querySelector('.admin-stat-grid');
+    const sectionStatus = document.getElementById('status');
+    const target = sectionId === 'overview' ? document.getElementById('overview') : document.getElementById(sectionId);
+    sections.forEach(section => { section.hidden = section !== target; });
+    if (statGrid) statGrid.hidden = sectionId !== 'overview';
+    if (sectionStatus) sectionStatus.hidden = sectionId !== 'overview';
+    navLinks.forEach(link => {
+      const active = link.getAttribute('href') === '#' + sectionId;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+    if (updateHash) history.replaceState(null, '', '#' + sectionId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function initNavigation() {
+    document.querySelectorAll('.admin-nav a[href^="#"]').forEach(link => {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        showSection(link.getAttribute('href').slice(1));
+      });
+    });
+    const requested = window.location.hash.slice(1);
+    showSection(requested && document.getElementById(requested) ? requested : 'overview', false);
+  }
+
   async function api(url, options = {}) {
     const response = await fetch(url, { credentials: 'same-origin', cache: 'no-store', ...options });
     const data = await response.json().catch(() => ({}));
@@ -201,20 +231,10 @@
       return;
     }
 
-    const tasks = [
-      ['Website content', loadContent],
-      ['Branch management', loadBranches],
-      ['Approval workflow', loadPulls],
-      ['Company identity', loadCompany],
-      ['Service diagnostics', diagnostics]
-    ];
-
-    for (const [label, task] of tasks) {
-      try {
-        await task();
-      } catch (error) {
-        message(label + ' is temporarily unavailable. Other admin features remain available.', true);
-      }
+    try {
+      await loadContent();
+    } catch (error) {
+      message('Overview content is temporarily unavailable. Other admin features remain available.', true);
     }
   }
 
@@ -227,5 +247,6 @@
   document.getElementById('create-branch').addEventListener('click', createBranch);
   document.getElementById('company-form').addEventListener('submit', saveCompany);
   document.getElementById('logout').addEventListener('click', logout);
+  initNavigation();
   load();
 })();
