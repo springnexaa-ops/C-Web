@@ -39,6 +39,38 @@ export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
   const type = url.searchParams.get('type') || 'overview';
   try {
+    if (type === 'overview') {
+      let d1 = { status: 'Unavailable', detail: 'D1 binding is not available.' };
+      try {
+        if (env.DB) {
+          await env.DB.prepare('SELECT 1 AS ok').first();
+          d1 = { status: 'Available', detail: 'Cloudflare D1 database responded.' };
+        }
+      } catch (error) {
+        d1 = { status: 'Unavailable', detail: error.message };
+      }
+      let githubState = { status: 'Unavailable', detail: 'GitHub gateway unavailable.' };
+      let headSha = null;
+      try {
+        const repo = await github(env, '');
+        headSha = repo.default_branch ? (await github(env, '/git/ref/heads/' + encodeURIComponent(repo.default_branch))).object?.sha : null;
+        githubState = { status: 'Connected', detail: repo.full_name + ' · ' + (repo.default_branch || 'main') };
+      } catch (error) {
+        githubState = { status: 'Unavailable', detail: error.message };
+      }
+      return json({
+        ok: true,
+        repository: cfg.owner + '/' + cfg.repo,
+        production_branch: String(env.CLOUDFLARE_PRODUCTION_BRANCH || 'main'),
+        head_sha: headSha,
+        d1,
+        github: githubState,
+        environment: {
+          status: env.DB && env.ADMIN_TOKEN ? 'Ready' : 'Attention',
+          detail: [env.DB ? 'D1' : 'D1 missing', env.ADMIN_TOKEN ? 'ADMIN_TOKEN' : 'ADMIN_TOKEN missing', env.GITHUB_TOKEN ? 'GitHub token' : 'GitHub token missing'].join(' · ')
+        }
+      });
+    }
     if (type === 'branches') {
       const branches = await github(env, '/branches?per_page=100');
       return json({ ok: true, type, repository: `${cfg.owner}/${cfg.repo}`, branches: branches.map(b => ({ name: b.name, sha: b.commit?.sha })) });
