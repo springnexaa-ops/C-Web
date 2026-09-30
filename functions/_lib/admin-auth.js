@@ -3,7 +3,11 @@ const encoder = new TextEncoder();
 const SESSION_TTL = 12 * 60 * 60;
 
 function base64url(value) {
-  const bytes = typeof value === 'string' ? encoder.encode(value) : value;
+  const bytes = typeof value === 'string'
+    ? encoder.encode(value)
+    : value instanceof ArrayBuffer
+      ? new Uint8Array(value)
+      : value;
   let binary = '';
   for (const byte of bytes) binary += String.fromCharCode(byte);
   return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
