@@ -30,6 +30,18 @@
     });
     if (updateHash) history.replaceState(null, '', '#' + sectionId);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const loaders = {
+      infrastructure: diagnostics,
+      hosting: loadBranches,
+      requests: loadPulls,
+      company: loadCompany,
+      content: loadContent
+    };
+    const loader = loaders[sectionId];
+    if (loader) {
+      loader().catch(error => message(friendlyError(error, sectionId === 'content' ? 'Website content' : 'This section'), true));
+    }
   }
 
   function initNavigation() {
